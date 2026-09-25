@@ -23,7 +23,12 @@ const units = [
   { id:"u2", track:"standard", title:"Unit 2 — Articles, Gender & Number", desc:"Every noun has a gender — learn to spot it and match it." },
   { id:"u3", track:"standard", title:"Unit 3 — Avere & Possession", desc:"The verb \"to have\", and basic adjective agreement." },
   { id:"u4", track:"standard", title:"Unit 4 — Present-Tense Verbs", desc:"Regular -are/-ere/-ire verbs, and building real sentences." },
-  { id:"u5", track:"standard", title:"Unit 5 — Numbers, Colors & Questions", desc:"Counting, describing, and asking who/what/where/when/why." }
+  { id:"u5", track:"standard", title:"Unit 5 — Numbers, Colors & Questions", desc:"Counting, describing, and asking who/what/where/when/why." },
+  { id:"u6", track:"standard", title:"Unit 6 — Getting Around", desc:"Where you're going, and the preposition rules that get you there." },
+  { id:"u7", track:"standard", title:"Unit 7 — Describing People", desc:"Possessive adjectives, and vocabulary for appearance and personality." },
+  { id:"u8", track:"standard", title:"Unit 8 — Food & Ordering", desc:"Restaurant vocabulary, and the polite way to ask for what you want." },
+  { id:"u9", track:"standard", title:"Unit 9 — Time & Daily Routine", desc:"Telling time, days of the week, and a first taste of reflexive verbs." },
+  { id:"u10", track:"standard", title:"Unit 10 — Coming Soon", desc:"More chapters are on the way." }
 ];
 
 const tracks = [
@@ -548,5 +553,363 @@ const chapters = [
       { icon:"🔴", ar:"Mi piace il colore rosso", plain:"Mi piace il colore rosso", translit:"mee PYA-cheh eel ko-LOH-reh ROHS-so", meaning:"I like the color red" },
       { icon:"❓", ar:"Perché studi l'italiano?", plain:"Perché studi l'italiano?", translit:"pehr-KEH STOO-dee lee-ta-LYAH-no", meaning:"Why are you studying Italian?" }
     ]
+  },
+
+  {
+    id: 6,
+    unit: "u6",
+    label: "Chapter 6",
+    difficulty: 4,
+    requires: 5,
+    icon: "🧭",
+    title: "Prepositions & Andare (To Go)",
+    arabicTitle: "Preposizioni e Andare",
+    desc: "The irregular verb andare, and the prepositions that get you where you're going.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Small words carry a lot of weight in Italian. This chapter covers andare (\"to go\") — an irregular verb you'll use constantly — plus the prepositions that pair with it." },
+      { type:"h", text:"Andare — Present Tense" },
+      { type:"pattern", ar:"io vado · tu vai · lui/lei va", translit:"VAH-do · VAH-ee · vah", desc:"I go · you go (informal) · he/she goes. Irregular — doesn't follow the -are pattern from Chapter 4, so it's worth memorizing on its own." },
+      { type:"h", text:"A vs. In" },
+      { type:"p", text:"Both mean roughly \"to\", but the choice depends on the destination: a before a city or a fixed idiom like \"school\"; in before a country or an enclosed space." },
+      { type:"examples", items:[
+        { icon:"🏫", ar:"Vado a scuola", translit:"VAH-do ah SKWOH-la", meaning:"I go to school" },
+        { icon:"🏢", ar:"Vado in ufficio", translit:"VAH-do een oof-FEE-cho", meaning:"I go to the office" },
+        { icon:"🇮🇹", ar:"Vado in Italia", translit:"VAH-do een ee-TAH-lya", meaning:"I go to Italy" }
+      ]},
+      { type:"note", html:"<strong>\"Home\" is special:</strong> like English \"I go home\" (no \"to the\"), Italian says <em>vado a casa</em> — no article needed either." }
+    ],
+
+    vocabCategories: [
+      { name:"Places", words:[
+        {icon:"🏫", ar:"la scuola", translit:"la SKWOH-la", en:"school"},
+        {icon:"💼", ar:"il lavoro", translit:"eel la-VOH-ro", en:"work"},
+        {icon:"🛒", ar:"il mercato", translit:"eel mehr-KAH-to", en:"market"},
+        {icon:"🏢", ar:"l'ufficio", translit:"loof-FEE-cho", en:"office"},
+        {icon:"🍽️", ar:"il ristorante", translit:"eel ree-sto-RAHN-teh", en:"restaurant"},
+        {icon:"✈️", ar:"l'aeroporto", translit:"la-eh-ro-POR-to", en:"airport"},
+        {icon:"🚉", ar:"la stazione", translit:"la sta-tsee-OH-neh", en:"station"},
+        {icon:"🌳", ar:"il parco", translit:"eel PAR-ko", en:"park"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it6-ex1", type:"mcq", title:"Exercise 1 — Andare & Prepositions",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"Io ___ a scuola (I go to school).", options:["vado","vai","va"], correct:0 },
+          { promptText:"Tu ___ in ufficio (you go to the office).", options:["vado","vai","va"], correct:1 },
+          { promptText:"Which preposition goes before a country, like \"Italia\"?", options:["a","in","di"], correct:1 },
+          { promptText:"Which preposition goes with the fixed phrase \"go to school\"?", options:["a","in","di"], correct:0 }
+        ]
+      },
+      {
+        id:"it6-ex2", type:"matching", title:"Exercise 2 — Match the Place",
+        instructions:"Tap a place, then tap its meaning.",
+        pairs:[
+          { left:"la scuola", right:"school" },
+          { left:"il lavoro", right:"work" },
+          { left:"il ristorante", right:"restaurant" },
+          { left:"l'aeroporto", right:"airport" }
+        ]
+      },
+      {
+        id:"it6-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🧭", ar:"Vado a scuola", keywords:["school"] },
+          { icon:"🧭", ar:"Vado in Italia", keywords:["italy"] },
+          { icon:"🛒", ar:"Il mercato è grande", keywords:["market"] }
+        ]
+      },
+      {
+        id:"it6-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["scuola","a","Vado"], answer:["Vado","a","scuola"] },
+          { words:["Italia","in","Vado"], answer:["Vado","in","Italia"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🏫", ar:"Vado a scuola", plain:"Vado a scuola", translit:"VAH-do ah SKWOH-la", meaning:"I go to school" },
+      { icon:"💼", ar:"Vado in ufficio", plain:"Vado in ufficio", translit:"VAH-do een oof-FEE-cho", meaning:"I go to the office" },
+      { icon:"❓", ar:"Dove vai?", plain:"Dove vai?", translit:"DOH-veh vah-EE", meaning:"Where are you going?" },
+      { icon:"🇮🇹", ar:"Vado in Italia con un amico", plain:"Vado in Italia con un amico", translit:"VAH-do een ee-TAH-lya kohn oon a-MEE-ko", meaning:"I'm going to Italy with a friend" }
+    ]
+  },
+
+  {
+    id: 7,
+    unit: "u7",
+    label: "Chapter 7",
+    difficulty: 4,
+    requires: 6,
+    icon: "🎨",
+    title: "Possessives & Describing People",
+    arabicTitle: "Aggettivi Possessivi e Descrizioni",
+    desc: "\"My\" and \"your\", and vocabulary for describing appearance and personality.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Possessive words like \"my\" and \"your\" are adjectives in Italian — which means they agree with the thing owned, not the owner. This trips up a lot of learners, so it's worth slowing down for." },
+      { type:"h", text:"Mio/Mia (My)" },
+      { type:"pattern", ar:"il mio libro · la mia casa · i miei libri · le mie case", translit:"eel MEE-oh LEE-bro · la MEE-ah KAH-za · ee mee-EH-ee LEE-bree · leh MEE-eh KAH-zeh", desc:"my book · my house · my books · my houses — mio/mia/miei/mie all mean \"my\", but the ending changes to match what's owned, never who owns it." },
+      { type:"h", text:"Tuo/Tua (Your)" },
+      { type:"p", text:"\"Your\" (informal) follows exactly the same pattern: il tuo libro, la tua casa, i tuoi libri, le tue case." },
+      { type:"h", text:"Describing People" },
+      { type:"examples", items:[
+        { icon:"📏", ar:"Lui è alto", translit:"loo-EE eh AHL-to", meaning:"He is tall" },
+        { icon:"😊", ar:"Lei è simpatica", translit:"lehy eh seem-PAH-tee-ka", meaning:"She is nice" },
+        { icon:"🧠", ar:"Sono intelligente", translit:"SOH-no een-tel-lee-JEHN-teh", meaning:"I am intelligent (same word, any gender)" }
+      ]},
+      { type:"note", html:"<strong>Remember Chapter 3?</strong> intelligente ends in -e, so — like grande — it doesn't change for gender at all, only for number (intelligente → intelligenti)." }
+    ],
+
+    vocabCategories: [
+      { name:"Describing People", words:[
+        {icon:"📏", ar:"alto/a", translit:"AHL-to/ta", en:"tall"},
+        {icon:"📏", ar:"basso/a", translit:"BAHS-so/sa", en:"short"},
+        {icon:"😊", ar:"simpatico/a", translit:"seem-PAH-tee-ko/ka", en:"nice, friendly"},
+        {icon:"😳", ar:"timido/a", translit:"TEE-mee-do/da", en:"shy"},
+        {icon:"🧠", ar:"intelligente", translit:"een-tel-lee-JEHN-teh", en:"intelligent, smart"},
+        {icon:"👤", ar:"il mio / la mia", translit:"eel MEE-oh / la MEE-ah", en:"my"},
+        {icon:"👤", ar:"il tuo / la tua", translit:"eel TOO-oh / la TOO-ah", en:"your"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it7-ex1", type:"mcq", title:"Exercise 1 — Possessives & Adjectives",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"My book\" (libro is masculine) is...", options:["il mio libro","la mia libro","il tuo libro"], correct:0 },
+          { promptText:"\"My house\" (casa is feminine) is...", options:["il mio casa","la mia casa","il mio case"], correct:1 },
+          { promptText:"Which adjective stays exactly the same for both genders?", options:["alto","simpatica","intelligente"], correct:2 },
+          { promptText:"\"Lei è simpatica\" means...", options:["She is tall","She is nice","She is shy"], correct:1 }
+        ]
+      },
+      {
+        id:"it7-ex2", type:"matching", title:"Exercise 2 — Match the Description",
+        instructions:"Tap a word, then tap its meaning.",
+        pairs:[
+          { left:"alto", right:"tall" },
+          { left:"basso", right:"short" },
+          { left:"timido", right:"shy" },
+          { left:"intelligente", right:"intelligent" }
+        ]
+      },
+      {
+        id:"it7-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🤝", ar:"Il mio amico è simpatico", keywords:["friend","nice"] },
+          { icon:"🏠", ar:"La tua casa è grande", keywords:["house","big"] },
+          { icon:"😳", ar:"Sono timido", keywords:["shy"] }
+        ]
+      },
+      {
+        id:"it7-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["alto","è","Lui"], answer:["Lui","è","alto"] },
+          { words:["mia","È","casa","la"], answer:["È","la","mia","casa"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"📏", ar:"Il mio amico è alto", plain:"Il mio amico è alto", translit:"eel MEE-oh a-MEE-ko eh AHL-to", meaning:"My friend is tall" },
+      { icon:"😊", ar:"La mia sorella è simpatica", plain:"La mia sorella è simpatica", translit:"la MEE-ah so-REHL-la eh seem-PAH-tee-ka", meaning:"My sister is nice" },
+      { icon:"😳", ar:"Sono timido", plain:"Sono timido", translit:"SOH-no TEE-mee-do", meaning:"I am shy" },
+      { icon:"📕", ar:"Il tuo libro è grande", plain:"Il tuo libro è grande", translit:"eel TOO-oh LEE-bro eh GRAHN-deh", meaning:"Your book is big" }
+    ]
+  },
+
+  {
+    id: 8,
+    unit: "u8",
+    label: "Chapter 8",
+    difficulty: 5,
+    requires: 7,
+    icon: "🍕",
+    title: "Food & Ordering",
+    arabicTitle: "Cibo e Ordinare",
+    desc: "Restaurant vocabulary, and the polite way to ask for what you want.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Time to put everything to use somewhere practical: a restaurant. This chapter covers ordering politely and talking about what's available." },
+      { type:"h", text:"Vorrei (I Would Like)" },
+      { type:"pattern", ar:"Vorrei...", translit:"vor-RAY", desc:"I would like... — the polite way to order or request something. Much softer than voglio (I want), and what you'll actually hear in restaurants." },
+      { type:"h", text:"C'è / Ci sono (There is / There are)" },
+      { type:"examples", items:[
+        { icon:"🍕", ar:"C'è pizza?", translit:"cheh PEET-tsa", meaning:"Is there pizza?" },
+        { icon:"☕", ar:"Ci sono due caffè", translit:"chee SOH-no DOO-eh kaf-FEH", meaning:"There are two coffees" }
+      ]},
+      { type:"note", html:"<strong>c'è</strong> is for singular things, <strong>ci sono</strong> for plural — the same singular/plural instinct you already use elsewhere in Italian." }
+    ],
+
+    vocabCategories: [
+      { name:"Food & Drink", words:[
+        {icon:"🍕", ar:"la pizza", translit:"la PEET-tsa", en:"pizza"},
+        {icon:"🍝", ar:"la pasta", translit:"la PAH-sta", en:"pasta"},
+        {icon:"☕", ar:"il caffè", translit:"eel kaf-FEH", en:"coffee"},
+        {icon:"💧", ar:"l'acqua", translit:"LAHK-kwa", en:"water"},
+        {icon:"🍷", ar:"il vino", translit:"eel VEE-no", en:"wine"},
+        {icon:"🍨", ar:"il gelato", translit:"eel jeh-LAH-to", en:"ice cream"},
+        {icon:"🧾", ar:"il conto", translit:"eel KOHN-to", en:"the bill"},
+        {icon:"🙏", ar:"per favore", translit:"pehr fa-VOH-reh", en:"please"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it8-ex1", type:"mcq", title:"Exercise 1 — Ordering Politely",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"The polite way to say \"I would like\" is...", options:["voglio","vorrei","ho"], correct:1 },
+          { promptText:"\"Is there pizza?\" is...", options:["C'è pizza?","Ci sono pizza?","È pizza?"], correct:0 },
+          { promptText:"\"There are two coffees\" is...", options:["C'è due caffè","Ci sono due caffè","Sono due caffè"], correct:1 },
+          { promptText:"\"The bill, please\" is...", options:["Il conto, per favore","Il vino, per favore","La pasta, per favore"], correct:0 }
+        ]
+      },
+      {
+        id:"it8-ex2", type:"matching", title:"Exercise 2 — Match the Food",
+        instructions:"Tap a word, then tap its meaning.",
+        pairs:[
+          { left:"la pizza", right:"pizza" },
+          { left:"il caffè", right:"coffee" },
+          { left:"l'acqua", right:"water" },
+          { left:"il gelato", right:"ice cream" }
+        ]
+      },
+      {
+        id:"it8-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🍕", ar:"Vorrei una pizza", keywords:["pizza"] },
+          { icon:"🍷", ar:"C'è vino?", keywords:["wine"] },
+          { icon:"🧾", ar:"Il conto, per favore", keywords:["bill"] }
+        ]
+      },
+      {
+        id:"it8-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["pizza","una","Vorrei"], answer:["Vorrei","una","pizza"] },
+          { words:["favore","conto","per","Il"], answer:["Il","conto","per","favore"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🍕", ar:"Vorrei una pizza", plain:"Vorrei una pizza", translit:"vor-RAY OO-na PEET-tsa", meaning:"I would like a pizza" },
+      { icon:"🍨", ar:"C'è gelato?", plain:"C'è gelato?", translit:"cheh jeh-LAH-to", meaning:"Is there ice cream?" },
+      { icon:"🧾", ar:"Il conto, per favore", plain:"Il conto, per favore", translit:"eel KOHN-to pehr fa-VOH-reh", meaning:"The bill, please" },
+      { icon:"☕", ar:"Vorrei un caffè e un'acqua", plain:"Vorrei un caffè e un'acqua", translit:"vor-RAY oon kaf-FEH eh oo-NAHK-kwa", meaning:"I would like a coffee and a water" }
+    ]
+  },
+
+  {
+    id: 9,
+    unit: "u9",
+    label: "Chapter 9",
+    difficulty: 5,
+    requires: 8,
+    icon: "🕐",
+    title: "Time & Daily Routine",
+    arabicTitle: "L'Ora e la Routine Quotidiana",
+    desc: "Telling time, days of the week, and a first taste of reflexive verbs.",
+    locked: false,
+
+    content: [
+      { type:"h", text:"Telling Time" },
+      { type:"pattern", ar:"Che ore è? · Sono le tre", translit:"keh OH-reh EH · SOH-no leh treh", desc:"What time is it? · It's three o'clock — Italian uses \"sono le\" (literally \"they are the\") for most hours." },
+      { type:"h", text:"Reflexive Verbs: A First Taste" },
+      { type:"p", text:"Some everyday actions use a small extra pronoun (mi) before the verb — literally \"I wake myself\", \"I get myself up\". You'll learn the full pattern in a later chapter; for now, just recognize these two common phrases." },
+      { type:"examples", items:[
+        { icon:"⏰", ar:"Mi sveglio presto", translit:"mee ZVEH-lyo PREHS-to", meaning:"I wake up early" },
+        { icon:"🧍", ar:"Mi alzo presto", translit:"mee AHL-tso PREHS-to", meaning:"I get up early" }
+      ]},
+      { type:"note", html:"<strong>Days of the week</strong> aren't capitalized in Italian (unlike English) — lunedì, not Lunedì — and the week starts on Monday, not Sunday." }
+    ],
+
+    vocabCategories: [
+      { name:"Time & Days", words:[
+        {icon:"📅", ar:"lunedì", translit:"loo-neh-DEE", en:"Monday"},
+        {icon:"📅", ar:"martedì", translit:"mar-teh-DEE", en:"Tuesday"},
+        {icon:"📅", ar:"mercoledì", translit:"mehr-ko-leh-DEE", en:"Wednesday"},
+        {icon:"📅", ar:"giovedì", translit:"joh-veh-DEE", en:"Thursday"},
+        {icon:"📅", ar:"venerdì", translit:"veh-nehr-DEE", en:"Friday"},
+        {icon:"⏰", ar:"mi sveglio", translit:"mee ZVEH-lyo", en:"I wake up"},
+        {icon:"🧍", ar:"mi alzo", translit:"mee AHL-tso", en:"I get up"},
+        {icon:"⏱️", ar:"presto", translit:"PREHS-to", en:"early"},
+        {icon:"📆", ar:"oggi", translit:"OHD-jee", en:"today"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it9-ex1", type:"mcq", title:"Exercise 1 — Time & Routine",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"What time is it?\" is...", options:["Che ore è?","Che giorno è?","Dove sei?"], correct:0 },
+          { promptText:"\"Monday\" is...", options:["martedì","lunedì","venerdì"], correct:1 },
+          { promptText:"\"I wake up\" is...", options:["mi alzo","mi sveglio","sono sveglio"], correct:1 },
+          { promptText:"For most hours, Italian says \"it's...\" using...", options:["è le","sono le","ho le"], correct:1 }
+        ]
+      },
+      {
+        id:"it9-ex2", type:"matching", title:"Exercise 2 — Match the Day",
+        instructions:"Tap a day, then tap its meaning.",
+        pairs:[
+          { left:"lunedì", right:"Monday" },
+          { left:"mercoledì", right:"Wednesday" },
+          { left:"giovedì", right:"Thursday" },
+          { left:"venerdì", right:"Friday" }
+        ]
+      },
+      {
+        id:"it9-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"⏰", ar:"Mi sveglio presto", keywords:["wake","early"] },
+          { icon:"📆", ar:"Oggi è lunedì", keywords:["monday"] },
+          { icon:"🕐", ar:"Che ore è?", keywords:["what time"] }
+        ]
+      },
+      {
+        id:"it9-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["è","lunedì","Oggi"], answer:["Oggi","è","lunedì"] },
+          { words:["presto","sveglio","Mi"], answer:["Mi","sveglio","presto"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🕐", ar:"Che ore è?", plain:"Che ore è?", translit:"keh OH-reh EH", meaning:"What time is it?" },
+      { icon:"⏰", ar:"Mi sveglio presto", plain:"Mi sveglio presto", translit:"mee ZVEH-lyo PREHS-to", meaning:"I wake up early" },
+      { icon:"📆", ar:"Oggi è lunedì", plain:"Oggi è lunedì", translit:"OHD-jee eh loo-neh-DEE", meaning:"Today is Monday" },
+      { icon:"🧍", ar:"Mi alzo presto", plain:"Mi alzo presto", translit:"mee AHL-tso PREHS-to", meaning:"I get up early" }
+    ]
+  },
+
+  {
+    id: 10,
+    unit: "u10",
+    label: "Chapter 10",
+    difficulty: 6,
+    requires: 9,
+    icon: "🚧",
+    title: "More Chapters — Coming Soon",
+    arabicTitle: "Presto...",
+    desc: "The next chapter is being written — reflexive verbs in full, past tense, and more everyday Italian are on the way.",
+    locked: true
   }
 ];
