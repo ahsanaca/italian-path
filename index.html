@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italian Academy — Interactive Italian Learning</title>
+<link rel="stylesheet" href="engine.css">
+</head>
+<body>
+
+<div class="app-bar">
+  <div class="brand" onclick="showDashboard()">🇮🇹 Italian Academy</div>
+  <div class="nav-links">
+    <button onclick="showDashboard()">🏠 Dashboard</button>
+    <button onclick="showIndex()">📑 Index</button>
+    <button id="signOutBtn" onclick="doSignOut()" style="display:none;">🚪 Sign Out</button>
+  </div>
+  <div class="overall-progress">
+    <span>Overall</span>
+    <div class="overall-bar"><div class="overall-fill" id="overallFill" style="width:0%"></div></div>
+    <span id="overallPct">0%</span>
+  </div>
+</div>
+
+<div class="page" id="pageRoot"></div>
+
+<footer>Italian Academy · free trial · original content, built for a self-paced learning app<br>This is an early trial — spotted a typo, a grammar mistake, or anything confusing? Please tell us so we can fix it.</footer>
+
+<script src="content.js"></script>
+<script src="voice-module.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>

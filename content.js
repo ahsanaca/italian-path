@@ -1,0 +1,552 @@
+/* =====================================================================
+   ITALIAN ACADEMY — app config + content data.
+   This file must load BEFORE voice-module.js and engine.js — it sets the
+   window.APP_* globals they read, and defines units/tracks/chapters, the
+   same generic shapes the shared engine already knows how to render.
+===================================================================== */
+
+window.APP_ID = "italianAcademy";
+window.APP_LANGUAGE_NAME = "Italian";
+window.APP_VOICE_LANG = "it-IT";
+// No window.APP_TEXT_DIRECTION — Italian is LTR, which is the default.
+// No window.firebaseConfig — this trial runs local-progress-only, no
+// account/sync screen, nothing to configure.
+
+window.APP_BANNER = {
+  line1: "🌱 Free trial — send feedback!",
+  line2: "This is an early trial version of Italian Academy, built to get feedback before a full launch. Progress is saved on this device only for now. Found a mistake, or have thoughts on what's missing? Please tell us — that's exactly what this trial is for."
+};
+
+const units = [
+  { id:"u0", track:"standard", title:"Unit 0 — Foundations", desc:"Pronunciation and the alphabet, before grammar begins." },
+  { id:"u1", track:"standard", title:"Unit 1 — Greetings & Introductions", desc:"Say hello, introduce yourself, and meet the verb essere." },
+  { id:"u2", track:"standard", title:"Unit 2 — Articles, Gender & Number", desc:"Every noun has a gender — learn to spot it and match it." },
+  { id:"u3", track:"standard", title:"Unit 3 — Avere & Possession", desc:"The verb \"to have\", and basic adjective agreement." },
+  { id:"u4", track:"standard", title:"Unit 4 — Present-Tense Verbs", desc:"Regular -are/-ere/-ire verbs, and building real sentences." },
+  { id:"u5", track:"standard", title:"Unit 5 — Numbers, Colors & Questions", desc:"Counting, describing, and asking who/what/where/when/why." }
+];
+
+const tracks = [
+  { id:"standard", icon:"🇮🇹", title:"Italian", desc:"A single track from the alphabet through everyday conversation — standard Italian, step by step." }
+];
+
+const chapters = [
+  {
+    id: 0,
+    unit: "u0",
+    label: "Foundations",
+    difficulty: 1,
+    requires: null,
+    icon: "🔤",
+    title: "Italian Pronunciation & the Alphabet",
+    arabicTitle: "Pronuncia e Alfabeto",
+    desc: "Learn to read Italian aloud — it's almost entirely phonetic once you know the rules.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Italian spelling is remarkably consistent — once you learn a small set of rules, you can pronounce almost any word correctly just by reading it. This chapter covers those rules before any grammar starts." },
+      { type:"h", text:"The Alphabet" },
+      { type:"p", text:"Italian uses 21 of the 26 Latin letters natively (j, k, w, x, y appear only in foreign loanwords). Vowels are pure and consistent — a, e, i, o, u are always pronounced the same way, unlike English." },
+      { type:"h", text:"The Tricky Consonants: C and G" },
+      { type:"p", text:"C and G each have a hard sound and a soft sound, depending on the letter that follows. Before a, o, u → hard (like English \"k\"/\"g\"). Before e, i → soft (like English \"ch\"/\"j\"). To keep the hard sound before e or i, Italian inserts an h: che, chi, ghe, ghi." },
+      { type:"note", html:"<strong>Quick reference:</strong> ca/co/cu = \"k\" sound · ce/ci = \"ch\" sound · che/chi = \"k\" sound again · ga/go/gu = hard \"g\" · ge/gi = \"j\" sound · ghe/ghi = hard \"g\" again." },
+      { type:"h", text:"Special Combinations" },
+      { type:"p", text:"A few letter combinations make a single sound: gli sounds like the \"lli\" in \"million\"; gn sounds like the \"ny\" in \"canyon\"; sc before e/i sounds like \"sh\", but before a, o, u sounds like \"sk\"." },
+      { type:"h", text:"Stress & Accents" },
+      { type:"p", text:"Most Italian words stress the second-to-last syllable. When the stress falls on the final vowel instead, it's marked with an accent: città (city), perché (why/because), caffè (coffee). Getting stress right matters — it can change a word's meaning." }
+    ],
+
+    vocabCategories: [
+      { name:"Sounds to Practice", words:[
+        {icon:"", ar:"casa", translit:"KAH-za", en:"house (hard c)"},
+        {icon:"", ar:"cena", translit:"CHEH-na", en:"dinner (soft c)"},
+        {icon:"", ar:"gatto", translit:"GAHT-toh", en:"cat (hard g)"},
+        {icon:"", ar:"gelato", translit:"jeh-LAH-toh", en:"ice cream (soft g)"},
+        {icon:"", ar:"gli", translit:"lyee", en:"the, masc. plural (gli sound)"},
+        {icon:"", ar:"gnocchi", translit:"NYOHK-kee", en:"potato dumplings (gn sound)"},
+        {icon:"", ar:"sciarpa", translit:"SHAR-pa", en:"scarf (sc+i sound)"},
+        {icon:"", ar:"perché", translit:"pehr-KEH", en:"why / because (accented stress)"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it-a-ex1", type:"mcq", title:"Exercise 1 — Hard or Soft?",
+        instructions:"Which sound does the underlined letter make?",
+        items:[
+          { promptText:"In \"cena\" (dinner), the C sounds like...", options:["k","ch","g"], correct:1 },
+          { promptText:"In \"casa\" (house), the C sounds like...", options:["k","ch","sh"], correct:0 },
+          { promptText:"In \"gelato\", the G sounds like...", options:["hard g","j","gh"], correct:1 },
+          { promptText:"Which spelling keeps a hard \"k\" sound before i?", options:["ci","chi","ce"], correct:1 }
+        ]
+      },
+      {
+        id:"it-a-ex2", type:"matching", title:"Exercise 2 — Match the Sound",
+        instructions:"Match the combination to its sound.",
+        pairs:[
+          { left:"gli", right:"\"lli\" as in million" },
+          { left:"gn", right:"\"ny\" as in canyon" },
+          { left:"sci", right:"\"sh\" sound" },
+          { left:"che", right:"\"k\" sound" }
+        ]
+      },
+      {
+        id:"it-a-ex3", type:"translate", title:"Exercise 3 — What Does It Mean?",
+        instructions:"Translate these words you just practiced.",
+        items:[
+          { icon:"🏠", ar:"casa", keywords:["house","home"] },
+          { icon:"🍨", ar:"gelato", keywords:["ice cream","icecream"] },
+          { icon:"🐱", ar:"gatto", keywords:["cat"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"", ar:"casa", plain:"casa", translit:"KAH-za", meaning:"house" },
+      { icon:"", ar:"cena", plain:"cena", translit:"CHEH-na", meaning:"dinner" },
+      { icon:"", ar:"gelato", plain:"gelato", translit:"jeh-LAH-toh", meaning:"ice cream" },
+      { icon:"", ar:"perché", plain:"perché", translit:"pehr-KEH", meaning:"why / because" }
+    ]
+  },
+
+  {
+    id: 1,
+    unit: "u1",
+    label: "Chapter 1",
+    difficulty: 1,
+    requires: 0,
+    icon: "👋",
+    title: "Greetings & Introductions",
+    arabicTitle: "Saluti e Presentazioni",
+    desc: "Say hello, introduce yourself, and meet the verb essere (to be).",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Let's start with the most useful verb in the language: essere (\"to be\"). You'll use it constantly, starting with introductions." },
+      { type:"h", text:"Essere — Present Tense" },
+      { type:"pattern", ar:"io sono · tu sei · lui/lei è", translit:"EE-oh SO-no · too SEH-ee · loo-EE / LEH-ee EH", desc:"I am · you are (informal) · he/she is — the three forms you'll use most when meeting someone." },
+      { type:"p", text:"Notice Italian often drops the subject pronoun (io, tu, lui/lei) once the verb ending makes it clear who's being talked about — \"Sono Marco\" (I'm Marco) is completely natural on its own." },
+      { type:"h", text:"Basic Greetings" },
+      { type:"examples", items:[
+        { icon:"👋", ar:"Ciao!", translit:"chow", meaning:"Hi! / Bye! (informal, any time)" },
+        { icon:"☀️", ar:"Buongiorno", translit:"bwohn-JOR-no", meaning:"Good morning / Good day (formal)" },
+        { icon:"🌆", ar:"Buonasera", translit:"bwoh-na-SEH-ra", meaning:"Good evening" },
+        { icon:"🌙", ar:"Buonanotte", translit:"bwoh-na-NOHT-teh", meaning:"Good night" }
+      ]},
+      { type:"note", html:"<strong>Formal vs. informal:</strong> Ciao is only for friends, family, and people your own age. With someone you don't know well — especially older people or in business — use Buongiorno/Buonasera instead." }
+    ],
+
+    vocabCategories: [
+      { name:"Meeting Someone", words:[
+        {icon:"", ar:"Come ti chiami?", translit:"KOH-meh tee kee-AH-mee", en:"What's your name? (informal)"},
+        {icon:"", ar:"Mi chiamo...", translit:"mee kee-AH-mo", en:"My name is..."},
+        {icon:"", ar:"Piacere", translit:"pya-CHEH-reh", en:"Nice to meet you"},
+        {icon:"", ar:"Come stai?", translit:"KOH-meh sty", en:"How are you? (informal)"},
+        {icon:"", ar:"Sto bene, grazie", translit:"stoh BEH-neh GRAH-tsee-eh", en:"I'm well, thank you"},
+        {icon:"", ar:"E tu?", translit:"eh too", en:"And you?"},
+        {icon:"", ar:"Di dove sei?", translit:"dee DOH-veh sey", en:"Where are you from?"},
+        {icon:"", ar:"Sono di...", translit:"SOH-no dee", en:"I'm from..."}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it1-ex1", type:"mcq", title:"Exercise 1 — Essere & Greetings",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I am\" in Italian is...", options:["tu sei","io sono","lui è"], correct:1 },
+          { promptText:"Which greeting is only for friends/family?", options:["Buongiorno","Ciao","Buonasera"], correct:1 },
+          { promptText:"\"Piacere\" means...", options:["Please","Nice to meet you","Goodbye"], correct:1 },
+          { promptText:"\"Come ti chiami?\" is asking...", options:["How are you?","What's your name?","Where are you from?"], correct:1 }
+        ]
+      },
+      {
+        id:"it1-ex2", type:"matching", title:"Exercise 2 — Match the Phrase",
+        instructions:"Tap a phrase, then tap its meaning.",
+        pairs:[
+          { left:"Ciao", right:"Hi / Bye" },
+          { left:"Sto bene, grazie", right:"I'm well, thank you" },
+          { left:"Di dove sei?", right:"Where are you from?" },
+          { left:"Mi chiamo...", right:"My name is..." }
+        ]
+      },
+      {
+        id:"it1-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"👋", ar:"Buongiorno, come stai?", keywords:["good morning","how are you"] },
+          { icon:"🙂", ar:"Sono di Roma", keywords:["rome"] },
+          { icon:"🤝", ar:"Piacere di conoscerti", keywords:["nice to meet you"] }
+        ]
+      },
+      {
+        id:"it1-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["sono","Marco","Io"], answer:["Io","sono","Marco"] },
+          { words:["stai?","Come"], answer:["Come","stai?"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"👋", ar:"Ciao, come stai?", plain:"Ciao, come stai?", translit:"chow KOH-meh sty", meaning:"Hi, how are you?" },
+      { icon:"🙂", ar:"Mi chiamo Sara", plain:"Mi chiamo Sara", translit:"mee kee-AH-mo SAH-ra", meaning:"My name is Sara" },
+      { icon:"🤝", ar:"Piacere di conoscerti", plain:"Piacere di conoscerti", translit:"pya-CHEH-reh dee ko-NO-sher-tee", meaning:"Nice to meet you" },
+      { icon:"🌆", ar:"Buonasera a tutti", plain:"Buonasera a tutti", translit:"bwoh-na-SEH-ra ah TOOT-tee", meaning:"Good evening everyone" }
+    ]
+  },
+
+  {
+    id: 2,
+    unit: "u2",
+    label: "Chapter 2",
+    difficulty: 2,
+    requires: 1,
+    icon: "📘",
+    title: "Articles, Gender & Number",
+    arabicTitle: "Articoli, Genere e Numero",
+    desc: "Every Italian noun has a gender — learn to spot it and match the right article.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Every Italian noun is either masculine or feminine — there's no neutral. Luckily, the ending usually tells you which: most words ending in -o are masculine, most ending in -a are feminine." },
+      { type:"h", text:"Definite Articles (\"the\")" },
+      { type:"pattern", ar:"il libro · la casa · l'amico · lo studente", translit:"eel LEE-bro · la KAH-za · la-MEE-ko · lo stoo-DEHN-teh", desc:"il (masc. before a consonant) · la (fem. before a consonant) · l' (before any vowel) · lo (masc. before s+consonant or z)." },
+      { type:"h", text:"Plurals" },
+      { type:"p", text:"To make a noun plural, change the final vowel: -o becomes -i, -a becomes -e. Words ending in -e (either gender) become -i in the plural." },
+      { type:"examples", items:[
+        { icon:"📕", ar:"il libro → i libri", translit:"eel LEE-bro → ee LEE-bree", meaning:"the book → the books" },
+        { icon:"🏠", ar:"la casa → le case", translit:"la KAH-za → leh KAH-zeh", meaning:"the house → the houses" },
+        { icon:"🔑", ar:"la chiave → le chiavi", translit:"la kee-AH-veh → leh kee-AH-vee", meaning:"the key → the keys" }
+      ]},
+      { type:"note", html:"<strong>Indefinite articles (\"a/an\")</strong> follow the same gender logic: un libro (a book), una casa (a house), un amico (a friend, before a vowel), uno studente (before s+consonant)." }
+    ],
+
+    vocabCategories: [
+      { name:"Common Nouns", words:[
+        {icon:"📕", ar:"il libro", translit:"eel LEE-bro", en:"the book (m.)"},
+        {icon:"🏠", ar:"la casa", translit:"la KAH-za", en:"the house (f.)"},
+        {icon:"🍞", ar:"il pane", translit:"eel PAH-neh", en:"the bread (m.)"},
+        {icon:"🚗", ar:"la macchina", translit:"la MAHK-kee-na", en:"the car (f.)"},
+        {icon:"🐕", ar:"il cane", translit:"eel KAH-neh", en:"the dog (m.)"},
+        {icon:"👨", ar:"l'amico", translit:"la-MEE-ko", en:"the friend (male)"},
+        {icon:"👩", ar:"l'amica", translit:"la-MEE-ka", en:"the friend (female)"},
+        {icon:"🎓", ar:"lo studente", translit:"lo stoo-DEHN-teh", en:"the student (male)"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it2-ex1", type:"mcq", title:"Exercise 1 — Pick the Article",
+        instructions:"Choose the correct article.",
+        items:[
+          { promptText:"___ libro (the book)", options:["il","la","lo"], correct:0 },
+          { promptText:"___ casa (the house)", options:["il","la","l'"], correct:1 },
+          { promptText:"___ amico (the friend, before a vowel)", options:["il","la","l'"], correct:2 },
+          { promptText:"What's the plural of \"la casa\"?", options:["i casi","le case","le casi"], correct:1 }
+        ]
+      },
+      {
+        id:"it2-ex2", type:"matching", title:"Exercise 2 — Singular → Plural",
+        instructions:"Match the singular noun to its plural.",
+        pairs:[
+          { left:"il libro", right:"i libri" },
+          { left:"la casa", right:"le case" },
+          { left:"la chiave", right:"le chiavi" },
+          { left:"il cane", right:"i cani" }
+        ]
+      },
+      {
+        id:"it2-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"📕", ar:"il libro", keywords:["book"] },
+          { icon:"🚗", ar:"la macchina", keywords:["car"] },
+          { icon:"👩", ar:"l'amica", keywords:["friend"] }
+        ]
+      },
+      {
+        id:"it2-ex4", type:"sentence", title:"Exercise 4 — Build the Phrase",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["cane", "il", "mio"], answer:["il","mio","cane"] },
+          { words:["libri", "i", "sono qui"], answer:["i","libri","sono qui"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"📕", ar:"il libro", plain:"il libro", translit:"eel LEE-bro", meaning:"the book" },
+      { icon:"🏠", ar:"la casa", plain:"la casa", translit:"la KAH-za", meaning:"the house" },
+      { icon:"👨", ar:"l'amico", plain:"l'amico", translit:"la-MEE-ko", meaning:"the friend" },
+      { icon:"🐕", ar:"i cani", plain:"i cani", translit:"ee KAH-nee", meaning:"the dogs" }
+    ]
+  },
+
+  {
+    id: 3,
+    unit: "u3",
+    label: "Chapter 3",
+    difficulty: 2,
+    requires: 2,
+    icon: "🤲",
+    title: "Avere & Possession",
+    arabicTitle: "Avere e il Possesso",
+    desc: "The verb \"to have\", plus how adjectives agree with the noun they describe.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Avere (\"to have\") is the second essential verb — used for possession, age, and a handful of expressions where English uses \"to be\" instead." },
+      { type:"h", text:"Avere — Present Tense" },
+      { type:"pattern", ar:"io ho · tu hai · lui/lei ha", translit:"EE-oh oh · too eye · loo-EE / LEH-ee ah", desc:"I have · you have (informal) · he/she has. The h is always silent." },
+      { type:"note", html:"<strong>Age uses avere, not essere:</strong> \"Ho venticinque anni\" literally means \"I have twenty-five years\" — that's simply how Italian says \"I am 25.\"" },
+      { type:"h", text:"Adjective Agreement" },
+      { type:"p", text:"Italian adjectives change to match the gender and number of the noun they describe. Adjectives ending in -o have four forms (-o/-a/-i/-e); adjectives ending in -e only change for number (-e/-i), not gender." },
+      { type:"examples", items:[
+        { icon:"📕", ar:"un libro piccolo", translit:"oon LEE-bro PEEK-ko-lo", meaning:"a small book (masc.)" },
+        { icon:"🏠", ar:"una casa piccola", translit:"OO-na KAH-za PEEK-ko-la", meaning:"a small house (fem.)" },
+        { icon:"🚗", ar:"una macchina grande", translit:"OO-na MAHK-kee-na GRAHN-deh", meaning:"a big car (-e adjective, unchanged for gender)" }
+      ]}
+    ],
+
+    vocabCategories: [
+      { name:"Family & Possessions", words:[
+        {icon:"👨‍👩‍👧", ar:"la famiglia", translit:"la fa-MEE-lya", en:"the family"},
+        {icon:"👦", ar:"il fratello", translit:"eel fra-TEHL-lo", en:"the brother"},
+        {icon:"👧", ar:"la sorella", translit:"la so-REHL-la", en:"the sister"},
+        {icon:"👴", ar:"il nonno", translit:"eel NOHN-no", en:"the grandfather"},
+        {icon:"🔑", ar:"le chiavi", translit:"leh kee-AH-vee", en:"the keys"},
+        {icon:"📱", ar:"il telefono", translit:"eel teh-LEH-fo-no", en:"the phone"},
+        {icon:"✨", ar:"grande", translit:"GRAHN-deh", en:"big"},
+        {icon:"🤏", ar:"piccolo/a", translit:"PEEK-ko-lo/la", en:"small"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it3-ex1", type:"mcq", title:"Exercise 1 — Avere & Adjectives",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I have\" in Italian is...", options:["io sono","io ho","io hai"], correct:1 },
+          { promptText:"To say your age, Italian uses...", options:["essere","avere","neither"], correct:1 },
+          { promptText:"\"a small house\" (casa is feminine) is...", options:["un casa piccolo","una casa piccola","una casa piccolo"], correct:1 },
+          { promptText:"\"grande\" (big) changes for...", options:["gender only","number only","both gender and number"], correct:1 }
+        ]
+      },
+      {
+        id:"it3-ex2", type:"matching", title:"Exercise 2 — Match the Family Word",
+        instructions:"Tap a word, then tap its meaning.",
+        pairs:[
+          { left:"il fratello", right:"the brother" },
+          { left:"la sorella", right:"the sister" },
+          { left:"il nonno", right:"the grandfather" },
+          { left:"la famiglia", right:"the family" }
+        ]
+      },
+      {
+        id:"it3-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🤲", ar:"Ho un fratello", keywords:["brother"] },
+          { icon:"🔑", ar:"Ho le chiavi", keywords:["keys"] },
+          { icon:"🏠", ar:"una casa grande", keywords:["big house","house"] }
+        ]
+      },
+      {
+        id:"it3-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["un","Ho","fratello"], answer:["Ho","un","fratello"] },
+          { words:["piccola", "casa", "una", "Ho"], answer:["Ho","una","casa","piccola"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🤲", ar:"Ho un fratello e una sorella", plain:"Ho un fratello e una sorella", translit:"oh oon fra-TEHL-lo eh OO-na so-REHL-la", meaning:"I have a brother and a sister" },
+      { icon:"🎂", ar:"Ho venticinque anni", plain:"Ho venticinque anni", translit:"oh vehn-tee-CHEEN-kweh AHN-nee", meaning:"I am 25 years old" },
+      { icon:"🏠", ar:"La mia casa è piccola", plain:"La mia casa è piccola", translit:"la MEE-ah KAH-za eh PEEK-ko-la", meaning:"My house is small" },
+      { icon:"📱", ar:"Ho il telefono", plain:"Ho il telefono", translit:"oh eel teh-LEH-fo-no", meaning:"I have the phone" }
+    ]
+  },
+
+  {
+    id: 4,
+    unit: "u4",
+    label: "Chapter 4",
+    difficulty: 3,
+    requires: 3,
+    icon: "🗣️",
+    title: "Present-Tense Verbs",
+    arabicTitle: "I Verbi al Presente",
+    desc: "The three regular verb families — -are, -ere, -ire — and how to build real sentences with them.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Nearly every Italian verb belongs to one of three families, named after their infinitive ending: -are, -ere, or -ire. Learn the pattern once, and you can conjugate hundreds of verbs." },
+      { type:"h", text:"-are verbs: parlare (to speak)" },
+      { type:"pattern", ar:"io parlo · tu parli · lui/lei parla", translit:"PAR-lo · PAR-lee · PAR-la", desc:"Drop -are, add -o / -i / -a for io / tu / lui-lei." },
+      { type:"h", text:"-ere verbs: scrivere (to write)" },
+      { type:"pattern", ar:"io scrivo · tu scrivi · lui/lei scrive", translit:"SKREE-vo · SKREE-vee · SKREE-veh", desc:"Drop -ere, add -o / -i / -e." },
+      { type:"h", text:"-ire verbs: dormire (to sleep)" },
+      { type:"pattern", ar:"io dormo · tu dormi · lui/lei dorme", translit:"DOR-mo · DOR-mee · DOR-meh", desc:"Drop -ire, add -o / -i / -e — same endings as -ere verbs." },
+      { type:"note", html:"<strong>Pattern to notice:</strong> the \"io\" form always ends in -o, and the \"tu\" form always ends in -i, no matter which family the verb belongs to. That alone gets you a long way." }
+    ],
+
+    vocabCategories: [
+      { name:"Everyday Verbs", words:[
+        {icon:"🗣️", ar:"parlare", translit:"par-LAH-reh", en:"to speak"},
+        {icon:"✍️", ar:"scrivere", translit:"skree-VEH-reh", en:"to write"},
+        {icon:"😴", ar:"dormire", translit:"dor-MEE-reh", en:"to sleep"},
+        {icon:"🍝", ar:"mangiare", translit:"man-JAH-reh", en:"to eat"},
+        {icon:"📖", ar:"leggere", translit:"LEHD-jeh-reh", en:"to read"},
+        {icon:"🎧", ar:"sentire", translit:"sehn-TEE-reh", en:"to hear / feel"},
+        {icon:"🇮🇹", ar:"l'italiano", translit:"lee-ta-LYAH-no", en:"Italian (the language)"},
+        {icon:"📧", ar:"l'email", translit:"lee-MEH-eel", en:"the email"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it4-ex1", type:"mcq", title:"Exercise 1 — Conjugate",
+        instructions:"Choose the correct verb form.",
+        items:[
+          { promptText:"Io ___ italiano (I speak Italian).", options:["parlo","parli","parla"], correct:0 },
+          { promptText:"Tu ___ un'email (you write an email).", options:["scrivo","scrivi","scrive"], correct:1 },
+          { promptText:"Lei ___ molto (she sleeps a lot).", options:["dormo","dormi","dorme"], correct:2 },
+          { promptText:"Which ending marks the \"io\" (I) form, across all three families?", options:["-o","-i","-e"], correct:0 }
+        ]
+      },
+      {
+        id:"it4-ex2", type:"matching", title:"Exercise 2 — Match the Verb",
+        instructions:"Tap a verb, then tap its meaning.",
+        pairs:[
+          { left:"parlare", right:"to speak" },
+          { left:"scrivere", right:"to write" },
+          { left:"dormire", right:"to sleep" },
+          { left:"mangiare", right:"to eat" }
+        ]
+      },
+      {
+        id:"it4-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🗣️", ar:"Io parlo italiano", keywords:["speak italian","italian"] },
+          { icon:"🍝", ar:"Lui mangia la pasta", keywords:["eat","pasta"] },
+          { icon:"📖", ar:"Tu leggi un libro", keywords:["read","book"] }
+        ]
+      },
+      {
+        id:"it4-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["italiano","parlo","Io"], answer:["Io","parlo","italiano"] },
+          { words:["un'email","Lei","scrive"], answer:["Lei","scrive","un'email"] }
+        ]
+      },
+      {
+        id:"it4-ex5", type:"creative", title:"Exercise 5 — Write Your Own",
+        instructions:"Write one true sentence about yourself using any verb from this chapter.",
+        items:[
+          { prompt:"Example pattern: Io + verb + something. (\"Io parlo inglese\" — I speak English.)" }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🗣️", ar:"Io parlo un po' di italiano", plain:"Io parlo un po' di italiano", translit:"EE-oh PAR-lo oon poh dee ee-ta-LYAH-no", meaning:"I speak a little Italian" },
+      { icon:"🍝", ar:"Lui mangia la pasta", plain:"Lui mangia la pasta", translit:"LOO-ee MAN-ja la PAH-sta", meaning:"He eats pasta" },
+      { icon:"📖", ar:"Tu leggi molto", plain:"Tu leggi molto", translit:"too LEHD-jee MOHL-to", meaning:"You read a lot" },
+      { icon:"😴", ar:"Dormo otto ore", plain:"Dormo otto ore", translit:"DOR-mo OHT-toh OH-reh", meaning:"I sleep eight hours" }
+    ]
+  },
+
+  {
+    id: 5,
+    unit: "u5",
+    label: "Chapter 5",
+    difficulty: 3,
+    requires: 4,
+    icon: "🔢",
+    title: "Numbers, Colors & Questions",
+    arabicTitle: "Numeri, Colori e Domande",
+    desc: "Count to ten, describe things with colors, and ask who/what/where/when/why.",
+    locked: false,
+
+    content: [
+      { type:"h", text:"Numbers 1–10" },
+      { type:"pattern", ar:"uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci", translit:"OO-no, DOO-eh, treh, KWAHT-tro, CHEEN-kweh, seh-ee, SEHT-teh, OHT-toh, NOH-veh, dee-EH-chee", desc:"Worth memorizing solidly — you'll use these constantly for prices, time, and age." },
+      { type:"h", text:"Colors" },
+      { type:"p", text:"Colors are adjectives, so they agree with the noun just like you learned in Chapter 3: una macchina rossa (a red car), un libro rosso (a red book)." },
+      { type:"h", text:"Question Words" },
+      { type:"p", text:"Italian questions don't need a special word-order flip like English \"do you...\" — just put the question word at the start, or simply raise your intonation at the end of a statement for yes/no questions." },
+      { type:"examples", items:[
+        { icon:"❓", ar:"Chi", translit:"kee", meaning:"who" },
+        { icon:"❓", ar:"Cosa", translit:"KOH-za", meaning:"what" },
+        { icon:"❓", ar:"Dove", translit:"DOH-veh", meaning:"where" },
+        { icon:"❓", ar:"Quando", translit:"KWAHN-do", meaning:"when" },
+        { icon:"❓", ar:"Perché", translit:"pehr-KEH", meaning:"why / because" }
+      ]},
+      { type:"note", html:"<strong>Yes/no questions</strong> use exactly the same word order as a statement — \"Parli italiano?\" (Do you speak Italian?) is just \"Parli italiano.\" said with rising intonation, or a question mark in writing." }
+    ],
+
+    vocabCategories: [
+      { name:"Colors", words:[
+        {icon:"🔴", ar:"rosso/a", translit:"ROHS-so/sa", en:"red"},
+        {icon:"🔵", ar:"blu", translit:"bloo", en:"blue"},
+        {icon:"🟢", ar:"verde", translit:"VEHR-deh", en:"green"},
+        {icon:"🟡", ar:"giallo/a", translit:"JAHL-lo/la", en:"yellow"},
+        {icon:"⚫", ar:"nero/a", translit:"NEH-ro/ra", en:"black"},
+        {icon:"⚪", ar:"bianco/a", translit:"BYAHN-ko/ka", en:"white"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it5-ex1", type:"mcq", title:"Exercise 1 — Numbers & Questions",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"Five\" in Italian is...", options:["quattro","cinque","sei"], correct:1 },
+          { promptText:"\"Where\" in Italian is...", options:["Chi","Dove","Quando"], correct:1 },
+          { promptText:"A red car (macchina, feminine) is...", options:["una macchina rosso","una macchina rossa","un macchina rossa"], correct:1 },
+          { promptText:"To turn a statement into a yes/no question, Italian...", options:["adds \"do\" at the front","flips the verb and subject","just uses rising intonation / a question mark"], correct:2 }
+        ]
+      },
+      {
+        id:"it5-ex2", type:"matching", title:"Exercise 2 — Match the Number",
+        instructions:"Tap a number word, then tap its digit.",
+        pairs:[
+          { left:"tre", right:"3" },
+          { left:"sette", right:"7" },
+          { left:"nove", right:"9" },
+          { left:"dieci", right:"10" }
+        ]
+      },
+      {
+        id:"it5-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"❓", ar:"Dove abiti?", keywords:["where do you live","where"] },
+          { icon:"🔴", ar:"una macchina rossa", keywords:["red car","car"] },
+          { icon:"❓", ar:"Perché studi l'italiano?", keywords:["why","study italian"] }
+        ]
+      },
+      {
+        id:"it5-ex4", type:"sentence", title:"Exercise 4 — Build the Question",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["abiti?", "Dove"], answer:["Dove","abiti?"] },
+          { words:["italiano?", "studi", "Perché", "l'"], answer:["Perché","studi","l'","italiano?"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🔢", ar:"Uno, due, tre, quattro, cinque", plain:"Uno, due, tre, quattro, cinque", translit:"OO-no DOO-eh treh KWAHT-tro CHEEN-kweh", meaning:"One, two, three, four, five" },
+      { icon:"❓", ar:"Dove abiti?", plain:"Dove abiti?", translit:"DOH-veh AH-bee-tee", meaning:"Where do you live?" },
+      { icon:"🔴", ar:"Mi piace il colore rosso", plain:"Mi piace il colore rosso", translit:"mee PYA-cheh eel ko-LOH-reh ROHS-so", meaning:"I like the color red" },
+      { icon:"❓", ar:"Perché studi l'italiano?", plain:"Perché studi l'italiano?", translit:"pehr-KEH STOO-dee lee-ta-LYAH-no", meaning:"Why are you studying Italian?" }
+    ]
+  }
+];
