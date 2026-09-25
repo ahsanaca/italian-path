@@ -28,11 +28,54 @@
     min-height: 100vh;
     color: var(--text);
   }
-  /* RTL support is opt-in: apps for RTL-script languages (e.g. Arabic) set
-     window.APP_TEXT_DIRECTION = 'rtl', which engine.js turns into a
-     .rtl-lang class on <html>. LTR languages (Italian, German, ...) simply
-     don't set it, and these rules never apply. */
+  /* Two INDEPENDENT direction axes, because "the language being taught" and
+     "the language it's explained in" can each be RTL or LTR on their own
+     (e.g. Italian taught in Urdu = LTR target text inside an RTL page):
+
+     AXIS 1 — target-language script. Apps for RTL-script target languages
+     (Arabic) set window.APP_TEXT_DIRECTION = 'rtl', which engine.js turns
+     into a .rtl-lang class on <html>. Scopes only the elements that hold
+     the language being taught (vocab, examples, sentence-builder, the
+     writing textarea).
+
+     AXIS 2 — explanation-language script. Apps that explain in an RTL
+     language (Urdu) set window.APP_EXPLANATION_DIR = 'rtl', turned into a
+     .rtl-explain class on <html>. Flips the general prose/UI direction.
+
+     Elements that hold target-language text must stay in axis-1's
+     direction even when axis 2 is RTL — hence the :not(.rtl-lang) guards
+     below, so a hypothetical RTL-target-via-RTL-explanation app (Arabic
+     taught in Urdu) still gets RTL target text, not a forced override. */
   .rtl-lang .native-text { direction: rtl; unicode-bidi: isolate; }
+
+  .rtl-explain .page { direction: rtl; }
+  .rtl-explain .click-opt { text-align: right; }
+  .rtl-explain .index-row .idx-pct { text-align: left; }
+  .rtl-explain .section-nav-footer { text-align: left; }
+  .rtl-explain input[type=text] { direction: rtl; text-align: right; }
+
+  .rtl-explain:not(.rtl-lang) .native-text,
+  .rtl-explain:not(.rtl-lang) .ch-arabic,
+  .rtl-explain:not(.rtl-lang) .ch-arabic-big,
+  .rtl-explain:not(.rtl-lang) .idx-ar,
+  .rtl-explain:not(.rtl-lang) .wc-ar,
+  .rtl-explain:not(.rtl-lang) .wc-translit,
+  .rtl-explain:not(.rtl-lang) .pb-ar,
+  .rtl-explain:not(.rtl-lang) .pb-translit,
+  .rtl-explain:not(.rtl-lang) .ex-ar,
+  .rtl-explain:not(.rtl-lang) .ex-translit,
+  .rtl-explain:not(.rtl-lang) .fc-ar,
+  .rtl-explain:not(.rtl-lang) .fc-translit,
+  .rtl-explain:not(.rtl-lang) .sp-ar,
+  .rtl-explain:not(.rtl-lang) .sp-translit,
+  .rtl-explain:not(.rtl-lang) .word-chips,
+  .rtl-explain:not(.rtl-lang) .word-chip,
+  .rtl-explain:not(.rtl-lang) .sentence-slot,
+  .rtl-explain:not(.rtl-lang) .speak-result .heard,
+  .rtl-explain:not(.rtl-lang) textarea {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
 
   /* ===== TOP APP BAR ===== */
   .app-bar {

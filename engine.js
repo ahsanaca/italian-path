@@ -1,9 +1,109 @@
 /* =====================================================================
    APP CONFIG BOOTSTRAP — reads the window.APP_* globals a language app's
-   content.js sets before this file loads. RTL-script languages (Arabic)
-   set window.APP_TEXT_DIRECTION = 'rtl'; LTR languages just don't.
+   content.js sets before this file loads.
+     - window.APP_TEXT_DIRECTION = 'rtl' for RTL-script TARGET languages
+       (Arabic). Controls only the elements holding the language being
+       taught (vocab, examples, sentence-builder, writing textarea).
+     - window.APP_EXPLANATION_DIR = 'rtl' for RTL-script EXPLANATION
+       languages (Urdu). Controls the general prose/UI direction. These
+       two are independent — Italian-taught-in-Urdu sets only the second.
 ===================================================================== */
 document.documentElement.classList.toggle('rtl-lang', window.APP_TEXT_DIRECTION === 'rtl');
+document.documentElement.classList.toggle('rtl-explain', window.APP_EXPLANATION_DIR === 'rtl');
+
+/* UI STRING DICTIONARY — every English string below is a fallback default,
+   used as-is by apps that don't set window.APP_STRINGS. A fully-localized
+   app (e.g. explaining in Urdu) sets window.APP_STRINGS = { key: "..." }
+   in its content.js to override any subset of these. {placeholders} get
+   substituted by t() at call time. */
+const DEFAULT_STRINGS = {
+  allChapters: "← All Chapters",
+  chooseTrack: "Choose Your Track",
+  chooseTrackDesc: "Each track teaches this language a different way — pick the one that fits what you're working on right now. You can switch anytime; progress in each track is kept separately.",
+  yourJourney: "Your {lang} Journey",
+  tapToStart: "Tap a chapter to start. New chapters unlock as the course grows.",
+  voiceSetupLink: "🔊 Voice Setup Tips — improve pronunciation audio quality",
+  switchTrack: "🔀 Switch Track",
+  trackLabel: "Track:",
+  requireFinishing: "Require finishing each chapter ({pct}%+) before the next one unlocks",
+  xpEarned: "XP EARNED",
+  dayStreak: "DAY STREAK",
+  level: "LEVEL",
+  overallProgress: "OVERALL PROGRESS",
+  continueWhereLeftOff: "Continue where you left off",
+  resume: "Resume →",
+  readyToBegin: "Ready to begin?",
+  startWith: "Start with {chapter}",
+  start: "Start →",
+  mixQuestions: "Mix questions from every chapter you've unlocked",
+  testYourKnowledge: "🧠 Test Your Knowledge",
+  startRandomTest: "Start Random Test →",
+  notBuiltYet: "Not built yet",
+  needsChapter: "Needs {chapter}",
+  priorChapter: "prior chapter",
+  courseIndex: "Course Index",
+  courseIndexDesc: "A quick outline of every unit and chapter — click any unlocked row to jump straight there.",
+  tabContent: "📖 Course Content",
+  tabVocab: "📝 Vocabulary",
+  tabExercises: "✏️ Exercises",
+  tabSpeaking: "🎤 Speaking",
+  continueVocab: "Continue to Vocabulary →",
+  continueExercises: "Continue to Exercises →",
+  continueSpeaking: "Continue to Speaking →",
+  nextChapter: "Next Chapter: {icon} {label} →",
+  backToDashboard: "Back to Dashboard →",
+  backToDashboardPlain: "Back to Dashboard",
+  checkAnswers: "Check My Answers",
+  tapWordsBelow: "tap words below →",
+  clear: "Clear",
+  submit: "Submit",
+  translateLabel: "Translate:",
+  typeYourAnswer: "Type your answer",
+  creativeGoodFeedback: "Nice work — saved. A teacher or native speaker can review this for accuracy.",
+  creativeEmptyFeedback: "Write something first — even one short sentence counts!",
+  score: "Score: {score} / {total}",
+  levelBeginner: "Beginner",
+  levelElementary: "Elementary",
+  levelIntermediate: "Intermediate",
+  levelAdvanced: "Advanced",
+  testMixedMcq: "🧠 Mixed Multiple Choice",
+  testMixedMcqDesc: "Questions randomly pulled from multiple chapters.",
+  testMixedTranslate: "🧠 Mixed Translation",
+  testMixedTranslateDesc: "Type the meaning of each sentence.",
+  testMixedMatching: "🧠 Mixed Matching",
+  testMixedMatchingDesc: "Tap a question, then tap its matching meaning.",
+  testMixedSentence: "🧠 Mixed Sentence Building",
+  testMixedSentenceDesc: "Tap the word chips in the correct order.",
+  testHeading: "Test Your Knowledge",
+  testIntro: "{n} questions randomly pulled from every chapter you've unlocked so far. Answer each section, then check it — your combined score appears below once everything's checked.",
+  testComplete: "Test Complete! 🎉",
+  testScoreLine: "You scored {score} / {total} ({pct}%) — earned +{xp} XP.",
+  noSpeakingPhrases: "No speaking phrases for this chapter yet.",
+  speakingInstructions: "Press <strong>Listen</strong> to hear the phrase, then <strong>Record</strong> yourself saying it for an instant similarity score.",
+  listenBtn: "🔊 Listen",
+  recordBtn: "🎙️ Record & Check",
+  listeningBtn: "🎙️ Listening...",
+  ttsPlaying: "🔊 Playing...",
+  ttsPlaybackFailedDevice: "⚠️ Playback failed — check that {lang} voice data is installed on this device.",
+  ttsNotSupported: "⚠️ This browser doesn't support text-to-speech.",
+  ttsPlaybackFailedGeneric: "⚠️ Playback failed.",
+  micPermissionDenied: "Microphone/speech permission was denied — enable it in your device settings to use this feature.",
+  sttPrompt: "Say the phrase now",
+  sttNotSupported: "⚠️ This browser doesn't support speech recognition — try the app instead.",
+  couldntCaptureAudio: "Couldn't capture audio ({err}). Try again.",
+  nothingRecognized: "(nothing recognized)",
+  verdictExcellent: "Excellent! 🌟 ({pct}% match)",
+  verdictClose: "Close — keep practicing. ({pct}% match)",
+  verdictTryAgain: "Try again. ({pct}% match)",
+  prevBtn: "← Prev",
+  nextBtn: "Next →",
+  youSaid: "You said:",
+};
+function t(key, vars) {
+  let s = (window.APP_STRINGS && window.APP_STRINGS[key]) || DEFAULT_STRINGS[key] || key;
+  if (vars) for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+  return s;
+}
 
 /* =====================================================================
    FIREBASE — cross-device progress sync, locked down properly.
@@ -270,10 +370,10 @@ function touchVisit() {
   saveProgress(progress);
 }
 function levelLabel(xp) {
-  if (xp < 40) return "Beginner";
-  if (xp < 100) return "Elementary";
-  if (xp < 200) return "Intermediate";
-  return "Advanced";
+  if (xp < 40) return t('levelBeginner');
+  if (xp < 100) return t('levelElementary');
+  if (xp < 200) return t('levelIntermediate');
+  return t('levelAdvanced');
 }
 
 function chapterProgressPct(chapter) {
@@ -393,21 +493,21 @@ function startKnowledgeTest() {
   const sentenceSample = sampleArray(bank.sentence, 2);
 
   const blocks = [];
-  if (mcqSample.length) blocks.push({ id: 'test-mcq', type: 'mcq', title: '🧠 Mixed Multiple Choice', instructions: 'Questions randomly pulled from multiple chapters.', items: mcqSample });
-  if (translateSample.length) blocks.push({ id: 'test-translate', type: 'translate', title: '🧠 Mixed Translation', instructions: 'Type the English meaning of each sentence.', items: translateSample });
-  if (matchingSample.length) blocks.push({ id: 'test-matching', type: 'matching', title: '🧠 Mixed Matching', instructions: 'Tap a question, then tap its matching meaning.', pairs: matchingSample.map(p => ({ left: p.left, right: p.right })) });
-  if (sentenceSample.length) blocks.push({ id: 'test-sentence', type: 'sentence', title: '🧠 Mixed Sentence Building', instructions: 'Tap the word chips in the correct order.', items: sentenceSample.map(it => ({ words: it.words, answer: it.answer })) });
+  if (mcqSample.length) blocks.push({ id: 'test-mcq', type: 'mcq', title: t('testMixedMcq'), instructions: t('testMixedMcqDesc'), items: mcqSample });
+  if (translateSample.length) blocks.push({ id: 'test-translate', type: 'translate', title: t('testMixedTranslate'), instructions: t('testMixedTranslateDesc'), items: translateSample });
+  if (matchingSample.length) blocks.push({ id: 'test-matching', type: 'matching', title: t('testMixedMatching'), instructions: t('testMixedMatchingDesc'), pairs: matchingSample.map(p => ({ left: p.left, right: p.right })) });
+  if (sentenceSample.length) blocks.push({ id: 'test-sentence', type: 'sentence', title: t('testMixedSentence'), instructions: t('testMixedSentenceDesc'), items: sentenceSample.map(it => ({ words: it.words, answer: it.answer })) });
 
   const totalQuestions = mcqSample.length + translateSample.length + matchingSample.length + sentenceSample.length;
   testSession = { blockIds: blocks.map(b => b.id), results: {}, totalQuestions };
 
   currentView = 'test';
   root.innerHTML = `
-    <button class="back-btn" onclick="showDashboard()">← All Chapters</button>
+    <button class="back-btn" onclick="showDashboard()">${t('allChapters')}</button>
     <div class="chapter-hero">
       <div class="ch-icon-big">🧠</div>
-      <h2>Test Your Knowledge</h2>
-      <p>${totalQuestions} questions randomly pulled from every chapter you've unlocked so far. Answer each section, then check it — your combined score appears below once everything's checked.</p>
+      <h2>${t('testHeading')}</h2>
+      <p>${t('testIntro', {n: totalQuestions})}</p>
     </div>
     <div class="test-summary" id="testSummary"></div>
     <div id="testBlocks">
@@ -431,9 +531,9 @@ function recordTestBlockResult(exId, score, total) {
     const summary = document.getElementById('testSummary');
     summary.classList.add('show');
     summary.innerHTML = `
-      <h3>Test Complete! 🎉</h3>
-      <p>You scored ${totals.score} / ${totals.total} (${pct}%) — earned +${xpGain} XP.</p>
-      <button class="action-btn" onclick="showDashboard()">Back to Dashboard</button>
+      <h3>${t('testComplete')}</h3>
+      <p>${t('testScoreLine', {score: totals.score, total: totals.total, pct, xp: xpGain})}</p>
+      <button class="action-btn" onclick="showDashboard()">${t('backToDashboardPlain')}</button>
     `;
     updateOverallBar();
   }
@@ -471,8 +571,8 @@ function showTrackSelector() {
   currentChapter = null;
   root.innerHTML = `
     <div class="dash-header">
-      <h1>Choose Your Track</h1>
-      <p>Each track teaches this language a different way — pick the one that fits what you're working on right now. You can switch anytime; progress in each track is kept separately.</p>
+      <h1>${t('chooseTrack')}</h1>
+      <p>${t('chooseTrackDesc')}</p>
     </div>
     <div class="track-grid">
       ${tracks.map(t => `
@@ -570,10 +670,10 @@ function renderStatsBar() {
   const xp = progress.xp || 0;
   return `
     <div class="stats-bar">
-      <div class="stat-card"><div class="stat-value">${xp}</div><div class="stat-label">XP EARNED</div></div>
-      <div class="stat-card"><div class="stat-value">🔥 ${progress.streak || 0}</div><div class="stat-label">DAY STREAK</div></div>
-      <div class="stat-card"><div class="stat-value">${levelLabel(xp)}</div><div class="stat-label">LEVEL</div></div>
-      <div class="stat-card"><div class="stat-value">${overallPct()}%</div><div class="stat-label">OVERALL PROGRESS</div></div>
+      <div class="stat-card"><div class="stat-value">${xp}</div><div class="stat-label">${t('xpEarned')}</div></div>
+      <div class="stat-card"><div class="stat-value">🔥 ${progress.streak || 0}</div><div class="stat-label">${t('dayStreak')}</div></div>
+      <div class="stat-card"><div class="stat-value">${levelLabel(xp)}</div><div class="stat-label">${t('level')}</div></div>
+      <div class="stat-card"><div class="stat-value">${overallPct()}%</div><div class="stat-label">${t('overallProgress')}</div></div>
     </div>`;
 }
 
@@ -586,10 +686,10 @@ function renderContinueCard() {
     return `
       <div class="continue-card">
         <div>
-          <div class="cc-text">Continue where you left off</div>
+          <div class="cc-text">${t('continueWhereLeftOff')}</div>
           <div class="cc-title">${lastCh.icon} ${lastCh.label}: ${lastCh.title} (${pct}%)</div>
         </div>
-        <button onclick="openChapter(${lastCh.id})">Resume →</button>
+        <button onclick="openChapter(${lastCh.id})">${t('resume')}</button>
       </div>`;
   }
   const first = chaptersInTrack().find(c => !c.locked);
@@ -597,10 +697,10 @@ function renderContinueCard() {
   return `
     <div class="continue-card">
       <div>
-        <div class="cc-text">Ready to begin?</div>
-        <div class="cc-title">${first.icon} Start with ${first.label}: ${first.title}</div>
+        <div class="cc-text">${t('readyToBegin')}</div>
+        <div class="cc-title">${first.icon} ${t('startWith', {chapter: first.label + ': ' + first.title})}</div>
       </div>
-      <button onclick="openChapter(${first.id})">Start →</button>
+      <button onclick="openChapter(${first.id})">${t('start')}</button>
     </div>`;
 }
 
@@ -611,10 +711,10 @@ function renderTestCta() {
   return `
     <div class="test-cta">
       <div>
-        <div class="tc-text">Mix questions from every chapter you've unlocked</div>
-        <div class="tc-title">🧠 Test Your Knowledge</div>
+        <div class="tc-text">${t('mixQuestions')}</div>
+        <div class="tc-title">${t('testYourKnowledge')}</div>
       </div>
-      <button onclick="startKnowledgeTest()">Start Random Test →</button>
+      <button onclick="startKnowledgeTest()">${t('startRandomTest')}</button>
     </div>`;
 }
 
@@ -635,25 +735,25 @@ function renderDashboard() {
       ${banner.quoteNative ? `<div class="fb-verse native-text">${banner.quoteNative}</div>` : ''}
       ${banner.quoteTranslation ? `<div class="fb-verse-en">${banner.quoteTranslation}</div>` : ''}
       ${banner.line2 ? `<div class="fb-line2">${banner.line2}</div>` : ''}
-      <div style="margin-top:8px;"><a style="color:#5b3fa6;cursor:pointer;font-size:13px;" onclick="renderVoiceSetupScreen()">🔊 Voice Setup Tips — improve pronunciation audio quality</a></div>
+      <div style="margin-top:8px;"><a style="color:#5b3fa6;cursor:pointer;font-size:13px;" onclick="renderVoiceSetupScreen()">${t('voiceSetupLink')}</a></div>
     </div>` : '';
   root.innerHTML = `
     <div class="dash-header">
-      <h1>Your ${window.APP_LANGUAGE_NAME || 'Language'} Journey</h1>
-      <p>Tap a chapter to start. New chapters unlock as the course grows.</p>
+      <h1>${t('yourJourney', {lang: window.APP_LANGUAGE_NAME || 'Language'})}</h1>
+      <p>${t('tapToStart')}</p>
     </div>
     ${bannerHtml}
     ${tracks.length > 1 ? `
     <div class="track-banner">
-      <span>${currentTrackDef.icon} Track: <strong>${currentTrackDef.title}</strong></span>
-      <button onclick="showTrackSelector()">🔀 Switch Track</button>
+      <span>${currentTrackDef.icon} ${t('trackLabel')} <strong>${currentTrackDef.title}</strong></span>
+      <button onclick="showTrackSelector()">${t('switchTrack')}</button>
     </div>` : ''}
     <div class="gating-toggle">
       <label class="switch">
         <input type="checkbox" ${progress.gatingEnabled ? 'checked' : ''} onchange="toggleGating(this.checked)">
         <span class="switch-slider"></span>
       </label>
-      <span>Require finishing each chapter (${COMPLETION_THRESHOLD}%+) before the next one unlocks</span>
+      <span>${t('requireFinishing', {pct: COMPLETION_THRESHOLD})}</span>
     </div>
     ${renderStatsBar()}
     ${renderContinueCard()}
@@ -681,7 +781,7 @@ function renderIndex() {
             <span class="idx-icon">🔒</span>
             <span class="idx-title">${ch.label}: ${ch.title}</span>
             <span class="idx-ar native-text">${ch.arabicTitle}</span>
-            <span class="idx-pct">Not built yet</span>
+            <span class="idx-pct">${t('notBuiltYet')}</span>
           </div>`;
       }
       if (!isChapterAccessible(ch)) {
@@ -691,7 +791,7 @@ function renderIndex() {
             <span class="idx-icon">🔒</span>
             <span class="idx-title">${ch.label}: ${ch.title}</span>
             <span class="idx-ar native-text">${ch.arabicTitle}</span>
-            <span class="idx-pct">Needs ${reqChapter ? reqChapter.label : 'prior chapter'}</span>
+            <span class="idx-pct">${t('needsChapter', {chapter: reqChapter ? reqChapter.label : t('priorChapter')})}</span>
           </div>`;
       }
       return `
@@ -707,8 +807,8 @@ function renderIndex() {
 
   root.innerHTML = `
     <div class="dash-header">
-      <h1>Course Index</h1>
-      <p>A quick outline of every unit and chapter — click any unlocked row to jump straight there.</p>
+      <h1>${t('courseIndex')}</h1>
+      <p>${t('courseIndexDesc')}</p>
     </div>
     ${unitBlocks}
   `;
@@ -718,7 +818,7 @@ function renderIndex() {
 function renderChapter() {
   const ch = currentChapter;
   root.innerHTML = `
-    <button class="back-btn" onclick="showDashboard()">← All Chapters</button>
+    <button class="back-btn" onclick="showDashboard()">${t('allChapters')}</button>
     <div class="chapter-hero">
 
       <div class="ch-icon-big">${ch.icon}</div>
@@ -727,10 +827,10 @@ function renderChapter() {
       <p>${ch.desc}</p>
     </div>
     <div class="nav-tabs">
-      <button data-tab="content" class="tab-btn">📖 Course Content</button>
-      <button data-tab="vocab" class="tab-btn">📝 Vocabulary</button>
-      <button data-tab="exercises" class="tab-btn">✏️ Exercises</button>
-      <button data-tab="speaking" class="tab-btn">🎤 Speaking</button>
+      <button data-tab="content" class="tab-btn">${t('tabContent')}</button>
+      <button data-tab="vocab" class="tab-btn">${t('tabVocab')}</button>
+      <button data-tab="exercises" class="tab-btn">${t('tabExercises')}</button>
+      <button data-tab="speaking" class="tab-btn">${t('tabSpeaking')}</button>
     </div>
     <div class="tab-panel" id="panel-content"></div>
     <div class="tab-panel" id="panel-vocab"></div>
@@ -795,7 +895,7 @@ function renderContentTab() {
     }
   });
   html += `<div class="section-nav-footer">
-    <button class="action-btn" onclick="switchTab('vocab')">Continue to Vocabulary →</button>
+    <button class="action-btn" onclick="switchTab('vocab')">${t('continueVocab')}</button>
   </div>`;
   document.getElementById('panel-content').innerHTML = html;
 }
@@ -825,13 +925,13 @@ function renderVocabTab() {
     html += `</div>`;
   });
   html += `<div class="section-nav-footer">
-    <button class="action-btn" onclick="switchTab('exercises')">Continue to Exercises →</button>
+    <button class="action-btn" onclick="switchTab('exercises')">${t('continueExercises')}</button>
   </div>`;
   document.getElementById('panel-vocab').innerHTML = html;
 }
 function chapterNavLabel() {
   const next = nextChapterInTrack();
-  return next ? `Next Chapter: ${next.icon} ${next.label} →` : 'Back to Dashboard →';
+  return next ? t('nextChapter', {icon: next.icon, label: next.label}) : t('backToDashboard');
 }
 
 /* ---- Exercises tab: dispatch by exercise type ---- */
@@ -840,7 +940,7 @@ function renderExercisesTab() {
   const container = document.getElementById('panel-exercises');
   const hasSpeaking = (currentChapter.speakingPhrases || []).length > 0;
   const footerBtn = hasSpeaking
-    ? `<button class="action-btn" onclick="switchTab('speaking')">Continue to Speaking →</button>`
+    ? `<button class="action-btn" onclick="switchTab('speaking')">${t('continueSpeaking')}</button>`
     : `<button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>`;
   container.innerHTML = exs.map(ex => renderExerciseBlock(ex)).join('')
     + `<div class="section-nav-footer">${footerBtn}</div>`;
@@ -873,7 +973,7 @@ function renderMCQItems(ex) {
       : `<p class="q-text">${it.promptText}</p>`;
     return `<div class="q-item" id="${ex.id}-q${i}" data-correct="${it.correct}">${promptHtml}<div class="click-options">${opts}</div></div>`;
   }).join('');
-  return rows + `<button class="action-btn" onclick="scoreMCQ('${ex.id}',${ex.items.length})">Check My Answers</button>
+  return rows + `<button class="action-btn" onclick="scoreMCQ('${ex.id}',${ex.items.length})">${t('checkAnswers')}</button>
     <div class="score-chip" id="${ex.id}-score" style="display:none;"></div>`;
 }
 function mcqPick(exId, qIndex, optIndex) {
@@ -947,10 +1047,10 @@ function renderTranslateItems(ex) {
   const rows = ex.items.map((it,i) => `
     <div class="q-item" id="${ex.id}-q${i}">
       <div class="q-icon-top">${it.icon||''}</div>
-      <p class="q-text">Translate: <span class="native-text">${it.ar}</span></p>
-      <input type="text" id="${ex.id}-in${i}" placeholder="Type your answer in English">
+      <p class="q-text">${t('translateLabel')} <span class="native-text">${it.ar}</span></p>
+      <input type="text" id="${ex.id}-in${i}" placeholder="${t('typeYourAnswer')}">
     </div>`).join('');
-  return rows + `<button class="action-btn" onclick="scoreTranslate('${ex.id}', ${JSON.stringify(ex.items.map(i=>i.keywords)).replace(/"/g,'&quot;')})">Check My Answers</button>
+  return rows + `<button class="action-btn" onclick="scoreTranslate('${ex.id}', ${JSON.stringify(ex.items.map(i=>i.keywords)).replace(/"/g,'&quot;')})">${t('checkAnswers')}</button>
     <div class="score-chip" id="${ex.id}-score" style="display:none;"></div>`;
 }
 function scoreTranslate(exId, keywordSets) {
@@ -975,13 +1075,13 @@ function renderSentenceItems(ex) {
     return `
       <div class="q-item" id="${ex.id}-q${i}">
         <div class="sentence-slot" id="${ex.id}-slot${i}" data-answer='${JSON.stringify(it.answer)}'>
-          <span class="placeholder">tap words below →</span>
+          <span class="placeholder">${t('tapWordsBelow')}</span>
         </div>
         <div class="word-chips">${chips}</div>
-        <button class="action-btn secondary" onclick="sentenceClear('${ex.id}',${i})">Clear</button>
+        <button class="action-btn secondary" onclick="sentenceClear('${ex.id}',${i})">${t('clear')}</button>
       </div>`;
   }).join('');
-  return rows + `<button class="action-btn" onclick="scoreSentences('${ex.id}', ${ex.items.length})">Check My Answers</button>
+  return rows + `<button class="action-btn" onclick="scoreSentences('${ex.id}', ${ex.items.length})">${t('checkAnswers')}</button>
     <div class="score-chip" id="${ex.id}-score" style="display:none;"></div>`;
 }
 function sentenceAdd(exId, i, chipEl, word) {
@@ -996,7 +1096,7 @@ function sentenceAdd(exId, i, chipEl, word) {
 }
 function sentenceClear(exId, i) {
   const slot = document.getElementById(`${exId}-slot${i}`);
-  slot.innerHTML = `<span class="placeholder">tap words below →</span>`;
+  slot.innerHTML = `<span class="placeholder">${t('tapWordsBelow')}</span>`;
   slot.parentElement.querySelectorAll('.word-chip').forEach(c => c.classList.remove('used'));
 }
 function scoreSentences(exId, total) {
@@ -1020,7 +1120,7 @@ function renderCreativeItems(ex) {
     <div class="q-item">
       <p class="q-text">${it.prompt}</p>
       <textarea id="${ex.id}-ta${i}" placeholder="هَذَا ..."></textarea>
-      <button class="action-btn" onclick="submitCreative('${ex.id}',${i})">Submit</button>
+      <button class="action-btn" onclick="submitCreative('${ex.id}',${i})">${t('submit')}</button>
       <div class="feedback-msg good" id="${ex.id}-fb${i}"></div>
     </div>`).join('') + `<div class="score-chip" id="${ex.id}-score" style="display:none;"></div>`;
 }
@@ -1029,15 +1129,15 @@ function submitCreative(exId, i) {
   const fb = document.getElementById(`${exId}-fb${i}`);
   fb.classList.add('show');
   fb.textContent = val.length
-    ? "Nice work — saved. A teacher or native speaker can review this for accuracy."
-    : "Write something first — even one short sentence counts!";
+    ? t('creativeGoodFeedback')
+    : t('creativeEmptyFeedback');
   markExerciseAttempted(exId, 100);
 }
 
 function showScoreChip(exId, score, total) {
   const chip = document.getElementById(`${exId}-score`);
   chip.style.display = 'inline-block';
-  chip.textContent = `Score: ${score} / ${total}`;
+  chip.textContent = t('score', {score, total});
   const pct = Math.round((score/total)*100);
   if (exId.startsWith('test-')) {
     recordTestBlockResult(exId, score, total);
@@ -1065,14 +1165,14 @@ function renderSpeakingTab() {
   const phrases = currentChapter.speakingPhrases || [];
   const panel = document.getElementById('panel-speaking');
   if (!phrases.length) {
-    panel.innerHTML = `<p style="color:#7f8c8d;">No speaking phrases for this chapter yet.</p>
+    panel.innerHTML = `<p style="color:#7f8c8d;">${t('noSpeakingPhrases')}</p>
       <div class="section-nav-footer">
         <button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>
       </div>`;
     return;
   }
   panel.innerHTML = `
-    <p style="color:#555;margin-bottom:18px;">Press <strong>Listen</strong> to hear the phrase, then <strong>Record</strong> yourself saying it for an instant similarity score.</p>
+    <p style="color:#555;margin-bottom:18px;">${t('speakingInstructions')}</p>
     <div class="speak-tracker" id="speakTracker"></div>
     <div class="speak-card">
       <div class="sp-icon" id="spIcon"></div>
@@ -1081,14 +1181,14 @@ function renderSpeakingTab() {
       <div class="sp-meaning" id="spMeaning"></div>
     </div>
     <div class="speak-controls">
-      <button class="listen-btn" onclick="listenToTarget()">🔊 Listen</button>
-      <button class="mic-btn" id="micBtn" onclick="startRecording()">🎙️ Record &amp; Check</button>
-      <button class="action-btn secondary" onclick="prevPhrase()">← Prev</button>
-      <button class="action-btn secondary" onclick="nextPhrase()">Next →</button>
+      <button class="listen-btn" onclick="listenToTarget()">${t('listenBtn')}</button>
+      <button class="mic-btn" id="micBtn" onclick="startRecording()">${t('recordBtn')}</button>
+      <button class="action-btn secondary" onclick="prevPhrase()">${t('prevBtn')}</button>
+      <button class="action-btn secondary" onclick="nextPhrase()">${t('nextBtn')}</button>
     </div>
     <div id="voiceStatus"></div>
     <div class="speak-result" id="speakResult">
-      <div>You said:</div>
+      <div>${t('youSaid')}</div>
       <div class="heard" id="heardText">—</div>
       <div class="similarity-bar"><div class="similarity-fill" id="similarityFill" style="width:0%;background:#bdc3c7;"></div></div>
       <div class="speak-verdict" id="speakVerdict"></div>

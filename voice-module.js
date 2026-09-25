@@ -13,6 +13,10 @@
 
    Every function name, signature, and call site is identical either way,
    so nothing else in the app needs to know which path is active.
+
+   Loads AFTER engine.js (see each app's index.html script order), so the
+   t() translation helper and DEFAULT_STRINGS it uses below are already
+   defined — this file doesn't declare its own copy.
 ===================================================================== */
 
 const hasNativeVoice = typeof Capacitor !== 'undefined'
@@ -33,7 +37,7 @@ const VOICE_LANG_NAME = window.APP_LANGUAGE_NAME || 'this language';
 async function speakArabicText(text, statusElId) {
   const statusEl = statusElId ? document.getElementById(statusElId) : null;
   if (hasNativeVoice) {
-    if (statusEl) statusEl.textContent = '🔊 Playing...';
+    if (statusEl) statusEl.textContent = t('ttsPlaying');
     try {
       await TextToSpeech.speak({
         text: text,
@@ -46,14 +50,14 @@ async function speakArabicText(text, statusElId) {
       if (statusEl) statusEl.textContent = '';
     } catch (err) {
       console.error('TTS failed:', err);
-      if (statusEl) statusEl.textContent = `⚠️ Playback failed — check that ${VOICE_LANG_NAME} voice data is installed on this device.`;
+      if (statusEl) statusEl.textContent = t('ttsPlaybackFailedDevice', {lang: VOICE_LANG_NAME});
     }
     return;
   }
 
   // Browser fallback
   if (!('speechSynthesis' in window)) {
-    if (statusEl) statusEl.textContent = "⚠️ This browser doesn't support text-to-speech.";
+    if (statusEl) statusEl.textContent = t('ttsNotSupported');
     return;
   }
   window.speechSynthesis.cancel();
@@ -64,9 +68,9 @@ async function speakArabicText(text, statusElId) {
   const matchedVoice = window.speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith(langPrefix));
   if (matchedVoice) utter.voice = matchedVoice;
   if (statusEl) {
-    statusEl.textContent = '🔊 Playing...';
+    statusEl.textContent = t('ttsPlaying');
     utter.onend = () => { statusEl.textContent = ''; };
-    utter.onerror = () => { statusEl.textContent = '⚠️ Playback failed.'; };
+    utter.onerror = () => { statusEl.textContent = t('ttsPlaybackFailedGeneric'); };
   }
   window.speechSynthesis.speak(utter);
 }
@@ -115,19 +119,19 @@ function scoreAndShowResult(transcript) {
   const pct = Math.round(similarity * 100);
 
   resultBox.classList.add('show');
-  document.getElementById('heardText').textContent = transcript || '(nothing recognized)';
+  document.getElementById('heardText').textContent = transcript || t('nothingRecognized');
   const fill = document.getElementById('similarityFill');
   fill.style.width = pct + '%';
   const verdictEl = document.getElementById('speakVerdict');
   if (similarity > 0.85) {
     fill.style.background = '#27ae60'; verdictEl.style.color = '#27ae60';
-    verdictEl.textContent = `Excellent! 🌟 (${pct}% match)`;
+    verdictEl.textContent = t('verdictExcellent', {pct});
   } else if (similarity > 0.55) {
     fill.style.background = '#e67e22'; verdictEl.style.color = '#e67e22';
-    verdictEl.textContent = `Close — keep practicing. (${pct}% match)`;
+    verdictEl.textContent = t('verdictClose', {pct});
   } else {
     fill.style.background = '#e74c3c'; verdictEl.style.color = '#e74c3c';
-    verdictEl.textContent = `Try again. (${pct}% match)`;
+    verdictEl.textContent = t('verdictTryAgain', {pct});
   }
 
   markSpeakingAttempt(speakIndex);
@@ -148,28 +152,28 @@ async function startRecording() {
 
   const allowed = await ensureMicPermission();
   if (!allowed) {
-    showRecordingError('Microphone/speech permission was denied — enable it in your device settings to use this feature.');
+    showRecordingError(t('micPermissionDenied'));
     return;
   }
 
   if (hasNativeVoice) {
     micBtn.classList.add('listening');
-    micBtn.textContent = '🎙️ Listening...';
+    micBtn.textContent = t('listeningBtn');
     try {
       const { matches } = await SpeechRecognition.start({
         language: VOICE_LANG,
         maxResults: 1,
-        prompt: 'Say the phrase now',
+        prompt: t('sttPrompt'),
         partialResults: false,
         popup: false,
       });
       scoreAndShowResult((matches && matches[0]) || '');
     } catch (err) {
       console.error('Speech recognition failed:', err);
-      showRecordingError(`Couldn't capture audio (${err.message || err}). Try again.`);
+      showRecordingError(t('couldntCaptureAudio', {err: err.message || err}));
     } finally {
       micBtn.classList.remove('listening');
-      micBtn.textContent = '🎙️ Record & Check';
+      micBtn.textContent = t('recordBtn');
     }
     return;
   }
@@ -177,7 +181,7 @@ async function startRecording() {
   // Browser fallback
   const BrowserSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!BrowserSpeechRecognition) {
-    showRecordingError("⚠️ This browser doesn't support speech recognition — try the app instead.");
+    showRecordingError(t('sttNotSupported'));
     return;
   }
   const recognizer = new BrowserSpeechRecognition();
@@ -186,7 +190,7 @@ async function startRecording() {
   recognizer.interimResults = false;
 
   micBtn.classList.add('listening');
-  micBtn.textContent = '🎙️ Listening...';
+  micBtn.textContent = t('listeningBtn');
 
   recognizer.onresult = (event) => {
     const transcript = event.results[0][0].transcript || '';
@@ -194,19 +198,19 @@ async function startRecording() {
   };
   recognizer.onerror = (event) => {
     console.error('Speech recognition failed:', event.error);
-    showRecordingError(`Couldn't capture audio (${event.error}). Try again.`);
+    showRecordingError(t('couldntCaptureAudio', {err: event.error}));
   };
   recognizer.onend = () => {
     micBtn.classList.remove('listening');
-    micBtn.textContent = '🎙️ Record & Check';
+    micBtn.textContent = t('recordBtn');
   };
 
   try {
     recognizer.start();
   } catch (err) {
     console.error('Speech recognition failed:', err);
-    showRecordingError(`Couldn't capture audio (${err.message || err}). Try again.`);
+    showRecordingError(t('couldntCaptureAudio', {err: err.message || err}));
     micBtn.classList.remove('listening');
-    micBtn.textContent = '🎙️ Record & Check';
+    micBtn.textContent = t('recordBtn');
   }
 }
