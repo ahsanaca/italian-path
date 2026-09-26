@@ -28,7 +28,10 @@ const units = [
   { id:"u7", track:"standard", title:"Unit 7 — Describing People", desc:"Possessive adjectives, and vocabulary for appearance and personality." },
   { id:"u8", track:"standard", title:"Unit 8 — Food & Ordering", desc:"Restaurant vocabulary, and the polite way to ask for what you want." },
   { id:"u9", track:"standard", title:"Unit 9 — Time & Daily Routine", desc:"Telling time, days of the week, and a first taste of reflexive verbs." },
-  { id:"u10", track:"standard", title:"Unit 10 — Coming Soon", desc:"More chapters are on the way." }
+  { id:"u10", track:"standard", title:"Unit 10 — Talking About the Past", desc:"The passato prossimo — how to say what already happened." },
+  { id:"u11", track:"standard", title:"Unit 11 — Weather & Seasons", desc:"Small talk about the weather, and the four seasons." },
+  { id:"u12", track:"standard", title:"Unit 12 — Shopping & Clothes", desc:"Asking prices, sizes, and talking about what you're wearing." },
+  { id:"u13", track:"standard", title:"Unit 13 — Coming Soon", desc:"More chapters are on the way." }
 ];
 
 const tracks = [
@@ -906,10 +909,265 @@ const chapters = [
     label: "Chapter 10",
     difficulty: 6,
     requires: 9,
+    icon: "⏳",
+    title: "Talking About the Past",
+    arabicTitle: "Il Passato Prossimo",
+    desc: "The passato prossimo — Italian's everyday past tense — and how to say what you already did.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"To talk about the past in everyday Italian, you'll reach for the passato prossimo constantly. It's built from two pieces: a helper verb (avere, in most cases) plus a past participle." },
+      { type:"h", text:"Avere + Past Participle" },
+      { type:"pattern", ar:"io ho parlato · tu hai parlato · lui/lei ha parlato", translit:"oh par-LAH-to · eye par-LAH-to · ah par-LAH-to", desc:"I spoke / have spoken · you spoke · he/she spoke — the avere forms from Chapter 3, plus a past participle that doesn't change for most verbs." },
+      { type:"h", text:"Building the Past Participle" },
+      { type:"p", text:"Drop the infinitive ending and add: -are → -ato, -ere → -uto, -ire → -ito." },
+      { type:"examples", items:[
+        { icon:"🗣️", ar:"parlare → parlato", translit:"par-LAH-to", meaning:"spoken (from parlare, Chapter 4)" },
+        { icon:"😴", ar:"dormire → dormito", translit:"dor-MEE-to", meaning:"slept (from dormire, Chapter 4)" },
+        { icon:"🍝", ar:"mangiare → mangiato", translit:"man-JAH-to", meaning:"eaten (from mangiare, Chapter 4)" }
+      ]},
+      { type:"note", html:"<strong>A common exception:</strong> andare (Chapter 6) uses essere instead of avere, and the participle agrees like an adjective: <em>sono andato</em> (a man says), <em>sono andata</em> (a woman says). You'll meet the full essere-group in a later chapter — for now, just recognize this one." }
+    ],
+
+    vocabCategories: [
+      { name:"Talking About the Past", words:[
+        {icon:"📅", ar:"ieri", translit:"ee-EH-ree", en:"yesterday"},
+        {icon:"📅", ar:"la settimana scorsa", translit:"la seht-tee-MAH-na SKOR-sa", en:"last week"},
+        {icon:"✅", ar:"già", translit:"jah", en:"already"},
+        {icon:"🗣️", ar:"ho parlato", translit:"oh par-LAH-to", en:"I spoke"},
+        {icon:"😴", ar:"ho dormito", translit:"oh dor-MEE-to", en:"I slept"},
+        {icon:"🍝", ar:"ho mangiato", translit:"oh man-JAH-to", en:"I ate"},
+        {icon:"🚶", ar:"sono andato/a", translit:"SOH-no an-DAH-to/ta", en:"I went"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it10-ex1", type:"mcq", title:"Exercise 1 — Past Tense",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I spoke\" is...", options:["parlo","ho parlato","parlato"], correct:1 },
+          { promptText:"Which ending does an -are verb take in the past participle?", options:["-ato","-uto","-ito"], correct:0 },
+          { promptText:"\"I ate\" (mangiare) is...", options:["ho mangiato","ho mangiare","mangio"], correct:0 },
+          { promptText:"Which common verb uses essere instead of avere?", options:["parlare","andare","dormire"], correct:1 }
+        ]
+      },
+      {
+        id:"it10-ex2", type:"matching", title:"Exercise 2 — Match the Participle",
+        instructions:"Tap an infinitive, then tap its past participle.",
+        pairs:[
+          { left:"parlare", right:"parlato" },
+          { left:"dormire", right:"dormito" },
+          { left:"mangiare", right:"mangiato" },
+          { left:"andare", right:"andato" }
+        ]
+      },
+      {
+        id:"it10-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🗣️", ar:"Ho parlato ieri", keywords:["spoke","yesterday"] },
+          { icon:"🚶", ar:"Sono andato a scuola", keywords:["went","school"] },
+          { icon:"🍝", ar:"Ho già mangiato", keywords:["already","ate","eaten"] }
+        ]
+      },
+      {
+        id:"it10-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["parlato","ho","Ieri"], answer:["Ieri","ho","parlato"] },
+          { words:["mangiato","ho","Già"], answer:["Già","ho","mangiato"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"📅", ar:"Ho parlato ieri", plain:"Ho parlato ieri", translit:"oh par-LAH-to ee-EH-ree", meaning:"I spoke yesterday" },
+      { icon:"🚶", ar:"Sono andato a scuola", plain:"Sono andato a scuola", translit:"SOH-no an-DAH-to ah SKWOH-la", meaning:"I went to school" },
+      { icon:"✅", ar:"Ho già mangiato", plain:"Ho già mangiato", translit:"oh jah man-JAH-to", meaning:"I already ate" },
+      { icon:"😴", ar:"Ho dormito bene", plain:"Ho dormito bene", translit:"oh dor-MEE-to BEH-neh", meaning:"I slept well" }
+    ]
+  },
+
+  {
+    id: 11,
+    unit: "u11",
+    label: "Chapter 11",
+    difficulty: 6,
+    requires: 10,
+    icon: "☀️",
+    title: "Weather & Seasons",
+    arabicTitle: "Il Tempo e le Stagioni",
+    desc: "Small talk about the weather, and the four seasons.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Weather talk is universal small talk — and a good excuse to practice everyday Italian sentence structure with words you already know." },
+      { type:"h", text:"Che Tempo Fa? (What's the Weather Like?)" },
+      { type:"pattern", ar:"Che tempo fa? · Fa caldo", translit:"keh TEHM-po fah · fah KAHL-do", desc:"What's the weather like? · It's hot — many weather expressions use fare (\"to make/do\"), literally \"it makes hot.\"" },
+      { type:"examples", items:[
+        { icon:"🥵", ar:"Fa caldo", translit:"fah KAHL-do", meaning:"It's hot" },
+        { icon:"🥶", ar:"Fa freddo", translit:"fah FREHD-do", meaning:"It's cold" },
+        { icon:"🌧️", ar:"Piove", translit:"PYO-veh", meaning:"It's raining" },
+        { icon:"☀️", ar:"C'è il sole", translit:"cheh eel SOH-leh", meaning:"It's sunny (there is sun)" }
+      ]},
+      { type:"note", html:"<strong>Notice</strong> c'è from Chapter 8 makes a reappearance — \"c'è il sole\" uses the exact same \"there is\" pattern as \"c'è pizza.\"" }
+    ],
+
+    vocabCategories: [
+      { name:"Weather & Seasons", words:[
+        {icon:"🥵", ar:"caldo", translit:"KAHL-do", en:"hot"},
+        {icon:"🥶", ar:"freddo", translit:"FREHD-do", en:"cold"},
+        {icon:"🌧️", ar:"piove", translit:"PYO-veh", en:"it's raining"},
+        {icon:"☀️", ar:"il sole", translit:"eel SOH-leh", en:"the sun"},
+        {icon:"🌸", ar:"la primavera", translit:"la pree-ma-VEH-ra", en:"spring"},
+        {icon:"☀️", ar:"l'estate", translit:"leh-STAH-teh", en:"summer"},
+        {icon:"🍂", ar:"l'autunno", translit:"lah-oo-TOON-no", en:"autumn"},
+        {icon:"❄️", ar:"l'inverno", translit:"leen-VEHR-no", en:"winter"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it11-ex1", type:"mcq", title:"Exercise 1 — Weather",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"It's hot\" is...", options:["Fa freddo","Fa caldo","Piove"], correct:1 },
+          { promptText:"\"It's raining\" is...", options:["Piove","Fa caldo","C'è il sole"], correct:0 },
+          { promptText:"Which season is \"l'inverno\"?", options:["summer","winter","spring"], correct:1 },
+          { promptText:"\"It's sunny\" literally means...", options:["\"the sun makes\"","\"there is the sun\"","\"I see the sun\""], correct:1 }
+        ]
+      },
+      {
+        id:"it11-ex2", type:"matching", title:"Exercise 2 — Match the Season",
+        instructions:"Tap a season, then tap its meaning.",
+        pairs:[
+          { left:"la primavera", right:"spring" },
+          { left:"l'estate", right:"summer" },
+          { left:"l'autunno", right:"autumn" },
+          { left:"l'inverno", right:"winter" }
+        ]
+      },
+      {
+        id:"it11-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🥵", ar:"Fa caldo oggi", keywords:["hot"] },
+          { icon:"🌧️", ar:"Piove molto", keywords:["raining","rain"] },
+          { icon:"🌸", ar:"Mi piace la primavera", keywords:["spring"] }
+        ]
+      },
+      {
+        id:"it11-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["caldo","Fa","oggi"], answer:["Fa","caldo","oggi"] },
+          { words:["sole","C'è","il"], answer:["C'è","il","sole"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"❓", ar:"Che tempo fa?", plain:"Che tempo fa?", translit:"keh TEHM-po fah", meaning:"What's the weather like?" },
+      { icon:"🥵", ar:"Fa molto caldo", plain:"Fa molto caldo", translit:"fah MOHL-to KAHL-do", meaning:"It's very hot" },
+      { icon:"🌧️", ar:"Piove oggi", plain:"Piove oggi", translit:"PYO-veh OHD-jee", meaning:"It's raining today" },
+      { icon:"🌸", ar:"Mi piace la primavera", plain:"Mi piace la primavera", translit:"mee PYA-cheh la pree-ma-VEH-ra", meaning:"I like spring" }
+    ]
+  },
+
+  {
+    id: 12,
+    unit: "u12",
+    label: "Chapter 12",
+    difficulty: 7,
+    requires: 11,
+    icon: "🛍️",
+    title: "Shopping & Clothes",
+    arabicTitle: "Shopping e Vestiti",
+    desc: "Asking prices, sizes, and talking about what you're wearing.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Back to practical situations: shopping. This chapter combines vorrei (Chapter 8) and colors (Chapter 5) with new vocabulary for clothes and prices." },
+      { type:"h", text:"Quanto Costa? (How Much Does It Cost?)" },
+      { type:"pattern", ar:"Quanto costa? · Costa venti euro", translit:"KWAHN-to KOH-sta · KOH-sta VEHN-tee EH-oo-ro", desc:"How much does it cost? · It costs twenty euros." },
+      { type:"examples", items:[
+        { icon:"👕", ar:"Vorrei una maglietta", translit:"vor-RAY OO-na ma-LYEHT-ta", meaning:"I would like a t-shirt" },
+        { icon:"📏", ar:"Avete una taglia più grande?", translit:"a-VEH-teh OO-na TAH-lya pyoo GRAHN-deh", meaning:"Do you have a bigger size?" }
+      ]},
+      { type:"note", html:"<strong>Reusing what you know:</strong> \"una taglia più grande\" reuses grande from Chapter 3 — più grande literally means \"more big,\" Italian's way of saying \"bigger.\"" }
+    ],
+
+    vocabCategories: [
+      { name:"Shopping & Clothes", words:[
+        {icon:"👕", ar:"la maglietta", translit:"la ma-LYEHT-ta", en:"the t-shirt"},
+        {icon:"👖", ar:"i pantaloni", translit:"ee pan-ta-LO-nee", en:"the pants"},
+        {icon:"👟", ar:"le scarpe", translit:"leh SKAR-peh", en:"the shoes"},
+        {icon:"🧥", ar:"la giacca", translit:"la JAHK-ka", en:"the jacket"},
+        {icon:"💰", ar:"quanto costa?", translit:"KWAHN-to KOH-sta", en:"how much does it cost?"},
+        {icon:"📏", ar:"la taglia", translit:"la TAH-lya", en:"the size"},
+        {icon:"💶", ar:"l'euro", translit:"LEH-oo-ro", en:"the euro"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it12-ex1", type:"mcq", title:"Exercise 1 — Shopping",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"How much does it cost?\" is...", options:["Quanto costa?","Che ore è?","Dove sei?"], correct:0 },
+          { promptText:"\"The shoes\" is...", options:["la maglietta","le scarpe","la giacca"], correct:1 },
+          { promptText:"\"A bigger size\" uses which word for \"bigger\"?", options:["più piccolo","più grande","molto grande"], correct:1 },
+          { promptText:"\"I would like a t-shirt\" is...", options:["Vorrei una maglietta","Ho una maglietta","Costa una maglietta"], correct:0 }
+        ]
+      },
+      {
+        id:"it12-ex2", type:"matching", title:"Exercise 2 — Match the Item",
+        instructions:"Tap an item, then tap its meaning.",
+        pairs:[
+          { left:"la maglietta", right:"t-shirt" },
+          { left:"i pantaloni", right:"pants" },
+          { left:"le scarpe", right:"shoes" },
+          { left:"la giacca", right:"jacket" }
+        ]
+      },
+      {
+        id:"it12-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"💰", ar:"Quanto costa?", keywords:["how much","cost"] },
+          { icon:"👕", ar:"Vorrei una maglietta rossa", keywords:["t-shirt","red"] },
+          { icon:"📏", ar:"Avete una taglia più grande?", keywords:["size","bigger"] }
+        ]
+      },
+      {
+        id:"it12-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["maglietta","una","Vorrei"], answer:["Vorrei","una","maglietta"] },
+          { words:["costa?","Quanto"], answer:["Quanto","costa?"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"💰", ar:"Quanto costa?", plain:"Quanto costa?", translit:"KWAHN-to KOH-sta", meaning:"How much does it cost?" },
+      { icon:"👕", ar:"Vorrei una maglietta blu", plain:"Vorrei una maglietta blu", translit:"vor-RAY OO-na ma-LYEHT-ta bloo", meaning:"I would like a blue t-shirt" },
+      { icon:"📏", ar:"Avete una taglia più grande?", plain:"Avete una taglia più grande?", translit:"a-VEH-teh OO-na TAH-lya pyoo GRAHN-deh", meaning:"Do you have a bigger size?" },
+      { icon:"👟", ar:"Mi piacciono queste scarpe", plain:"Mi piacciono queste scarpe", translit:"mee PYAH-cho-no KWEH-steh SKAR-peh", meaning:"I like these shoes" }
+    ]
+  },
+
+  {
+    id: 13,
+    unit: "u13",
+    label: "Chapter 13",
+    difficulty: 8,
+    requires: 12,
     icon: "🚧",
     title: "More Chapters — Coming Soon",
     arabicTitle: "Presto...",
-    desc: "The next chapter is being written — reflexive verbs in full, past tense, and more everyday Italian are on the way.",
+    desc: "The next chapter is being written — the essere-group in full, comparisons, and more everyday Italian are on the way.",
     locked: true
   }
 ];
