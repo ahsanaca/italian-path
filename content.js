@@ -31,7 +31,14 @@ const units = [
   { id:"u10", track:"standard", title:"Unit 10 — Talking About the Past", desc:"The passato prossimo — how to say what already happened." },
   { id:"u11", track:"standard", title:"Unit 11 — Weather & Seasons", desc:"Small talk about the weather, and the four seasons." },
   { id:"u12", track:"standard", title:"Unit 12 — Shopping & Clothes", desc:"Asking prices, sizes, and talking about what you're wearing." },
-  { id:"u13", track:"standard", title:"Unit 13 — Coming Soon", desc:"More chapters are on the way." }
+  { id:"u13", track:"standard", title:"Unit 13 — Can, Must & Want", desc:"The modal verbs potere, dovere, volere — and how they pair with any infinitive." },
+  { id:"u14", track:"standard", title:"Unit 14 — The Other Past Tense", desc:"L'imperfetto — for habits and background, alongside the passato prossimo." },
+  { id:"u15", track:"standard", title:"Unit 15 — Reflexive Verbs", desc:"The full pattern behind mi sveglio, mi alzo, and more daily-routine verbs." },
+  { id:"u16", track:"standard", title:"Unit 16 — Comparisons", desc:"Saying \"more than\", \"less than\", and \"as...as\"." },
+  { id:"u17", track:"standard", title:"Unit 17 — Asking for Directions", desc:"Finding your way — left, right, straight ahead, near and far." },
+  { id:"u18", track:"standard", title:"Unit 18 — Family & Hobbies", desc:"Talking about relatives and what you like to do in your free time." },
+  { id:"u19", track:"standard", title:"Unit 19 — Health & Body", desc:"Body parts, saying what hurts, and basic health phrases." },
+  { id:"u20", track:"standard", title:"Unit 20 — Coming Soon", desc:"More chapters are on the way." }
 ];
 
 const tracks = [
@@ -1164,10 +1171,595 @@ const chapters = [
     label: "Chapter 13",
     difficulty: 8,
     requires: 12,
+    icon: "💪",
+    title: "Can, Must & Want",
+    arabicTitle: "Potere, Dovere, Volere",
+    desc: "Three verbs that unlock huge numbers of sentences — each paired with any infinitive you already know.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Potere (can/to be able), dovere (must/to have to), and volere (to want) are three of the most useful verbs in Italian — each one pairs directly with an infinitive, so as soon as you know them you can build sentences with every verb from earlier chapters." },
+      { type:"h", text:"Potere, Dovere, Volere — Present Tense" },
+      { type:"pattern", ar:"posso · devo · voglio", translit:"POHS-so · DEH-vo · VOH-lyo", desc:"I can · I must · I want — all three are irregular in the io form, but pair with an infinitive exactly like English \"can/must/want to...\"." },
+      { type:"examples", items:[
+        { icon:"💪", ar:"Posso parlare italiano", translit:"POHS-so par-LAH-reh ee-ta-LYAH-no", meaning:"I can speak Italian" },
+        { icon:"⏰", ar:"Devo andare a scuola", translit:"DEH-vo an-DAH-reh ah SKWOH-la", meaning:"I must go to school" },
+        { icon:"🍕", ar:"Voglio mangiare la pizza", translit:"VOH-lyo man-JAH-reh la PEET-tsa", meaning:"I want to eat pizza" }
+      ]},
+      { type:"note", html:"<strong>Remember vorrei from Chapter 8?</strong> That's the polite form of volere. Voglio is direct and perfectly normal with friends/family, but vorrei is softer — the difference is exactly like English \"I want\" vs. \"I would like\"." }
+    ],
+
+    vocabCategories: [
+      { name:"Potere, Dovere, Volere", words:[
+        {icon:"💪", ar:"posso", translit:"POHS-so", en:"I can"},
+        {icon:"💪", ar:"puoi", translit:"PWOH-ee", en:"you can (informal)"},
+        {icon:"⏰", ar:"devo", translit:"DEH-vo", en:"I must"},
+        {icon:"⏰", ar:"devi", translit:"DEH-vee", en:"you must (informal)"},
+        {icon:"🎯", ar:"voglio", translit:"VOH-lyo", en:"I want"},
+        {icon:"🎯", ar:"vuoi", translit:"VWOH-ee", en:"you want (informal)"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it13-ex1", type:"mcq", title:"Exercise 1 — Modal Verbs",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I can speak Italian\" is...", options:["Voglio parlare italiano","Posso parlare italiano","Devo parlare italiano"], correct:1 },
+          { promptText:"\"I must go to school\" is...", options:["Posso andare a scuola","Voglio andare a scuola","Devo andare a scuola"], correct:2 },
+          { promptText:"Which verb means \"to want\"?", options:["potere","dovere","volere"], correct:2 },
+          { promptText:"\"Puoi\" means...", options:["I can","you can","he can"], correct:1 }
+        ]
+      },
+      {
+        id:"it13-ex2", type:"matching", title:"Exercise 2 — Match the Verb",
+        instructions:"Tap a form, then tap its meaning.",
+        pairs:[
+          { left:"posso", right:"I can" },
+          { left:"devo", right:"I must" },
+          { left:"voglio", right:"I want" },
+          { left:"puoi", right:"you can" }
+        ]
+      },
+      {
+        id:"it13-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"💪", ar:"Posso parlare italiano", keywords:["can speak","italian"] },
+          { icon:"⏰", ar:"Devo andare a scuola", keywords:["must go","school"] },
+          { icon:"🍕", ar:"Voglio mangiare la pizza", keywords:["want to eat","pizza"] }
+        ]
+      },
+      {
+        id:"it13-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["parlare","Posso","italiano"], answer:["Posso","parlare","italiano"] },
+          { words:["mangiare","Voglio","la pizza"], answer:["Voglio","mangiare","la pizza"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"💪", ar:"Posso parlare italiano", plain:"Posso parlare italiano", translit:"POHS-so par-LAH-reh ee-ta-LYAH-no", meaning:"I can speak Italian" },
+      { icon:"⏰", ar:"Devo andare a lavoro", plain:"Devo andare a lavoro", translit:"DEH-vo an-DAH-reh ah la-VOH-ro", meaning:"I must go to work" },
+      { icon:"🍕", ar:"Voglio mangiare la pizza", plain:"Voglio mangiare la pizza", translit:"VOH-lyo man-JAH-reh la PEET-tsa", meaning:"I want to eat pizza" },
+      { icon:"❓", ar:"Puoi parlare più lentamente?", plain:"Puoi parlare più lentamente?", translit:"PWOH-ee par-LAH-reh pyoo lehn-ta-MEHN-teh", meaning:"Can you speak more slowly?" }
+    ]
+  },
+
+  {
+    id: 14,
+    unit: "u14",
+    label: "Chapter 14",
+    difficulty: 8,
+    requires: 13,
+    icon: "🕰️",
+    title: "The Other Past Tense",
+    arabicTitle: "L'Imperfetto",
+    desc: "L'imperfetto — for habits, background, and \"used to\" — alongside the passato prossimo from Chapter 10.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Chapter 10 taught the passato prossimo, for a single completed action (\"I ate\"). Italian has a second past tense, l'imperfetto, for habits, repeated actions, and background — closer to English \"I used to eat\" or \"I was eating\"." },
+      { type:"h", text:"Imperfetto — Present Tense" },
+      { type:"pattern", ar:"io parlavo · io avevo · io dormivo", translit:"par-LAH-vo · a-VEH-vo · dor-MEE-vo", desc:"I used to speak · I used to have · I used to sleep — unlike the passato prossimo, this is a single word, built with its own regular endings (-avo/-evo/-ivo)." },
+      { type:"h", text:"Passato Prossimo vs. Imperfetto" },
+      { type:"examples", items:[
+        { icon:"✅", ar:"Ho mangiato la pizza (ieri)", translit:"oh man-JAH-to la PEET-tsa", meaning:"I ate pizza (one time, yesterday)" },
+        { icon:"🔁", ar:"Mangiavo la pizza (da bambino)", translit:"man-JAH-vo la PEET-tsa", meaning:"I used to eat pizza (as a child, a habit)" }
+      ]},
+      { type:"note", html:"<strong>Essere is irregular here too:</strong> ero, eri, era (I was, you were, he/she was) — worth memorizing directly, since it's one of the most common imperfetto forms you'll use." }
+    ],
+
+    vocabCategories: [
+      { name:"Talking About Habits", words:[
+        {icon:"👶", ar:"da bambino/a", translit:"da bam-BEE-no/na", en:"as a child"},
+        {icon:"🔁", ar:"sempre", translit:"SEHM-preh", en:"always"},
+        {icon:"🔁", ar:"spesso", translit:"SPEHS-so", en:"often"},
+        {icon:"🗣️", ar:"parlavo", translit:"par-LAH-vo", en:"I used to speak"},
+        {icon:"🤲", ar:"avevo", translit:"a-VEH-vo", en:"I used to have"},
+        {icon:"👤", ar:"ero", translit:"EH-ro", en:"I was"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it14-ex1", type:"mcq", title:"Exercise 1 — Imperfetto",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I used to speak\" is...", options:["ho parlato","parlavo","parlo"], correct:1 },
+          { promptText:"\"I was\" (imperfetto of essere) is...", options:["sono stato","ero","sono"], correct:1 },
+          { promptText:"Which past tense fits a single completed action?", options:["passato prossimo","imperfetto","neither"], correct:0 },
+          { promptText:"Which past tense fits a childhood habit?", options:["passato prossimo","imperfetto","neither"], correct:1 }
+        ]
+      },
+      {
+        id:"it14-ex2", type:"matching", title:"Exercise 2 — Match the Form",
+        instructions:"Tap a form, then tap its meaning.",
+        pairs:[
+          { left:"parlavo", right:"I used to speak" },
+          { left:"avevo", right:"I used to have" },
+          { left:"ero", right:"I was" },
+          { left:"dormivo", right:"I used to sleep" }
+        ]
+      },
+      {
+        id:"it14-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"👶", ar:"Da bambino, ero timido", keywords:["child","shy"] },
+          { icon:"🔁", ar:"Parlavo spesso con lei", keywords:["used to speak","often"] },
+          { icon:"🍝", ar:"Mangiavo sempre la pasta", keywords:["used to eat","always"] }
+        ]
+      },
+      {
+        id:"it14-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["ero","Da bambino,","timido"], answer:["Da bambino,","ero","timido"] },
+          { words:["spesso","Parlavo","italiano"], answer:["Parlavo","spesso","italiano"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"👶", ar:"Da bambino, ero timido", plain:"Da bambino, ero timido", translit:"da bam-BEE-no EH-ro TEE-mee-do", meaning:"As a child, I was shy" },
+      { icon:"🍝", ar:"Mangiavo sempre la pasta", plain:"Mangiavo sempre la pasta", translit:"man-JAH-vo SEHM-preh la PAH-sta", meaning:"I always used to eat pasta" },
+      { icon:"🗣️", ar:"Parlavo spesso italiano", plain:"Parlavo spesso italiano", translit:"par-LAH-vo SPEHS-so ee-ta-LYAH-no", meaning:"I often used to speak Italian" },
+      { icon:"🏠", ar:"Avevo una casa piccola", plain:"Avevo una casa piccola", translit:"a-VEH-vo OO-na KAH-za PEEK-ko-la", meaning:"I used to have a small house" }
+    ]
+  },
+
+  {
+    id: 15,
+    unit: "u15",
+    label: "Chapter 15",
+    difficulty: 9,
+    requires: 14,
+    icon: "🪞",
+    title: "Reflexive Verbs",
+    arabicTitle: "I Verbi Riflessivi",
+    desc: "The full pattern behind mi sveglio and mi alzo (Chapter 9) — and how to recognize any reflexive verb.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Chapter 9 introduced mi sveglio and mi alzo without explaining the pattern. Now you have enough Italian under your belt to see the full picture." },
+      { type:"h", text:"Reflexive Verbs — The Pattern" },
+      { type:"pattern", ar:"mi lavo · ti lavi · si lava", translit:"mee LAH-vo · tee LAH-vee · see LAH-va", desc:"I wash myself · you wash yourself · he/she washes themself — a small pronoun (mi/ti/si) goes right before the verb, which otherwise conjugates exactly like a regular -are verb." },
+      { type:"h", text:"Common Reflexive Verbs" },
+      { type:"examples", items:[
+        { icon:"🧼", ar:"lavarsi", translit:"la-VAR-see", meaning:"to wash oneself" },
+        { icon:"👕", ar:"vestirsi", translit:"veh-STEER-see", meaning:"to get dressed" },
+        { icon:"📛", ar:"chiamarsi", translit:"kya-MAR-see", meaning:"to be called (mi chiamo... from Chapter 1!)" }
+      ]},
+      { type:"note", html:"<strong>Mi chiamo Marco</strong> from Chapter 1 was your very first reflexive verb — chiamarsi, literally \"to call oneself.\" You were already using this pattern before you knew it had a name." }
+    ],
+
+    vocabCategories: [
+      { name:"Daily Routine Verbs", words:[
+        {icon:"🧼", ar:"mi lavo", translit:"mee LAH-vo", en:"I wash myself"},
+        {icon:"👕", ar:"mi vesto", translit:"mee VEH-sto", en:"I get dressed"},
+        {icon:"📛", ar:"mi chiamo", translit:"mee kee-AH-mo", en:"my name is (I call myself)"},
+        {icon:"⏰", ar:"mi sveglio", translit:"mee ZVEH-lyo", en:"I wake up"},
+        {icon:"🧍", ar:"mi alzo", translit:"mee AHL-tso", en:"I get up"},
+        {icon:"😴", ar:"mi riposo", translit:"mee ree-POH-zo", en:"I rest"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it15-ex1", type:"mcq", title:"Exercise 1 — Reflexive Verbs",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"I wash myself\" is...", options:["lavo","mi lavo","ti lavo"], correct:1 },
+          { promptText:"\"You get dressed\" (informal) is...", options:["mi vesto","si veste","ti vesti"], correct:2 },
+          { promptText:"Which pronoun goes with \"lui/lei\"?", options:["mi","ti","si"], correct:2 },
+          { promptText:"\"Mi chiamo Marco\" uses which verb?", options:["chiamarsi","lavarsi","vestirsi"], correct:0 }
+        ]
+      },
+      {
+        id:"it15-ex2", type:"matching", title:"Exercise 2 — Match the Verb",
+        instructions:"Tap a verb, then tap its meaning.",
+        pairs:[
+          { left:"lavarsi", right:"to wash oneself" },
+          { left:"vestirsi", right:"to get dressed" },
+          { left:"chiamarsi", right:"to be called" },
+          { left:"alzarsi", right:"to get up" }
+        ]
+      },
+      {
+        id:"it15-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🧼", ar:"Mi lavo la mattina", keywords:["wash","morning"] },
+          { icon:"👕", ar:"Mi vesto velocemente", keywords:["get dressed","quickly"] },
+          { icon:"😴", ar:"Mi riposo il weekend", keywords:["rest","weekend"] }
+        ]
+      },
+      {
+        id:"it15-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["mattina","Mi lavo","la"], answer:["Mi lavo","la","mattina"] },
+          { words:["presto","Mi sveglio"], answer:["Mi sveglio","presto"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🧼", ar:"Mi lavo la mattina", plain:"Mi lavo la mattina", translit:"mee LAH-vo la mat-TEE-na", meaning:"I wash myself in the morning" },
+      { icon:"👕", ar:"Mi vesto velocemente", plain:"Mi vesto velocemente", translit:"mee VEH-sto veh-lo-cheh-MEHN-teh", meaning:"I get dressed quickly" },
+      { icon:"📛", ar:"Come ti chiami?", plain:"Come ti chiami?", translit:"KOH-meh tee kee-AH-mee", meaning:"What's your name?" },
+      { icon:"😴", ar:"Mi riposo il weekend", plain:"Mi riposo il weekend", translit:"mee ree-POH-zo eel WEE-kehnd", meaning:"I rest on the weekend" }
+    ]
+  },
+
+  {
+    id: 16,
+    unit: "u16",
+    label: "Chapter 16",
+    difficulty: 9,
+    requires: 15,
+    icon: "⚖️",
+    title: "Comparisons",
+    arabicTitle: "I Comparativi",
+    desc: "Saying \"more than\", \"less than\", and \"as...as\" — built on adjectives you already know.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"You already know a set of adjectives from Chapters 3 and 7 (grande, piccolo, alto, simpatico...). This chapter shows how to compare two things using them." },
+      { type:"h", text:"Più...di / Meno...di (More/Less...Than)" },
+      { type:"pattern", ar:"più alto di · meno alto di", translit:"pyoo AHL-to dee · MEH-no AHL-to dee", desc:"taller than · shorter than (literally \"more tall than\" / \"less tall than\") — più/meno before the adjective, di before what you're comparing to." },
+      { type:"h", text:"Così...Come (As...As)" },
+      { type:"examples", items:[
+        { icon:"⚖️", ar:"Marco è più alto di Luca", translit:"MAR-ko eh pyoo AHL-to dee LOO-ka", meaning:"Marco is taller than Luca" },
+        { icon:"⚖️", ar:"Sono (così) alto come te", translit:"SOH-no koh-ZEE AHL-to KOH-meh teh", meaning:"I am as tall as you" }
+      ]},
+      { type:"note", html:"<strong>così is often dropped</strong> in casual speech — \"alto come te\" and \"così alto come te\" both mean the same thing; the così is optional." }
+    ],
+
+    vocabCategories: [
+      { name:"Comparison Words", words:[
+        {icon:"➕", ar:"più", translit:"pyoo", en:"more"},
+        {icon:"➖", ar:"meno", translit:"MEH-no", en:"less"},
+        {icon:"🔗", ar:"di", translit:"dee", en:"than (before a noun)"},
+        {icon:"⚖️", ar:"come", translit:"KOH-meh", en:"as / like"},
+        {icon:"🟰", ar:"così...come", translit:"koh-ZEE KOH-meh", en:"as...as"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it16-ex1", type:"mcq", title:"Exercise 1 — Comparisons",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"Taller than\" is...", options:["più alto di","alto come","meno alto"], correct:0 },
+          { promptText:"\"As tall as\" is...", options:["più alto di","alto come","meno alto di"], correct:1 },
+          { promptText:"Which word means \"less\"?", options:["più","meno","come"], correct:1 },
+          { promptText:"\"Marco è più simpatico di Luca\" means...", options:["Marco is nicer than Luca","Marco is as nice as Luca","Marco is less nice than Luca"], correct:0 }
+        ]
+      },
+      {
+        id:"it16-ex2", type:"matching", title:"Exercise 2 — Match the Comparison",
+        instructions:"Tap a phrase, then tap its meaning.",
+        pairs:[
+          { left:"più grande di", right:"bigger than" },
+          { left:"meno grande di", right:"smaller than (less big)" },
+          { left:"alto come", right:"as tall as" },
+          { left:"più piccolo di", right:"smaller than" }
+        ]
+      },
+      {
+        id:"it16-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"⚖️", ar:"Sono più alto di te", keywords:["taller"] },
+          { icon:"🏠", ar:"La mia casa è più grande della tua", keywords:["bigger"] },
+          { icon:"⚖️", ar:"Sei simpatico come lui", keywords:["as nice"] }
+        ]
+      },
+      {
+        id:"it16-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["di","alto","Sono","più","te"], answer:["Sono","più","alto","di","te"] },
+          { words:["come","alto","Sei","me"], answer:["Sei","alto","come","me"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"⚖️", ar:"Sono più alto di te", plain:"Sono più alto di te", translit:"SOH-no pyoo AHL-to dee teh", meaning:"I am taller than you" },
+      { icon:"🏠", ar:"La mia casa è più grande", plain:"La mia casa è più grande", translit:"la MEE-ah KAH-za eh pyoo GRAHN-deh", meaning:"My house is bigger" },
+      { icon:"😊", ar:"Sei simpatico come lui", plain:"Sei simpatico come lui", translit:"sey seem-PAH-tee-ko KOH-meh loo-EE", meaning:"You are as nice as him" },
+      { icon:"➖", ar:"Sono meno timido di lei", plain:"Sono meno timido di lei", translit:"SOH-no MEH-no TEE-mee-do dee lehy", meaning:"I am less shy than her" }
+    ]
+  },
+
+  {
+    id: 17,
+    unit: "u17",
+    label: "Chapter 17",
+    difficulty: 9,
+    requires: 16,
+    icon: "🧭",
+    title: "Asking for Directions",
+    arabicTitle: "Chiedere Indicazioni",
+    desc: "Finding your way — left, right, straight ahead, near and far — using the places from Chapter 6.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Chapter 6 taught you the names of places. Now let's ask how to get to them." },
+      { type:"h", text:"Dov'è...? (Where Is...?)" },
+      { type:"pattern", ar:"Dov'è la stazione?", translit:"do-VEH la sta-tsee-OH-neh", desc:"Where is the station? — dov'è is a contraction of dove + è, used for asking the location of one specific thing." },
+      { type:"h", text:"Giving Directions" },
+      { type:"examples", items:[
+        { icon:"➡️", ar:"a destra", translit:"ah DEH-stra", meaning:"to the right" },
+        { icon:"⬅️", ar:"a sinistra", translit:"ah see-NEE-stra", meaning:"to the left" },
+        { icon:"⬆️", ar:"sempre dritto", translit:"SEHM-preh DREET-to", meaning:"straight ahead" },
+        { icon:"📍", ar:"vicino / lontano", translit:"vee-CHEE-no / lon-TAH-no", meaning:"near / far" }
+      ]},
+      { type:"note", html:"<strong>sempre dritto</strong> reuses sempre from Chapter 14 (\"always\") — here it means \"keep going\" straight, a natural extension of the same word." }
+    ],
+
+    vocabCategories: [
+      { name:"Directions", words:[
+        {icon:"➡️", ar:"a destra", translit:"ah DEH-stra", en:"to the right"},
+        {icon:"⬅️", ar:"a sinistra", translit:"ah see-NEE-stra", en:"to the left"},
+        {icon:"⬆️", ar:"dritto", translit:"DREET-to", en:"straight"},
+        {icon:"📍", ar:"vicino", translit:"vee-CHEE-no", en:"near"},
+        {icon:"📍", ar:"lontano", translit:"lon-TAH-no", en:"far"},
+        {icon:"❓", ar:"Dov'è...?", translit:"do-VEH", en:"Where is...?"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it17-ex1", type:"mcq", title:"Exercise 1 — Directions",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"Where is the station?\" is...", options:["Dov'è la stazione?","Che ore è la stazione?","Chi è la stazione?"], correct:0 },
+          { promptText:"\"To the right\" is...", options:["a sinistra","a destra","dritto"], correct:1 },
+          { promptText:"\"Straight ahead\" is...", options:["vicino","lontano","dritto"], correct:2 },
+          { promptText:"\"Far\" is...", options:["vicino","lontano","destra"], correct:1 }
+        ]
+      },
+      {
+        id:"it17-ex2", type:"matching", title:"Exercise 2 — Match the Direction",
+        instructions:"Tap a direction, then tap its meaning.",
+        pairs:[
+          { left:"a destra", right:"to the right" },
+          { left:"a sinistra", right:"to the left" },
+          { left:"vicino", right:"near" },
+          { left:"lontano", right:"far" }
+        ]
+      },
+      {
+        id:"it17-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"❓", ar:"Dov'è il ristorante?", keywords:["where","restaurant"] },
+          { icon:"⬆️", ar:"Sempre dritto, poi a destra", keywords:["straight","right"] },
+          { icon:"📍", ar:"La stazione è vicino", keywords:["station","near"] }
+        ]
+      },
+      {
+        id:"it17-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["stazione?","la","Dov'è"], answer:["Dov'è","la","stazione?"] },
+          { words:["destra","dritto,","a","Sempre"], answer:["Sempre","dritto,","a","destra"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"❓", ar:"Dov'è la stazione?", plain:"Dov'è la stazione?", translit:"do-VEH la sta-tsee-OH-neh", meaning:"Where is the station?" },
+      { icon:"➡️", ar:"Sempre dritto, poi a destra", plain:"Sempre dritto, poi a destra", translit:"SEHM-preh DREET-to poy ah DEH-stra", meaning:"Straight ahead, then to the right" },
+      { icon:"📍", ar:"È molto vicino", plain:"È molto vicino", translit:"eh MOHL-to vee-CHEE-no", meaning:"It's very near" },
+      { icon:"📍", ar:"È un po' lontano", plain:"È un po' lontano", translit:"eh oon poh lon-TAH-no", meaning:"It's a bit far" }
+    ]
+  },
+
+  {
+    id: 18,
+    unit: "u18",
+    label: "Chapter 18",
+    difficulty: 10,
+    requires: 17,
+    icon: "👨‍👩‍👧‍👦",
+    title: "Family & Hobbies",
+    arabicTitle: "Famiglia e Hobby",
+    desc: "More family vocabulary, and talking about what you like to do in your free time.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"Chapter 3 introduced fratello, sorella, and nonno. This chapter rounds out the family, and adds a new pattern for talking about hobbies." },
+      { type:"h", text:"More Family Words" },
+      { type:"examples", items:[
+        { icon:"👨", ar:"il padre / la madre", translit:"eel PAH-dreh / la MAH-dreh", meaning:"father / mother" },
+        { icon:"💍", ar:"il marito / la moglie", translit:"eel ma-REE-to / la MOH-lyeh", meaning:"husband / wife" },
+        { icon:"👶", ar:"i figli", translit:"ee FEE-lyee", meaning:"children (sons/kids)" }
+      ]},
+      { type:"h", text:"Mi Piace + Infinitive (Hobbies)" },
+      { type:"pattern", ar:"Mi piace leggere", translit:"mee PYA-cheh LEHD-jeh-reh", desc:"I like to read — mi piace (Chapters 11-12) works with an infinitive verb too, not just a noun." },
+      { type:"note", html:"<strong>Plural hobbies use mi piacciono:</strong> \"Mi piacciono queste scarpe\" from Chapter 12 already showed this — but with a single infinitive activity, always use mi piace, never mi piacciono." }
+    ],
+
+    vocabCategories: [
+      { name:"Family & Hobbies", words:[
+        {icon:"👨", ar:"il padre", translit:"eel PAH-dreh", en:"father"},
+        {icon:"👩", ar:"la madre", translit:"la MAH-dreh", en:"mother"},
+        {icon:"💍", ar:"il marito / la moglie", translit:"eel ma-REE-to / la MOH-lyeh", en:"husband / wife"},
+        {icon:"📖", ar:"leggere", translit:"LEHD-jeh-reh", en:"to read"},
+        {icon:"🏊", ar:"nuotare", translit:"nwo-TAH-reh", en:"to swim"},
+        {icon:"✈️", ar:"viaggiare", translit:"vyad-JAH-reh", en:"to travel"},
+        {icon:"⚽", ar:"giocare", translit:"jo-KAH-reh", en:"to play (a game/sport)"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it18-ex1", type:"mcq", title:"Exercise 1 — Family & Hobbies",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"Mother\" is...", options:["il padre","la madre","la moglie"], correct:1 },
+          { promptText:"\"I like to read\" is...", options:["Mi piace leggere","Mi piacciono leggere","Leggo piace"], correct:0 },
+          { promptText:"\"To travel\" is...", options:["nuotare","viaggiare","giocare"], correct:1 },
+          { promptText:"\"Husband\" is...", options:["il marito","la moglie","il figlio"], correct:0 }
+        ]
+      },
+      {
+        id:"it18-ex2", type:"matching", title:"Exercise 2 — Match the Hobby",
+        instructions:"Tap a verb, then tap its meaning.",
+        pairs:[
+          { left:"leggere", right:"to read" },
+          { left:"nuotare", right:"to swim" },
+          { left:"viaggiare", right:"to travel" },
+          { left:"giocare", right:"to play" }
+        ]
+      },
+      {
+        id:"it18-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"📖", ar:"Mi piace leggere", keywords:["like to read","read"] },
+          { icon:"🏊", ar:"Mi piace nuotare", keywords:["swim"] },
+          { icon:"👨‍👩‍👧", ar:"I miei genitori sono simpatici", keywords:["parents","nice"] }
+        ]
+      },
+      {
+        id:"it18-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["leggere","Mi piace"], answer:["Mi piace","leggere"] },
+          { words:["viaggiare","piace","Mi"], answer:["Mi","piace","viaggiare"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"📖", ar:"Mi piace leggere", plain:"Mi piace leggere", translit:"mee PYA-cheh LEHD-jeh-reh", meaning:"I like to read" },
+      { icon:"🏊", ar:"Mi piace nuotare", plain:"Mi piace nuotare", translit:"mee PYA-cheh nwo-TAH-reh", meaning:"I like to swim" },
+      { icon:"✈️", ar:"Mi piace viaggiare molto", plain:"Mi piace viaggiare molto", translit:"mee PYA-cheh vyad-JAH-reh MOHL-to", meaning:"I like to travel a lot" },
+      { icon:"👨‍👩‍👧", ar:"I miei genitori sono simpatici", plain:"I miei genitori sono simpatici", translit:"ee mee-EH-ee jeh-nee-TOH-ree SOH-no seem-PAH-tee-chee", meaning:"My parents are nice" }
+    ]
+  },
+
+  {
+    id: 19,
+    unit: "u19",
+    label: "Chapter 19",
+    difficulty: 10,
+    requires: 18,
+    icon: "🩺",
+    title: "Health & Body",
+    arabicTitle: "Salute e Corpo",
+    desc: "Body parts, saying what hurts, and basic health phrases.",
+    locked: false,
+
+    content: [
+      { type:"p", text:"A practical, common situation: not feeling well. This chapter covers body parts and the phrase you'll reach for most." },
+      { type:"h", text:"Mi Fa Male... (My ... Hurts)" },
+      { type:"pattern", ar:"Mi fa male la testa", translit:"mee fah MAH-leh la TEH-sta", desc:"My head hurts — literally \"it does bad to me, the head.\" Fa is the same fare you met in Chapter 11's weather expressions (fa caldo, fa freddo)." },
+      { type:"h", text:"Feeling Sick" },
+      { type:"examples", items:[
+        { icon:"🤒", ar:"Non mi sento bene", translit:"nohn mee SEHN-to BEH-neh", meaning:"I don't feel well" },
+        { icon:"🤢", ar:"Sto male", translit:"stoh MAH-leh", meaning:"I'm sick / I feel bad" }
+      ]},
+      { type:"note", html:"<strong>Sto male vs. sto bene:</strong> from Chapter 1's \"Sto bene, grazie\" (I'm well, thank you) — swap bene for male and you get its opposite." }
+    ],
+
+    vocabCategories: [
+      { name:"Body & Health", words:[
+        {icon:"🤕", ar:"la testa", translit:"la TEH-sta", en:"the head"},
+        {icon:"🤢", ar:"lo stomaco", translit:"lo STOH-ma-ko", en:"the stomach"},
+        {icon:"✋", ar:"la mano", translit:"la MAH-no", en:"the hand"},
+        {icon:"🦵", ar:"la gamba", translit:"la GAHM-ba", en:"the leg"},
+        {icon:"🤒", ar:"non mi sento bene", translit:"nohn mee SEHN-to BEH-neh", en:"I don't feel well"},
+        {icon:"🤢", ar:"sto male", translit:"stoh MAH-leh", en:"I'm sick"}
+      ]}
+    ],
+
+    exercises: [
+      {
+        id:"it19-ex1", type:"mcq", title:"Exercise 1 — Health",
+        instructions:"Choose the correct answer.",
+        items:[
+          { promptText:"\"My head hurts\" is...", options:["Mi fa male la testa","Ho la testa","Sono la testa"], correct:0 },
+          { promptText:"\"I don't feel well\" is...", options:["Sto bene","Non mi sento bene","Ho fame"], correct:1 },
+          { promptText:"\"The hand\" is...", options:["la gamba","la mano","lo stomaco"], correct:1 },
+          { promptText:"\"Sto male\" means...", options:["I'm well","I'm sick","I'm hungry"], correct:1 }
+        ]
+      },
+      {
+        id:"it19-ex2", type:"matching", title:"Exercise 2 — Match the Body Part",
+        instructions:"Tap a word, then tap its meaning.",
+        pairs:[
+          { left:"la testa", right:"the head" },
+          { left:"lo stomaco", right:"the stomach" },
+          { left:"la mano", right:"the hand" },
+          { left:"la gamba", right:"the leg" }
+        ]
+      },
+      {
+        id:"it19-ex3", type:"translate", title:"Exercise 3 — Translate",
+        instructions:"Type the English meaning.",
+        items:[
+          { icon:"🤕", ar:"Mi fa male la testa", keywords:["head hurts","head"] },
+          { icon:"🤒", ar:"Non mi sento bene oggi", keywords:["don't feel well"] },
+          { icon:"🦵", ar:"Mi fa male la gamba", keywords:["leg hurts","leg"] }
+        ]
+      },
+      {
+        id:"it19-ex4", type:"sentence", title:"Exercise 4 — Build the Sentence",
+        instructions:"Tap the words in the right order.",
+        items:[
+          { words:["testa","male","Mi fa","la"], answer:["Mi fa","male","la","testa"] },
+          { words:["bene","mi sento","Non"], answer:["Non","mi sento","bene"] }
+        ]
+      }
+    ],
+
+    speakingPhrases: [
+      { icon:"🤕", ar:"Mi fa male la testa", plain:"Mi fa male la testa", translit:"mee fah MAH-leh la TEH-sta", meaning:"My head hurts" },
+      { icon:"🤒", ar:"Non mi sento bene", plain:"Non mi sento bene", translit:"nohn mee SEHN-to BEH-neh", meaning:"I don't feel well" },
+      { icon:"🤢", ar:"Sto male oggi", plain:"Sto male oggi", translit:"stoh MAH-leh OHD-jee", meaning:"I feel sick today" },
+      { icon:"🦵", ar:"Mi fa male la gamba", plain:"Mi fa male la gamba", translit:"mee fah MAH-leh la GAHM-ba", meaning:"My leg hurts" }
+    ]
+  },
+
+  {
+    id: 20,
+    unit: "u20",
+    label: "Chapter 20",
+    difficulty: 11,
+    requires: 19,
     icon: "🚧",
     title: "More Chapters — Coming Soon",
     arabicTitle: "Presto...",
-    desc: "The next chapter is being written — the essere-group in full, comparisons, and more everyday Italian are on the way.",
+    desc: "The next chapter is being written — more advanced grammar and everyday Italian are on the way.",
     locked: true
   }
 ];
