@@ -35,6 +35,8 @@ const DEFAULT_STRINGS = {
   readyToBegin: "Ready to begin?",
   startWith: "Start with {chapter}",
   start: "Start →",
+  continueStep: "Continue →",
+  chapterCompleteHeading: "Chapter Complete! 🎉",
   mixQuestions: "Mix questions from every chapter you've unlocked",
   testYourKnowledge: "🧠 Test Your Knowledge",
   startRandomTest: "Start Random Test →",
@@ -574,7 +576,8 @@ function recordTestBlockResult(exId, score, total) {
 /* ===================== ROUTER ===================== */
 const root = document.getElementById('pageRoot');
 let currentChapter = null;
-let currentTab = 'content';
+let chapterSteps = [];   // built fresh each time a chapter opens, see buildChapterSteps()
+let stepIndex = 0;       // position within chapterSteps for the linear lesson flow
 let currentView = 'dashboard'; // 'dashboard' | 'index' | 'chapter'
 
 // Every full-view render replaces root's content via innerHTML from many
@@ -655,10 +658,11 @@ function openChapter(id) {
   if (!ch || !isChapterAccessible(ch)) return;
   currentView = 'chapter';
   currentChapter = ch;
-  currentTab = 'content';
+  chapterSteps = buildChapterSteps(ch);
+  stepIndex = 0;
   progress.lastChapterId = id;
   saveProgress(progress);
-  renderChapter();
+  renderChapterStep();
 }
 
 /* ===================== DASHBOARD RENDER ===================== */
@@ -861,51 +865,98 @@ function renderIndex() {
 }
 
 /* ===================== CHAPTER RENDER ===================== */
-function renderChapter() {
-  const ch = currentChapter;
-  root.innerHTML = `
-    <button class="back-btn" onclick="showDashboard()">${t('allChapters')}</button>
-    <div class="chapter-hero">
+// Splits a chapter's data into a linear sequence of one-screen-at-a-time
+// steps: content grouped by heading (a lone intro paragraph before the
+// first heading becomes its own "welcome" step), one step for the whole
+// vocab grid, one step per exercise block, one step for the whole speaking
+// carousel. Nothing about the underlying chapter data changes — this just
+// decides how much of it appears on screen at once.
+function buildChapterSteps(ch) {
+  const steps = [];
+  let group = null;
+  (ch.content || []).forEach(b => {
+    if (b.type === 'h' || !group) { group = { type:'content', blocks:[] }; steps.push(group); }
+    group.blocks.push(b);
+  });
+  if ((ch.vocabCategories || []).length) steps.push({ type:'vocab' });
+  (ch.exercises || []).forEach(ex => steps.push({ type:'exercise', ex }));
+  if ((ch.speakingPhrases || []).length) steps.push({ type:'speaking' });
+  return steps;
+}
 
+function goToNextStep() {
+  stepIndex++;
+  if (stepIndex >= chapterSteps.length) renderChapterComplete();
+  else renderChapterStep();
+}
+function goToPrevStep() {
+  if (stepIndex > 0) { stepIndex--; renderChapterStep(); }
+  else showDashboard();
+}
+
+function renderChapterComplete() {
+  const next = nextChapterInTrack();
+  root.innerHTML = `
+    <div class="chapter-hero">
+      <div class="ch-icon-big">🎉</div>
+      <h2>${t('chapterCompleteHeading')}</h2>
+      <p>${currentChapter.label}: ${currentChapter.title}</p>
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>
+      <button class="action-btn secondary" onclick="showDashboard()">${t('backToDashboardPlain')}</button>
+    </div>`;
+}
+
+function chapterNavLabel() {
+  const next = nextChapterInTrack();
+  return next ? t('nextChapter', {icon: next.icon, label: next.label}) : t('backToDashboard');
+}
+
+// Renders the current step of the linear lesson flow: a chapter-local
+// progress bar, a close control back to the dashboard, the step's own
+// content (reusing the same block/vocab/exercise/speaking renderers the
+// old tab view used), and a single Continue button to advance.
+function renderChapterStep() {
+  const ch = currentChapter;
+  const step = chapterSteps[stepIndex];
+  const pct = Math.round(((stepIndex) / chapterSteps.length) * 100);
+  const isFirst = stepIndex === 0;
+
+  root.innerHTML = `
+    <div class="step-topbar">
+      <button class="step-back" onclick="goToPrevStep()">${isFirst ? '✕' : '←'}</button>
+      <div class="step-progress-track"><div class="step-progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    ${isFirst ? `
+    <div class="chapter-hero">
       <div class="ch-icon-big">${ch.icon}</div>
       <h2>${ch.title}</h2>
       <div class="ch-arabic-big native-text">${ch.arabicTitle}</div>
       <p>${ch.desc}</p>
+    </div>` : ''}
+    <div class="tab-panel active" id="stepContent"></div>
+    <div class="section-nav-footer">
+      <button class="action-btn" onclick="goToNextStep()">${isFirst ? t('start') : t('continueStep')}</button>
     </div>
-    <div class="nav-tabs">
-      <button data-tab="content" class="tab-btn">${t('tabContent')}</button>
-      <button data-tab="vocab" class="tab-btn">${t('tabVocab')}</button>
-      <button data-tab="exercises" class="tab-btn">${t('tabExercises')}</button>
-      <button data-tab="speaking" class="tab-btn">${t('tabSpeaking')}</button>
-    </div>
-    <div class="tab-panel" id="panel-content"></div>
-    <div class="tab-panel" id="panel-vocab"></div>
-    <div class="tab-panel" id="panel-exercises"></div>
-    <div class="tab-panel" id="panel-speaking"></div>
   `;
 
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-  });
-
-  renderContentTab();
-  renderVocabTab();
-  renderExercisesTab();
-  renderSpeakingTab();
-  switchTab('content');
+  const contentEl = document.getElementById('stepContent');
+  if (step.type === 'content') {
+    contentEl.innerHTML = renderContentBlocks(step.blocks);
+  } else if (step.type === 'vocab') {
+    contentEl.id = 'panel-vocab';
+    renderVocabTab();
+  } else if (step.type === 'exercise') {
+    contentEl.innerHTML = renderExerciseBlock(step.ex);
+  } else if (step.type === 'speaking') {
+    contentEl.id = 'panel-speaking';
+    renderSpeakingTab();
+  }
 }
 
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-/* ---- Course Content tab: generic block renderer ---- */
-function renderContentTab() {
-  const blocks = currentChapter.content || [];
+/* ---- Content blocks: generic renderer, reused by each 'content' step ---- */
+function renderContentBlocks(blocks) {
   let html = '';
   blocks.forEach(b => {
     switch (b.type) {
@@ -940,13 +991,10 @@ function renderContentTab() {
         html += `<div class="note-box">${b.html}</div>`; break;
     }
   });
-  html += `<div class="section-nav-footer">
-    <button class="action-btn" onclick="switchTab('vocab')">${t('continueVocab')}</button>
-  </div>`;
-  document.getElementById('panel-content').innerHTML = html;
+  return html;
 }
 
-/* ---- Vocabulary tab: flip cards ---- */
+/* ---- Vocabulary step: flip cards ---- */
 function renderVocabTab() {
   const cats = currentChapter.vocabCategories || [];
   let html = `<div class="vocab-hint">Tap a card to flip it and reveal the meaning.</div>`;
@@ -970,26 +1018,7 @@ function renderVocabTab() {
     });
     html += `</div>`;
   });
-  html += `<div class="section-nav-footer">
-    <button class="action-btn" onclick="switchTab('exercises')">${t('continueExercises')}</button>
-  </div>`;
   document.getElementById('panel-vocab').innerHTML = html;
-}
-function chapterNavLabel() {
-  const next = nextChapterInTrack();
-  return next ? t('nextChapter', {icon: next.icon, label: next.label}) : t('backToDashboard');
-}
-
-/* ---- Exercises tab: dispatch by exercise type ---- */
-function renderExercisesTab() {
-  const exs = currentChapter.exercises || [];
-  const container = document.getElementById('panel-exercises');
-  const hasSpeaking = (currentChapter.speakingPhrases || []).length > 0;
-  const footerBtn = hasSpeaking
-    ? `<button class="action-btn" onclick="switchTab('speaking')">${t('continueSpeaking')}</button>`
-    : `<button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>`;
-  container.innerHTML = exs.map(ex => renderExerciseBlock(ex)).join('')
-    + `<div class="section-nav-footer">${footerBtn}</div>`;
 }
 
 function renderExerciseBlock(ex) {
@@ -1211,10 +1240,7 @@ function renderSpeakingTab() {
   const phrases = currentChapter.speakingPhrases || [];
   const panel = document.getElementById('panel-speaking');
   if (!phrases.length) {
-    panel.innerHTML = `<p style="color:#7f8c8d;">${t('noSpeakingPhrases')}</p>
-      <div class="section-nav-footer">
-        <button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>
-      </div>`;
+    panel.innerHTML = `<p style="color:#7f8c8d;">${t('noSpeakingPhrases')}</p>`;
     return;
   }
   panel.innerHTML = `
@@ -1238,9 +1264,6 @@ function renderSpeakingTab() {
       <div class="heard" id="heardText">—</div>
       <div class="similarity-bar"><div class="similarity-fill" id="similarityFill" style="width:0%;background:#bdc3c7;"></div></div>
       <div class="speak-verdict" id="speakVerdict"></div>
-    </div>
-    <div class="section-nav-footer">
-      <button class="action-btn" onclick="goToNextChapter()">${chapterNavLabel()}</button>
     </div>
   `;
   renderSpeakPhrase();
