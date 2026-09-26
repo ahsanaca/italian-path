@@ -27,6 +27,7 @@
     background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
     min-height: 100vh;
     color: var(--text);
+    padding-bottom: 64px; /* room for the fixed bottom-nav, see below */
   }
   /* Two INDEPENDENT direction axes, because "the language being taught" and
      "the language it's explained in" can each be RTL or LTR on their own
@@ -93,15 +94,35 @@
     box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   }
   .app-bar .brand { display:flex; align-items:center; gap:10px; font-size: 20px; font-weight: 700; cursor:pointer; }
-  .app-bar .overall-progress { display:flex; align-items:center; gap:10px; font-size: 13px; min-width: 220px; }
-  .app-bar .overall-bar { flex:1; height: 8px; background: rgba(255,255,255,0.25); border-radius: 6px; overflow:hidden; }
-  .app-bar .overall-fill { height:100%; background: linear-gradient(90deg,#3498db,#2ecc71); border-radius:6px; transition: width .4s ease; }
-  .app-bar .nav-links { display:flex; gap:8px; }
-  .app-bar .nav-links button {
-    background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.3); color:white;
-    padding:11px 14px; border-radius:6px; font-size:13px; cursor:pointer; font-weight:600; min-height:44px;
+  .app-bar .header-stats { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .app-bar .header-stat {
+    display:flex; align-items:center; gap:5px; font-weight:800; font-size:14px;
+    background: rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25);
+    padding:7px 13px; border-radius:16px; white-space:nowrap;
   }
-  .app-bar .nav-links button:hover { background: rgba(255,255,255,0.22); }
+  .app-bar .overall-progress { display:flex; align-items:center; gap:8px; font-size: 12.5px; min-width: 130px; }
+  .app-bar .overall-bar { flex:1; height: 8px; background: rgba(255,255,255,0.25); border-radius: 6px; overflow:hidden; min-width:60px; }
+  .app-bar .overall-fill { height:100%; background: linear-gradient(90deg,#3498db,#2ecc71); border-radius:6px; transition: width .4s ease; }
+  .app-bar .icon-btn {
+    background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.3); color:white;
+    width:44px; height:44px; border-radius:50%; font-size:17px; cursor:pointer; flex:0 0 auto;
+  }
+  .app-bar .icon-btn:hover { background: rgba(255,255,255,0.22); }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed; left:0; right:0; bottom:0; z-index: 200;
+    display:flex; background:var(--surface); border-top:1px solid var(--border-subtle);
+    box-shadow: 0 -2px 14px rgba(0,0,0,0.1);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .bottom-nav-btn {
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
+    padding:9px 4px 7px; background:none; border:none; cursor:pointer;
+    color:var(--text-muted); font-size:11px; font-weight:700; min-height:44px;
+  }
+  .bottom-nav-btn .bnav-icon { font-size:21px; line-height:1; }
+  .bottom-nav-btn.active { color: var(--brand-2); }
 
   .page { max-width: 980px; margin: 0 auto; padding: 30px 20px 60px; }
 
@@ -249,6 +270,39 @@
   .chapter-card .ch-progress-fill { height:100%; background: linear-gradient(90deg,#3498db,#2ecc71); border-radius:4px; }
   .chapter-card .ch-progress-label { font-size: 11px; color:var(--text-muted2); }
   .lock-badge { position:absolute; top:14px; right:14px; font-size:18px; }
+
+  /* ===== CHAPTER PATH (dashboard journey view) ===== */
+  .chapter-path { position:relative; padding-top:4px; padding-bottom:4px; }
+  .chapter-path::before {
+    content:""; position:absolute; left:27px; top:26px; bottom:26px; width:3px;
+    background: var(--border-mid); border-radius:2px; z-index:0;
+  }
+  .path-node {
+    position:relative; z-index:1; display:flex; align-items:center; gap:16px;
+    padding:10px 8px; margin-bottom:2px; border-radius:12px; cursor:pointer;
+    transition: background .15s ease;
+  }
+  .path-node:hover { background: var(--surface-alt2); }
+  .path-node.locked { cursor:not-allowed; }
+  .path-node-circle {
+    flex:0 0 56px; width:56px; height:56px; border-radius:50%;
+    background:var(--surface); border:3px solid var(--border-mid);
+    display:flex; align-items:center; justify-content:center; font-size:24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .path-node.locked .path-node-circle { opacity:.55; }
+  .path-node.done .path-node-circle { background:var(--success); border-color:var(--success); color:#fff; }
+  .path-node.checkpoint .path-node-circle {
+    background: linear-gradient(135deg,#f7b733,#fc4a1a); border-color:#e8420f; color:#fff;
+  }
+  .path-node-content { flex:1; min-width:0; }
+  .path-node-title { font-weight:700; font-size:14.5px; color:var(--text); }
+  .path-node.locked .path-node-title { color:var(--text-muted); }
+  .path-node-sub { font-size:12.5px; color:var(--text-muted); margin-top:2px; }
+  .path-node.checkpoint .path-node-title { color:#d35400; }
+  .path-node.checkpoint .path-node-sub { color:#e8420f; }
+  .path-node-pct-track { height:5px; background:var(--surface-alt3); border-radius:3px; overflow:hidden; margin-top:5px; max-width:180px; }
+  .path-node-pct-fill { height:100%; background: linear-gradient(90deg,#3498db,#2ecc71); border-radius:3px; }
 
   /* ===== CHAPTER VIEW ===== */
   .back-btn {

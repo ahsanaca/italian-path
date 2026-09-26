@@ -19,21 +19,29 @@
 
 <div class="app-bar">
   <div class="brand" onclick="showDashboard()">🇮🇹 Italian Academy</div>
-  <div class="nav-links">
-    <button onclick="showDashboard()">🏠 Dashboard</button>
-    <button onclick="showIndex()">📑 Index</button>
-    <button id="signOutBtn" onclick="doSignOut()" style="display:none;">🚪 Sign Out</button>
+  <div class="header-stats">
+    <span class="header-stat" title="Day streak">🔥 <span id="headerStreak">0</span></span>
+    <span class="header-stat" title="XP earned">⭐ <span id="headerXp">0</span></span>
+    <div class="overall-progress">
+      <div class="overall-bar"><div class="overall-fill" id="overallFill" style="width:0%"></div></div>
+      <span id="overallPct">0%</span>
+    </div>
   </div>
-  <div class="overall-progress">
-    <span>Overall</span>
-    <div class="overall-bar"><div class="overall-fill" id="overallFill" style="width:0%"></div></div>
-    <span id="overallPct">0%</span>
-  </div>
+  <button class="icon-btn" id="signOutBtn" onclick="doSignOut()" style="display:none;" title="Sign out">🚪</button>
 </div>
 
 <div class="page" id="pageRoot"></div>
 
 <footer>Italian Academy · free trial · original content, built for a self-paced learning app<br>This is an early trial — spotted a typo, a grammar mistake, or anything confusing? Please tell us so we can fix it.</footer>
+
+<nav class="bottom-nav">
+  <button class="bottom-nav-btn active" id="bottomNavDashboard" onclick="showDashboard()">
+    <span class="bnav-icon">🏠</span><span class="bnav-label">Dashboard</span>
+  </button>
+  <button class="bottom-nav-btn" id="bottomNavIndex" onclick="showIndex()">
+    <span class="bnav-icon">📑</span><span class="bnav-label">Index</span>
+  </button>
+</nav>
 
 <script src="content.js"></script>
 <script src="engine.js"></script>

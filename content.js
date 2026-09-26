@@ -137,10 +137,7 @@ const chapters = [
     locked: false,
 
     content: [
-      { type:"p", text:"Let's start with the most useful verb in the language: essere (\"to be\"). You'll use it constantly, starting with introductions." },
-      { type:"h", text:"Essere — Present Tense" },
-      { type:"pattern", ar:"io sono · tu sei · lui/lei è", translit:"EE-oh SO-no · too SEH-ee · loo-EE / LEH-ee EH", desc:"I am · you are (informal) · he/she is — the three forms you'll use most when meeting someone." },
-      { type:"p", text:"Notice Italian often drops the subject pronoun (io, tu, lui/lei) once the verb ending makes it clear who's being talked about — \"Sono Marco\" (I'm Marco) is completely natural on its own." },
+      { type:"p", text:"Your very first Italian words — the greetings people actually use every day. Start here, then we'll learn the grammar behind them." },
       { type:"h", text:"Basic Greetings" },
       { type:"examples", items:[
         { icon:"👋", ar:"Ciao!", translit:"chow", meaning:"Hi! / Bye! (informal, any time)" },
@@ -148,7 +145,11 @@ const chapters = [
         { icon:"🌆", ar:"Buonasera", translit:"bwoh-na-SEH-ra", meaning:"Good evening" },
         { icon:"🌙", ar:"Buonanotte", translit:"bwoh-na-NOHT-teh", meaning:"Good night" }
       ]},
-      { type:"note", html:"<strong>Formal vs. informal:</strong> Ciao is only for friends, family, and people your own age. With someone you don't know well — especially older people or in business — use Buongiorno/Buonasera instead." }
+      { type:"note", html:"<strong>Formal vs. informal:</strong> Ciao is only for friends, family, and people your own age. With someone you don't know well — especially older people or in business — use Buongiorno/Buonasera instead." },
+      { type:"h", text:"Essere — Present Tense" },
+      { type:"p", text:"Now for the grammar behind introducing yourself: essere (\"to be\") — the most useful verb in the language, and one you'll use constantly." },
+      { type:"pattern", ar:"io sono · tu sei · lui/lei è", translit:"EE-oh SO-no · too SEH-ee · loo-EE / LEH-ee EH", desc:"I am · you are (informal) · he/she is — the three forms you'll use most when meeting someone." },
+      { type:"p", text:"Notice Italian often drops the subject pronoun (io, tu, lui/lei) once the verb ending makes it clear who's being talked about — \"Sono Marco\" (I'm Marco) is completely natural on its own." }
     ],
 
     vocabCategories: [

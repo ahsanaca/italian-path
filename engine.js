@@ -422,6 +422,22 @@ function updateOverallBar() {
   const pctEl = document.getElementById('overallPct');
   if (fillEl) fillEl.style.width = pct + '%';
   if (pctEl) pctEl.textContent = pct + '%';
+  const streakEl = document.getElementById('headerStreak');
+  const xpEl = document.getElementById('headerXp');
+  if (streakEl) streakEl.textContent = progress.streak || 0;
+  if (xpEl) xpEl.textContent = progress.xp || 0;
+}
+// Highlights the matching bottom-nav tab for the current view. Chapter/
+// test/voiceSetup/trackSelect all live "under" Dashboard since there's no
+// separate tab for them, mirroring how Busuu keeps "Learn" highlighted
+// while you're inside a lesson.
+function updateBottomNav() {
+  const dashBtn = document.getElementById('bottomNavDashboard');
+  const idxBtn = document.getElementById('bottomNavIndex');
+  if (!dashBtn || !idxBtn) return;
+  const onIndex = currentView === 'index';
+  dashBtn.classList.toggle('active', !onIndex);
+  idxBtn.classList.toggle('active', onIndex);
 }
 function refreshCurrentView() {
   updateOverallBar();
@@ -563,12 +579,16 @@ let currentView = 'dashboard'; // 'dashboard' | 'index' | 'chapter'
 
 // Every full-view render replaces root's content via innerHTML from many
 // different functions — rather than touch each one, a MutationObserver
-// re-triggers a fade-in animation on every swap, so page-to-page navigation
-// feels like an app transition instead of an instant, jarring content swap.
+// re-triggers a fade-in animation on every swap (so navigation feels like
+// an app transition, not an instant content swap) and keeps the bottom-nav
+// active tab and header stats in sync regardless of which function
+// triggered the render.
 new MutationObserver(() => {
   root.classList.remove('view-fade');
   void root.offsetWidth; // force reflow so the animation restarts
   root.classList.add('view-fade');
+  updateBottomNav();
+  updateOverallBar();
 }).observe(root, { childList: true });
 
 function showDashboard() {
@@ -647,48 +667,62 @@ function difficultyStars(n) {
   return `<span style="font-size:11px;color:#f39c12;">${'⭐'.repeat(n)}</span>`;
 }
 
-function renderChapterCard(ch) {
-  const pct = chapterProgressPct(ch);
-  const numBadgeClass = ch.type === 'checkpoint' ? 'ch-num checkpoint-badge' : 'ch-num';
+function renderChapterCard(ch) { return renderPathNode(ch); }
 
+// Renders one node on the dashboard's chapter-path (the winding "journey"
+// visualization). Three states: locked stub, locked-behind-prerequisite,
+// and open (in-progress or done, with a mini progress bar).
+function renderPathNode(ch) {
   if (ch.locked) {
     return `
-      <div class="chapter-card locked">
-        <span class="lock-badge">🔒</span>
-        <span class="${numBadgeClass}">${ch.label}</span>
-        <div class="ch-icon">${ch.icon}</div>
-        <h3>${ch.title}</h3>
-        <div class="ch-arabic native-text">${ch.arabicTitle}</div>
-        <div class="ch-desc">${ch.desc}</div>
-        <div>${difficultyStars(ch.difficulty)}</div>
+      <div class="path-node locked">
+        <div class="path-node-circle">🔒</div>
+        <div class="path-node-content">
+          <div class="path-node-title">${ch.label}: ${ch.title}</div>
+          <div class="path-node-sub">${t('notBuiltYet')}</div>
+        </div>
       </div>`;
   }
 
   if (!isChapterAccessible(ch)) {
     const reqChapter = chapters.find(c => c.id === ch.requires);
-    const reqPct = reqChapter ? chapterProgressPct(reqChapter) : 0;
     return `
-      <div class="chapter-card locked">
-        <span class="lock-badge">🔒</span>
-        <span class="${numBadgeClass}">${ch.label}</span>
-        <div class="ch-icon">${ch.icon}</div>
-        <h3>${ch.title}</h3>
-        <div class="ch-arabic native-text">${ch.arabicTitle}</div>
-        <div class="ch-desc">Finish "${reqChapter ? reqChapter.label : 'the previous chapter'}" (${reqPct}%/${COMPLETION_THRESHOLD}% needed) to unlock.</div>
-        <div>${difficultyStars(ch.difficulty)}</div>
+      <div class="path-node locked">
+        <div class="path-node-circle">🔒</div>
+        <div class="path-node-content">
+          <div class="path-node-title">${ch.label}: ${ch.title}</div>
+          <div class="path-node-sub">${t('needsChapter', {chapter: reqChapter ? reqChapter.label : t('priorChapter')})}</div>
+        </div>
       </div>`;
   }
 
+  const pct = chapterProgressPct(ch);
+  const done = pct >= COMPLETION_THRESHOLD;
   return `
-    <div class="chapter-card" onclick="openChapter(${ch.id})">
-      <span class="${numBadgeClass}">${ch.label}</span>
-      <div class="ch-icon">${ch.icon}</div>
-      <h3>${ch.title}</h3>
-      <div class="ch-arabic native-text">${ch.arabicTitle}</div>
-      <div class="ch-desc">${ch.desc}</div>
-      <div style="margin-bottom:6px;">${difficultyStars(ch.difficulty)}</div>
-      <div class="ch-progress-bar"><div class="ch-progress-fill" style="width:${pct}%"></div></div>
-      <div class="ch-progress-label">${pct}% complete</div>
+    <div class="path-node${done ? ' done' : ''}" onclick="openChapter(${ch.id})">
+      <div class="path-node-circle">${done ? '✓' : ch.icon}</div>
+      <div class="path-node-content">
+        <div class="path-node-title">${ch.label}: ${ch.title}</div>
+        <div class="path-node-pct-track"><div class="path-node-pct-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+}
+
+// A special gold "checkpoint" node appended at the end of the path,
+// replacing the old standalone test-cta banner — entry point to the
+// cross-chapter knowledge check, styled like a path milestone rather
+// than a separate card floating above the lessons.
+function renderCheckpointNode() {
+  const bank = buildQuestionBank();
+  const totalAvailable = bank.mcq.length + bank.translate.length + bank.matching.length + bank.sentence.length;
+  if (totalAvailable < 4) return ''; // not enough content yet to make a meaningful test
+  return `
+    <div class="path-node checkpoint" onclick="startKnowledgeTest()">
+      <div class="path-node-circle">🚩</div>
+      <div class="path-node-content">
+        <div class="path-node-title">${t('testYourKnowledge')}</div>
+        <div class="path-node-sub">${t('mixQuestions')}</div>
+      </div>
     </div>`;
 }
 
@@ -730,27 +764,13 @@ function renderContinueCard() {
     </div>`;
 }
 
-function renderTestCta() {
-  const bank = buildQuestionBank();
-  const totalAvailable = bank.mcq.length + bank.translate.length + bank.matching.length + bank.sentence.length;
-  if (totalAvailable < 4) return ''; // not enough content yet to make a meaningful test
-  return `
-    <div class="test-cta">
-      <div>
-        <div class="tc-text">${t('mixQuestions')}</div>
-        <div class="tc-title">${t('testYourKnowledge')}</div>
-      </div>
-      <button onclick="startKnowledgeTest()">${t('startRandomTest')}</button>
-    </div>`;
-}
-
 function renderDashboard() {
   const unitBlocks = unitsInTrack().map(u => {
     const unitChapters = chaptersInTrack().filter(c => c.unit === u.id);
     if (!unitChapters.length) return '';
     return `
       <div class="unit-heading"><h2>${u.title}</h2><p>${u.desc}</p></div>
-      <div class="chapter-grid">${unitChapters.map(renderChapterCard).join('')}</div>`;
+      <div class="chapter-path">${unitChapters.map(renderPathNode).join('')}</div>`;
   }).join('');
 
   const currentTrackDef = tracks.find(t => t.id === progress.selectedTrack);
@@ -783,8 +803,8 @@ function renderDashboard() {
     </div>
     ${renderStatsBar()}
     ${renderContinueCard()}
-    ${renderTestCta()}
     ${unitBlocks}
+    ${renderCheckpointNode()}
   `;
 }
 
