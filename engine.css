@@ -112,16 +112,20 @@
   /* ===== BOTTOM NAV ===== */
   .bottom-nav {
     position: fixed; left:0; right:0; bottom:0; z-index: 200;
-    display:flex; background:var(--surface); border-top:1px solid var(--border-subtle);
+    display:flex; justify-content:center; background:var(--surface); border-top:1px solid var(--border-subtle);
     box-shadow: 0 -2px 14px rgba(0,0,0,0.1);
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
+  /* On narrow (mobile) screens the buttons fill the width naturally; on
+     wide screens this keeps them from stretching edge-to-edge, which made
+     the icon+label cluster inside each button look lost and undersized. */
+  .bottom-nav-inner { display:flex; width:100%; max-width:420px; }
   .bottom-nav-btn {
-    flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
-    padding:9px 4px 7px; background:none; border:none; cursor:pointer;
-    color:var(--text-muted); font-size:11px; font-weight:700; min-height:44px;
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:10px 4px 8px; background:none; border:none; cursor:pointer;
+    color:var(--text-muted); font-size:12.5px; font-weight:700; min-height:44px;
   }
-  .bottom-nav-btn .bnav-icon { font-size:21px; line-height:1; }
+  .bottom-nav-btn .bnav-icon { font-size:23px; line-height:1; }
   .bottom-nav-btn.active { color: var(--brand-2); }
 
   .page { max-width: 980px; margin: 0 auto; padding: 30px 20px 60px; }

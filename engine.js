@@ -874,8 +874,13 @@ function renderIndex() {
 function buildChapterSteps(ch) {
   const steps = [];
   let group = null;
+  let seenHeading = false;
   (ch.content || []).forEach(b => {
-    if (b.type === 'h' || !group) { group = { type:'content', blocks:[] }; steps.push(group); }
+    // Only split into a new step on a heading AFTER the first one — a lone
+    // intro paragraph merges into the first heading's step instead of
+    // becoming its own near-empty "welcome" screen with nothing to read.
+    if (!group || (b.type === 'h' && seenHeading)) { group = { type:'content', blocks:[] }; steps.push(group); }
+    if (b.type === 'h') seenHeading = true;
     group.blocks.push(b);
   });
   if ((ch.vocabCategories || []).length) steps.push({ type:'vocab' });
