@@ -98,6 +98,16 @@ const DEFAULT_STRINGS = {
   prevBtn: "← Prev",
   nextBtn: "Next →",
   youSaid: "You said:",
+  voiceSetupHeading: "🔊 Test Your Setup",
+  voiceSetupIntro: "The app reads {lang} words and phrases aloud using your phone's own built-in voice. Most phones already have one, but a one-time setting makes it noticeably clearer. Takes about a minute, and only needs doing once per device — this doesn't block anything, so feel free to skip it and come back later.",
+  voiceSetupAndroidStep1: "Settings → Language &amp; input → Text-to-speech output",
+  voiceSetupAndroidStep2: "Set preferred engine to <strong>Google Text-to-speech Engine</strong>",
+  voiceSetupAndroidStep3: "Tap its settings gear → Install voice data → {lang} → download the highest-quality option",
+  voiceSetupIosStep1: "Settings → Accessibility → Spoken Content → Voices",
+  voiceSetupIosStep2: "Find {lang} and download it",
+  voiceSetupIosStep3: "If offered, choose the <strong>Enhanced</strong> or <strong>Premium</strong> quality",
+  voiceSetupDone: "Done — Continue to the App →",
+  voiceSetupSkip: "Skip for now — remind me next time",
 };
 function t(key, vars) {
   let s = (window.APP_STRINGS && window.APP_STRINGS[key]) || DEFAULT_STRINGS[key] || key;
@@ -234,49 +244,41 @@ function doSignOut() {
   if (fbAuth) fbAuth.signOut();
 }
 
-/* ---- One-time "improve your voice quality" tip screen, shown after
-   sign-in/skip, once per device (tracked separately from cloud progress
-   since it's a device setting, not account data). Reachable again anytime
-   via the "Voice Setup Tips" link on the dashboard. ---- */
-const VOICE_SETUP_KEY = (window.APP_ID || 'app') + "VoiceSetupSeen";
-function hasSeenVoiceSetup() {
-  try { return localStorage.getItem(VOICE_SETUP_KEY) === '1'; } catch(e) { return false; }
-}
-function markVoiceSetupSeen() {
-  try { localStorage.setItem(VOICE_SETUP_KEY, '1'); } catch(e) {}
-}
+/* ---- "Improve your voice quality" tip screen. Never blocks entry — first
+   thing a new visitor sees is the dashboard itself, not a settings tutorial.
+   Reachable anytime via the small link under the dashboard header. ---- */
+function markVoiceSetupSeen() {} // kept as a no-op: renderVoiceSetupScreen()'s "Done" button still calls it
 function enterApp() {
-  if (!hasSeenVoiceSetup()) renderVoiceSetupScreen();
-  else showDashboard();
+  showDashboard();
 }
 function renderVoiceSetupScreen() {
   currentView = 'voiceSetup';
   const langName = window.APP_LANGUAGE_NAME || 'this language';
   root.innerHTML = `
     <div class="dash-header">
-      <h1>🔊 Test Your Setup</h1>
-      <p>The app reads ${langName} words and phrases aloud using your phone's own built-in voice. Most phones already have one, but a one-time setting makes it noticeably clearer. Takes about a minute, and only needs doing once per device — this doesn't block anything, so feel free to skip it and come back later.</p>
+      <h1>${t('voiceSetupHeading')}</h1>
+      <p>${t('voiceSetupIntro', {lang: langName})}</p>
     </div>
     <div class="free-notice" style="margin-bottom:14px;">
       <strong>📱 Android</strong>
       <ol style="margin:8px 0 0 18px; padding:0; line-height:1.8;">
-        <li>Settings → Language &amp; input → Text-to-speech output</li>
-        <li>Set preferred engine to <strong>Google Text-to-speech Engine</strong></li>
-        <li>Tap its settings gear → Install voice data → ${langName} → download the highest-quality option</li>
+        <li>${t('voiceSetupAndroidStep1')}</li>
+        <li>${t('voiceSetupAndroidStep2')}</li>
+        <li>${t('voiceSetupAndroidStep3', {lang: langName})}</li>
       </ol>
     </div>
     <div class="free-notice" style="margin-bottom:18px;">
       <strong>🍏 iPhone</strong>
       <ol style="margin:8px 0 0 18px; padding:0; line-height:1.8;">
-        <li>Settings → Accessibility → Spoken Content → Voices</li>
-        <li>Find ${langName} and download it</li>
-        <li>If offered, choose the <strong>Enhanced</strong> or <strong>Premium</strong> quality</li>
+        <li>${t('voiceSetupIosStep1')}</li>
+        <li>${t('voiceSetupIosStep2', {lang: langName})}</li>
+        <li>${t('voiceSetupIosStep3')}</li>
       </ol>
     </div>
     ${window.APP_VOICE_NOTE ? `<p style="font-size:13px;color:#7f8c8d;margin-bottom:18px;">${window.APP_VOICE_NOTE}</p>` : ''}
     <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <button class="action-btn" onclick="markVoiceSetupSeen(); showDashboard();">Done — Continue to the App →</button>
-      <button class="action-btn secondary" onclick="showDashboard();">Skip for now — remind me next time</button>
+      <button class="action-btn" onclick="markVoiceSetupSeen(); showDashboard();">${t('voiceSetupDone')}</button>
+      <button class="action-btn secondary" onclick="showDashboard();">${t('voiceSetupSkip')}</button>
     </div>
   `;
 }
@@ -545,6 +547,16 @@ let currentChapter = null;
 let currentTab = 'content';
 let currentView = 'dashboard'; // 'dashboard' | 'index' | 'chapter'
 
+// Every full-view render replaces root's content via innerHTML from many
+// different functions — rather than touch each one, a MutationObserver
+// re-triggers a fade-in animation on every swap, so page-to-page navigation
+// feels like an app transition instead of an instant, jarring content swap.
+new MutationObserver(() => {
+  root.classList.remove('view-fade');
+  void root.offsetWidth; // force reflow so the animation restarts
+  root.classList.add('view-fade');
+}).observe(root, { childList: true });
+
 function showDashboard() {
   currentView = 'dashboard';
   currentChapter = null;
@@ -735,12 +747,12 @@ function renderDashboard() {
       ${banner.quoteNative ? `<div class="fb-verse native-text">${banner.quoteNative}</div>` : ''}
       ${banner.quoteTranslation ? `<div class="fb-verse-en">${banner.quoteTranslation}</div>` : ''}
       ${banner.line2 ? `<div class="fb-line2">${banner.line2}</div>` : ''}
-      <div style="margin-top:8px;"><a style="color:#5b3fa6;cursor:pointer;font-size:13px;" onclick="renderVoiceSetupScreen()">${t('voiceSetupLink')}</a></div>
     </div>` : '';
   root.innerHTML = `
     <div class="dash-header">
       <h1>${t('yourJourney', {lang: window.APP_LANGUAGE_NAME || 'Language'})}</h1>
       <p>${t('tapToStart')}</p>
+      <a class="voice-tip-link" onclick="renderVoiceSetupScreen()">${t('voiceSetupLink')}</a>
     </div>
     ${bannerHtml}
     ${tracks.length > 1 ? `
