@@ -671,6 +671,7 @@ const chapters = [
       { type:"h", text:"Tuo/Tua (Your)" },
       { type:"p", text:"\"Your\" (informal) follows exactly the same pattern: il tuo libro, la tua casa, i tuoi libri, le tue case." },
       { type:"h", text:"Describing People" },
+      { type:"p", text:"With essere (Chapter 1) plus an adjective, you can describe anyone — just remember the adjective still has to agree, exactly like it did with objects in Chapter 3." },
       { type:"examples", items:[
         { icon:"📏", ar:"Lui è alto", translit:"loo-EE eh AHL-to", meaning:"He is tall" },
         { icon:"😊", ar:"Lei è simpatica", translit:"lehy eh seem-PAH-tee-ka", meaning:"She is nice" },
@@ -756,6 +757,7 @@ const chapters = [
       { type:"h", text:"Vorrei (I Would Like)" },
       { type:"pattern", ar:"Vorrei...", translit:"vor-RAY", desc:"I would like... — the polite way to order or request something. Much softer than voglio (I want), and what you'll actually hear in restaurants." },
       { type:"h", text:"C'è / Ci sono (There is / There are)" },
+      { type:"p", text:"To ask what's available, or say something exists, Italian uses c'è (there is) or ci sono (there are) — put right at the start of the sentence, question mark optional in speech." },
       { type:"examples", items:[
         { icon:"🍕", ar:"C'è pizza?", translit:"cheh PEET-tsa", meaning:"Is there pizza?" },
         { icon:"☕", ar:"Ci sono due caffè", translit:"chee SOH-no DOO-eh kaf-FEH", meaning:"There are two coffees" }
@@ -838,6 +840,7 @@ const chapters = [
 
     content: [
       { type:"h", text:"Telling Time" },
+      { type:"p", text:"To answer \"what time is it\", most hours use sono le (\"they are the\") plus the number — but one o'clock is the odd one out, using è l'una (singular) instead, since \"one\" doesn't fit a plural verb." },
       { type:"pattern", ar:"Che ore è? · Sono le tre", translit:"keh OH-reh EH · SOH-no leh treh", desc:"What time is it? · It's three o'clock — Italian uses \"sono le\" (literally \"they are the\") for most hours." },
       { type:"h", text:"Reflexive Verbs: A First Taste" },
       { type:"p", text:"Some everyday actions use a small extra pronoun (mi) before the verb — literally \"I wake myself\", \"I get myself up\". You'll learn the full pattern in a later chapter; for now, just recognize these two common phrases." },
@@ -1018,7 +1021,9 @@ const chapters = [
         { icon:"🌧️", ar:"Piove", translit:"PYO-veh", meaning:"It's raining" },
         { icon:"☀️", ar:"C'è il sole", translit:"cheh eel SOH-leh", meaning:"It's sunny (there is sun)" }
       ]},
-      { type:"note", html:"<strong>Notice</strong> c'è from Chapter 8 makes a reappearance — \"c'è il sole\" uses the exact same \"there is\" pattern as \"c'è pizza.\"" }
+      { type:"note", html:"<strong>Notice</strong> c'è from Chapter 8 makes a reappearance — \"c'è il sole\" uses the exact same \"there is\" pattern as \"c'è pizza.\" Not every weather expression uses fare: piove stands alone as its own verb, and \"there's sun\" borrows c'è instead — Italian just has a few different ways to describe the sky, not one single formula." },
+      { type:"h", text:"Le Stagioni (The Seasons)" },
+      { type:"p", text:"The four seasons are straightforward nouns, each used with the article l' or la. You'll typically hear them after in: in primavera (in spring), in estate (in summer) — a pattern worth recognizing even though we won't unpack in's other uses yet." }
     ],
 
     vocabCategories: [
@@ -1097,7 +1102,10 @@ const chapters = [
     content: [
       { type:"p", text:"Back to practical situations: shopping. This chapter combines vorrei (Chapter 8) and colors (Chapter 5) with new vocabulary for clothes and prices." },
       { type:"h", text:"Quanto Costa? (How Much Does It Cost?)" },
-      { type:"pattern", ar:"Quanto costa? · Costa venti euro", translit:"KWAHN-to KOH-sta · KOH-sta VEHN-tee EH-oo-ro", desc:"How much does it cost? · It costs twenty euros." },
+      { type:"p", text:"Quanto costa? asks the price of one item; for more than one, it becomes quanto costano? — the singular/plural instinct you already used for c'è/ci sono back in Chapter 8. The answer just states costa (or costano) followed by a number and euro." },
+      { type:"pattern", ar:"Quanto costa? · Costa venti euro", translit:"KWAHN-to KOH-sta · KOH-sta VEHN-tee EH-oo-ro", desc:"How much does it cost? · It costs twenty euros — venti is one of the Chapter 5 numbers, extended here past ten the same way you'd expect (venti, trenta, quaranta...)." },
+      { type:"h", text:"Asking for What You Want" },
+      { type:"p", text:"Once you've found something, vorrei (Chapter 8) and taglia (size) get you the rest of the way through a purchase." },
       { type:"examples", items:[
         { icon:"👕", ar:"Vorrei una maglietta", translit:"vor-RAY OO-na ma-LYEHT-ta", meaning:"I would like a t-shirt" },
         { icon:"📏", ar:"Avete una taglia più grande?", translit:"a-VEH-teh OO-na TAH-lya pyoo GRAHN-deh", meaning:"Do you have a bigger size?" }
@@ -1186,6 +1194,8 @@ const chapters = [
         { icon:"⏰", ar:"Devo andare a scuola", translit:"DEH-vo an-DAH-reh ah SKWOH-la", meaning:"I must go to school" },
         { icon:"🍕", ar:"Voglio mangiare la pizza", translit:"VOH-lyo man-JAH-reh la PEET-tsa", meaning:"I want to eat pizza" }
       ]},
+      { type:"h", text:"Saying You Can't (or Won't)" },
+      { type:"p", text:"To make any of these negative, just add non before the verb — the same simple negation you'd use with any Italian verb: non posso (I can't), non devo (I don't have to), non voglio (I don't want to)." },
       { type:"note", html:"<strong>Remember vorrei from Chapter 8?</strong> That's the polite form of volere. Voglio is direct and perfectly normal with friends/family, but vorrei is softer — the difference is exactly like English \"I want\" vs. \"I would like\"." }
     ],
 
@@ -1262,9 +1272,10 @@ const chapters = [
 
     content: [
       { type:"p", text:"Chapter 10 taught the passato prossimo, for a single completed action (\"I ate\"). Italian has a second past tense, l'imperfetto, for habits, repeated actions, and background — closer to English \"I used to eat\" or \"I was eating\"." },
-      { type:"h", text:"Imperfetto — Present Tense" },
+      { type:"h", text:"Imperfetto — Conjugation" },
       { type:"pattern", ar:"io parlavo · io avevo · io dormivo", translit:"par-LAH-vo · a-VEH-vo · dor-MEE-vo", desc:"I used to speak · I used to have · I used to sleep — unlike the passato prossimo, this is a single word, built with its own regular endings (-avo/-evo/-ivo)." },
       { type:"h", text:"Passato Prossimo vs. Imperfetto" },
+      { type:"p", text:"Both are \"past tense\", but they answer different questions. Passato prossimo answers \"what happened?\" — a single, finished event. Imperfetto answers \"what was going on?\" or \"what used to happen?\" — an ongoing state or a repeated habit, with no clear endpoint." },
       { type:"examples", items:[
         { icon:"✅", ar:"Ho mangiato la pizza (ieri)", translit:"oh man-JAH-to la PEET-tsa", meaning:"I ate pizza (one time, yesterday)" },
         { icon:"🔁", ar:"Mangiavo la pizza (da bambino)", translit:"man-JAH-vo la PEET-tsa", meaning:"I used to eat pizza (as a child, a habit)" }
@@ -1348,6 +1359,7 @@ const chapters = [
       { type:"h", text:"Reflexive Verbs — The Pattern" },
       { type:"pattern", ar:"mi lavo · ti lavi · si lava", translit:"mee LAH-vo · tee LAH-vee · see LAH-va", desc:"I wash myself · you wash yourself · he/she washes themself — a small pronoun (mi/ti/si) goes right before the verb, which otherwise conjugates exactly like a regular -are verb." },
       { type:"h", text:"Common Reflexive Verbs" },
+      { type:"p", text:"A reflexive verb is simply one where the action happens to yourself — you'll recognize its infinitive form by the -si stuck on the end, which then drops away and turns into mi/ti/si once you conjugate it." },
       { type:"examples", items:[
         { icon:"🧼", ar:"lavarsi", translit:"la-VAR-see", meaning:"to wash oneself" },
         { icon:"👕", ar:"vestirsi", translit:"veh-STEER-see", meaning:"to get dressed" },
@@ -1432,6 +1444,7 @@ const chapters = [
       { type:"h", text:"Più...di / Meno...di (More/Less...Than)" },
       { type:"pattern", ar:"più alto di · meno alto di", translit:"pyoo AHL-to dee · MEH-no AHL-to dee", desc:"taller than · shorter than (literally \"more tall than\" / \"less tall than\") — più/meno before the adjective, di before what you're comparing to." },
       { type:"h", text:"Così...Come (As...As)" },
+      { type:"p", text:"For an equal comparison — \"as tall as\", not \"taller than\" — swap più/meno...di for come, optionally with così in front for emphasis: (così) alto come." },
       { type:"examples", items:[
         { icon:"⚖️", ar:"Marco è più alto di Luca", translit:"MAR-ko eh pyoo AHL-to dee LOO-ka", meaning:"Marco is taller than Luca" },
         { icon:"⚖️", ar:"Sono (così) alto come te", translit:"SOH-no koh-ZEE AHL-to KOH-meh teh", meaning:"I am as tall as you" }
@@ -1475,7 +1488,7 @@ const chapters = [
         instructions:"Type the English meaning.",
         items:[
           { icon:"⚖️", ar:"Sono più alto di te", keywords:["taller"] },
-          { icon:"🏠", ar:"La mia casa è più grande della tua", keywords:["bigger"] },
+          { icon:"🏠", ar:"La mia casa è più grande di un appartamento", keywords:["bigger"] },
           { icon:"⚖️", ar:"Sei simpatico come lui", keywords:["as nice"] }
         ]
       },
@@ -1514,6 +1527,7 @@ const chapters = [
       { type:"h", text:"Dov'è...? (Where Is...?)" },
       { type:"pattern", ar:"Dov'è la stazione?", translit:"do-VEH la sta-tsee-OH-neh", desc:"Where is the station? — dov'è is a contraction of dove + è, used for asking the location of one specific thing." },
       { type:"h", text:"Giving Directions" },
+      { type:"p", text:"Once you've asked, the answer is usually a short chain of these direction words in order — turn right, then straight, then it's near — rather than a full sentence." },
       { type:"examples", items:[
         { icon:"➡️", ar:"a destra", translit:"ah DEH-stra", meaning:"to the right" },
         { icon:"⬅️", ar:"a sinistra", translit:"ah see-NEE-stra", meaning:"to the left" },
@@ -1597,6 +1611,7 @@ const chapters = [
     content: [
       { type:"p", text:"Chapter 3 introduced fratello, sorella, and nonno. This chapter rounds out the family, and adds a new pattern for talking about hobbies." },
       { type:"h", text:"More Family Words" },
+      { type:"p", text:"These follow the same gender pattern you already know from Chapter 2 — most masculine words end in -o, most feminine in -a, so you can often guess the paired term once you know one half." },
       { type:"examples", items:[
         { icon:"👨", ar:"il padre / la madre", translit:"eel PAH-dreh / la MAH-dreh", meaning:"father / mother" },
         { icon:"💍", ar:"il marito / la moglie", translit:"eel ma-REE-to / la MOH-lyeh", meaning:"husband / wife" },
@@ -1684,6 +1699,7 @@ const chapters = [
       { type:"h", text:"Mi Fa Male... (My ... Hurts)" },
       { type:"pattern", ar:"Mi fa male la testa", translit:"mee fah MAH-leh la TEH-sta", desc:"My head hurts — literally \"it does bad to me, the head.\" Fa is the same fare you met in Chapter 11's weather expressions (fa caldo, fa freddo)." },
       { type:"h", text:"Feeling Sick" },
+      { type:"p", text:"For general unwellness rather than a specific body part, Italian reaches for sentire (Chapter 4's \"to hear/feel\") in its reflexive form, or a simple stare (to be/stay) + adjective." },
       { type:"examples", items:[
         { icon:"🤒", ar:"Non mi sento bene", translit:"nohn mee SEHN-to BEH-neh", meaning:"I don't feel well" },
         { icon:"🤢", ar:"Sto male", translit:"stoh MAH-leh", meaning:"I'm sick / I feel bad" }

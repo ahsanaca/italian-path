@@ -458,11 +458,15 @@ function levenshtein(a, b) {
    sampled across chapters for the Test Your Knowledge feature below.
 ===================================================================== */
 function buildQuestionBank() {
-  const bank = { mcq: [], translate: [], matching: [], sentence: [] };
+  const bank = { mcq: [], translate: [], matching: [], sentence: [], mcqByChapter: {} };
   chaptersInTrack().filter(c => !c.locked).forEach(ch => {
     (ch.exercises || []).forEach(ex => {
       if (ex.type === 'mcq') {
-        ex.items.forEach(it => bank.mcq.push({ ...it, sourceChapterId: ch.id, sourceLabel: ch.label }));
+        ex.items.forEach(it => {
+          const tagged = { ...it, sourceChapterId: ch.id, sourceLabel: ch.label };
+          bank.mcq.push(tagged);
+          (bank.mcqByChapter[ch.id] = bank.mcqByChapter[ch.id] || []).push(tagged);
+        });
       } else if (ex.type === 'translate') {
         ex.items.forEach(it => bank.translate.push({ ...it, sourceChapterId: ch.id, sourceLabel: ch.label }));
       } else if (ex.type === 'matching') {
@@ -484,15 +488,25 @@ function sampleArray(arr, n) {
   }
   return copy.slice(0, Math.min(n, copy.length));
 }
+// Picks exactly one MCQ question from each unlocked chapter that has any,
+// so a knowledge-check run always touches every topic learned so far
+// instead of a flat random sample that — once there are many chapters —
+// could easily cluster on just a couple and skip the rest entirely.
+// Capped so the test stays a reasonable length as the course grows past
+// the cap; beyond it, which chapters get represented is itself randomized.
+function sampleOnePerChapter(mcqByChapter, cap) {
+  const chapterIds = sampleArray(Object.keys(mcqByChapter), cap);
+  return chapterIds.map(id => sampleArray(mcqByChapter[id], 1)[0]);
+}
 
 let testSession = null;
 
 function startKnowledgeTest() {
   const bank = buildQuestionBank();
-  const mcqSample = sampleArray(bank.mcq, 6);
-  const translateSample = sampleArray(bank.translate, 2);
-  const matchingSample = sampleArray(bank.matching, 3);
-  const sentenceSample = sampleArray(bank.sentence, 2);
+  const mcqSample = sampleOnePerChapter(bank.mcqByChapter, 16);
+  const translateSample = sampleArray(bank.translate, 3);
+  const matchingSample = sampleArray(bank.matching, 4);
+  const sentenceSample = sampleArray(bank.sentence, 3);
 
   const blocks = [];
   if (mcqSample.length) blocks.push({ id: 'test-mcq', type: 'mcq', title: t('testMixedMcq'), instructions: t('testMixedMcqDesc'), items: mcqSample });
