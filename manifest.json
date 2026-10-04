@@ -1,7 +1,7 @@
 {
   "name": "Italian Academy",
   "short_name": "Italian Academy",
-  "description": "Learn Italian from the alphabet up — free trial",
+  "description": "Learn Italian from the alphabet up, and prepare for the Italian driving theory exam (Patente B) — free trial",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

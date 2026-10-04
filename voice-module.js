@@ -124,13 +124,13 @@ function scoreAndShowResult(transcript) {
   fill.style.width = pct + '%';
   const verdictEl = document.getElementById('speakVerdict');
   if (similarity > 0.85) {
-    fill.style.background = '#27ae60'; verdictEl.style.color = '#27ae60';
+    fill.style.background = 'var(--success)'; verdictEl.style.color = 'var(--success-text)';
     verdictEl.textContent = t('verdictExcellent', {pct});
   } else if (similarity > 0.55) {
-    fill.style.background = '#e67e22'; verdictEl.style.color = '#e67e22';
+    fill.style.background = 'var(--warning-line)'; verdictEl.style.color = 'var(--warning-text)';
     verdictEl.textContent = t('verdictClose', {pct});
   } else {
-    fill.style.background = '#e74c3c'; verdictEl.style.color = '#e74c3c';
+    fill.style.background = 'var(--danger)'; verdictEl.style.color = 'var(--danger-text)';
     verdictEl.textContent = t('verdictTryAgain', {pct});
   }
 
@@ -144,7 +144,7 @@ function showRecordingError(message) {
   document.getElementById('heardText').textContent = '—';
   const verdictEl = document.getElementById('speakVerdict');
   verdictEl.textContent = message;
-  verdictEl.style.color = '#e74c3c';
+  verdictEl.style.color = 'var(--danger-text)';
 }
 
 async function startRecording() {

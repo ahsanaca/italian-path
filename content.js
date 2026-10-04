@@ -6,11 +6,30 @@
 ===================================================================== */
 
 window.APP_ID = "italianAcademy";
+window.APP_NAME = "Italian Academy";
+window.APP_MARK_HTML = '<span class="brand-flag"></span>';
+window.APP_TEST_WORD = "Buongiorno";
+window.APP_WRITE_PLACEHOLDER = "Scrivi qui…";
+window.APP_CONTACT_EMAIL = "ahsanpsr@gmail.com";
 window.APP_LANGUAGE_NAME = "Italian";
 window.APP_VOICE_LANG = "it-IT";
 // No window.APP_TEXT_DIRECTION — Italian is LTR, which is the default.
 // No window.firebaseConfig — this trial runs local-progress-only, no
 // account/sync screen, nothing to configure.
+
+// This app has two separate courses (the language itself, and Patente B
+// driving theory), so the engine's generic "track" wording is overridden.
+window.APP_STRINGS = {
+  chooseTrack: "Choose Your Course",
+  chooseTrackDesc: "Learn the Italian language, or prepare for the Italian driving theory exam (Patente B). You can switch anytime — progress in each course is kept separately.",
+  trackLabel: "Course:",
+  switchTrack: "🔀 Switch Course",
+  tfTrue: "Vero",
+  tfFalse: "Falso",
+  tfTrueSub: "True",
+  tfFalseSub: "False",
+  examHeading: "Mock Exam — Esame di teoria"
+};
 
 window.APP_BANNER = {
   line1: "🌱 Free trial — send feedback!",
@@ -42,7 +61,7 @@ const units = [
 ];
 
 const tracks = [
-  { id:"standard", icon:"🇮🇹", title:"Italian", desc:"A single track from the alphabet through everyday conversation — standard Italian, step by step." }
+  { id:"standard", short:"Italian", icon:"🗣️", title:"Italian Language", desc:"From the alphabet through everyday conversation — standard Italian, step by step." }
 ];
 
 const chapters = [
@@ -418,7 +437,7 @@ const chapters = [
         {icon:"🍝", ar:"mangiare", translit:"man-JAH-reh", en:"to eat"},
         {icon:"📖", ar:"leggere", translit:"LEHD-jeh-reh", en:"to read"},
         {icon:"🎧", ar:"sentire", translit:"sehn-TEE-reh", en:"to hear / feel"},
-        {icon:"🇮🇹", ar:"l'italiano", translit:"lee-ta-LYAH-no", en:"Italian (the language)"},
+        {icon:"🗣️", ar:"l'italiano", translit:"lee-ta-LYAH-no", en:"Italian (the language)"},
         {icon:"📧", ar:"l'email", translit:"lee-MEH-eel", en:"the email"}
       ]}
     ],
@@ -587,7 +606,7 @@ const chapters = [
       { type:"examples", items:[
         { icon:"🏫", ar:"Vado a scuola", translit:"VAH-do ah SKWOH-la", meaning:"I go to school" },
         { icon:"🏢", ar:"Vado in ufficio", translit:"VAH-do een oof-FEE-cho", meaning:"I go to the office" },
-        { icon:"🇮🇹", ar:"Vado in Italia", translit:"VAH-do een ee-TAH-lya", meaning:"I go to Italy" }
+        { icon:"✈️", ar:"Vado in Italia", translit:"VAH-do een ee-TAH-lya", meaning:"I go to Italy" }
       ]},
       { type:"note", html:"<strong>\"Home\" is special:</strong> like English \"I go home\" (no \"to the\"), Italian says <em>vado a casa</em> — no article needed either." }
     ],
@@ -649,7 +668,7 @@ const chapters = [
       { icon:"🏫", ar:"Vado a scuola", plain:"Vado a scuola", translit:"VAH-do ah SKWOH-la", meaning:"I go to school" },
       { icon:"💼", ar:"Vado in ufficio", plain:"Vado in ufficio", translit:"VAH-do een oof-FEE-cho", meaning:"I go to the office" },
       { icon:"❓", ar:"Dove vai?", plain:"Dove vai?", translit:"DOH-veh vah-EE", meaning:"Where are you going?" },
-      { icon:"🇮🇹", ar:"Vado in Italia con un amico", plain:"Vado in Italia con un amico", translit:"VAH-do een ee-TAH-lya kohn oon a-MEE-ko", meaning:"I'm going to Italy with a friend" }
+      { icon:"✈️", ar:"Vado in Italia con un amico", plain:"Vado in Italia con un amico", translit:"VAH-do een ee-TAH-lya kohn oon a-MEE-ko", meaning:"I'm going to Italy with a friend" }
     ]
   },
 
