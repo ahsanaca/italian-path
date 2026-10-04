@@ -802,4 +802,784 @@
       ]
     })
   );
+
+  /* =====================================================================
+     BATCH 2 — more topics, more statements, more pictures.
+     Adds Units 5 and 6, ten new topics, two more review sets, a third
+     practice set for every earlier topic, and re-orders the track.
+  ===================================================================== */
+  units.push(
+    { id: "p-u5", track: "patente", title: "Unit 5 — Special Roads, Lights & Road Users", desc: "Motorways, lights and visibility, level crossings, pedestrians, cyclists and special zones." },
+    { id: "p-u6", track: "patente", title: "Unit 6 — Your Vehicle, Load & the Law", desc: "Dashboard lights and maintenance, loads and licence categories, fitness to drive, insurance and responsibility." }
+  );
+
+  const byId = id => chapters.find(c => c.id === id);
+  const addSet = (id, letter, items) => byId(id).exercises.push(tfSet(`pt${id}-ex4`, letter, items));
+
+  /* ---------- a third practice set for each earlier topic ---------- */
+  addSet(100, "C", [
+    tf("La banchina è la parte della strada compresa tra il margine della carreggiata e il marciapiede o il ciglio.", "The verge is the part of the road between the edge of the carriageway and the pavement or the roadside edge.", true, "That is the definition of banchina."),
+    tf("Lo spartitraffico è la parte non carrabile della strada che separa carreggiate contigue.", "The central reservation is the non-drivable part of the road that separates adjoining carriageways.", true, "Spartitraffico = central reservation / divider."),
+    tf("La carreggiata può essere composta da più corsie di marcia.", "A carriageway can be made up of several lanes.", true, "One or more lanes make up a carriageway."),
+    tf("Chi conduce a mano la bicicletta è assimilato al pedone.", "Someone leading a bicycle by hand is treated as a pedestrian.", true, "Pushing a bicycle by hand, you count as a pedestrian."),
+    tf("Le strade urbane sono quelle che si trovano fuori dai centri abitati.", "Urban roads are those found outside built-up areas.", false, "Urban roads are inside built-up areas; roads outside are extra-urban."),
+    tf("Il conducente è sempre il proprietario del veicolo.", "The driver is always the owner of the vehicle.", false, "A conducente is whoever is driving, whether or not they own the vehicle.")
+  ]);
+  addSet(101, "C", [
+    tf("Il segnale raffigurato indica un passaggio a livello con barriere.", "The sign shown indicates a level crossing with barriers.", true, "A gate or barrier pictogram in a triangle warns of a level crossing.", "passaggio-livello"),
+    tf("Il segnale raffigurato avverte della presenza di una rotatoria.", "The sign shown warns of a roundabout ahead.", true, "Three arrows in a circle inside a warning triangle: a roundabout is coming.", "rotatoria-avviso"),
+    tf("Il segnale raffigurato indica che la strada è a senso unico.", "The sign shown indicates that the road is one-way.", false, "Two opposite arrows mean two-way traffic ahead.", "doppio-senso"),
+    tf("Il segnale raffigurato indica una salita ripida.", "The sign shown indicates a steep ascent.", true, "The slope rising to the right with a percentage is a steep ascent.", "salita"),
+    tf("Il segnale raffigurato indica una salita ripida.", "The sign shown indicates a steep ascent.", false, "The slope falls to the right: it is a steep DESCENT.", "discesa"),
+    tf("I segnali di pericolo vietano di sorpassare.", "Warning signs forbid overtaking.", false, "Warning signs only warn; prohibitions use other signs.")
+  ]);
+  addSet(102, "C", [
+    tf("Il segnale raffigurato indica che non si deve superare la velocità di 30 km/h.", "The sign shown means you must not exceed 30 km/h.", true, "A number in a red-bordered circle is a maximum speed.", "limite-30"),
+    tf("Il segnale raffigurato vieta di fare inversione di marcia.", "The sign shown forbids making a U-turn.", true, "A U-shaped arrow crossed out is the no-U-turn sign.", "divieto-inversione"),
+    tf("Il segnale raffigurato vieta di svoltare a destra.", "The sign shown forbids turning right.", false, "The crossed-out arrow points left: no left turn.", "divieto-svolta-sx"),
+    tf("Il segnale raffigurato vieta il transito ai pedoni.", "The sign shown forbids pedestrians.", true, "A pedestrian in a red-bordered circle: pedestrians not allowed.", "divieto-pedoni"),
+    tf("Il segnale raffigurato indica la fine di tutti i divieti imposti dai segnali precedenti.", "The sign shown marks the end of all the prohibitions imposed by earlier signs.", true, "Grey diagonal bands on white: end of all prohibitions.", "fine-divieti"),
+    tf("Il segnale raffigurato vieta il transito ai ciclomotori.", "The sign shown forbids mopeds.", false, "The picture is a bicycle: it forbids bicycles.", "divieto-bici")
+  ]);
+  addSet(103, "C", [
+    tf("Il segnale raffigurato obbliga a svoltare a sinistra.", "The sign shown obliges you to turn left.", true, "A white arrow pointing left on blue: turn left only.", "obbligo-sinistra"),
+    tf("Il segnale raffigurato indica un percorso riservato ai pedoni.", "The sign shown indicates a path reserved for pedestrians.", true, "A pedestrian on a blue circle marks a pedestrian path.", "percorso-pedonale"),
+    tf("Il segnale raffigurato consente di svoltare a destra.", "The sign shown allows you to turn right.", false, "An upward arrow means straight ahead only.", "obbligo-dritto"),
+    tf("Un segnale di obbligo di colore blu può avere un bordo rosso.", "A blue mandatory sign can have a red border.", false, "Mandatory signs are plain blue discs; a red border belongs to prohibitions and warnings."),
+    tf("Il segnale di STOP ha forma ottagonale.", "The STOP sign is octagonal.", true, "STOP is the only octagonal sign.", "stop"),
+    tf("Il segnale raffigurato indica che nella rotatoria si procede in senso orario.", "The sign shown means that in the roundabout you go clockwise.", false, "In Italy roundabouts go counter-clockwise.", "rotatoria")
+  ]);
+  addSet(104, "C", [
+    tf("Gli agenti del traffico possono dare indicazioni anche con segnali manuali.", "Traffic officers may also give instructions with hand signals.", true, "Hand signals from an officer are binding."),
+    tf("Con il semaforo rosso, se l'agente del traffico fa segno di passare, bisogna fermarsi.", "With a red light, if the traffic officer waves you through, you must stop.", false, "The officer's signal prevails over the light: you proceed as directed."),
+    tf("Al segnale di STOP il conducente deve fermarsi anche se la strada è libera.", "At a STOP sign the driver must stop even if the road is clear.", true, "A STOP sign always requires a complete stop.", "stop"),
+    tf("Chi si immette da una strada secondaria su una strada con diritto di precedenza deve dare la precedenza.", "Someone joining a priority road from a side road must give way.", true, "The side road has to give way to the priority road.", "diritto-precedenza"),
+    tf("In generale i veicoli che circolano su rotaia hanno la precedenza sugli altri.", "In general, vehicles running on rails have priority over others.", true, "Trams and trains have priority."),
+    tf("La precedenza a destra prevale sul segnale di diritto di precedenza.", "Priority to the right overrides a priority-road sign.", false, "Signs prevail over the general right-hand rule.")
+  ]);
+  addSet(105, "C", [
+    tf("Le frecce disegnate sulla corsia indicano la direzione da seguire.", "Arrows painted on a lane show the direction to follow.", true, "Lane arrows tell you which way vehicles in that lane must go.", "freccia-strada"),
+    tf("Le strisce blu delimitano gli stalli di sosta a pagamento.", "Blue stripes mark paid parking spaces.", true, "Blue bays are generally paid parking.", "strisce-blu"),
+    tf("Il segnale orizzontale raffigurato indica un attraversamento ciclabile.", "The marking shown indicates a cycle crossing.", true, "Two rows of squares across the road: a cycle crossing.", "attraversamento-ciclabile"),
+    tf("La freccia verde consente di avanzare nella direzione indicata dalla freccia.", "A green arrow allows you to proceed in the direction it shows.", true, "A green arrow lets you go the way the arrow points.", "semaforo-freccia-verde"),
+    tf("La luce gialla fissa indica che sta per accendersi la luce rossa.", "A steady amber light means that red is about to come on.", true, "Amber warns that the phase is ending."),
+    tf("Con il semaforo verde il veicolo deve comunque fermarsi alla linea d'arresto.", "On a green light the vehicle must still stop at the stop line.", false, "A green light lets you go on.")
+  ]);
+  addSet(106, "C", [
+    tf("Il limite di 130 km/h in autostrada si applica anche ai neopatentati.", "The 130 km/h motorway limit also applies to new drivers.", false, "New drivers are limited to 100 km/h on motorways in their first three years."),
+    tf("In caso di pioggia il limite per le autovetture sulle strade extraurbane principali è di 90 km/h.", "In rain the limit for cars on main extra-urban roads is 90 km/h.", true, "In rain: 90 km/h on main extra-urban roads, 110 km/h on motorways."),
+    tf("Il limite di velocità è un valore massimo che non va superato.", "A speed limit is a maximum that must not be exceeded.", true, "It is a ceiling, never a target."),
+    tf("Una velocità elevata aumenta la gravità delle conseguenze di un urto.", "High speed increases the severity of a collision.", true, "Impact force rises quickly with speed."),
+    tf("La distanza di sicurezza dipende solo dalla velocità e non dalle condizioni della strada.", "The safe distance depends only on speed, not on road conditions.", false, "Weather, tyres, load and the surface all matter."),
+    tf("Con pneumatici usurati lo spazio di frenata diminuisce.", "With worn tyres the braking distance gets shorter.", false, "Worn tyres grip less, so braking distance grows.")
+  ]);
+  addSet(107, "C", [
+    tf("È vietato sorpassare in corrispondenza di un passaggio a livello.", "Overtaking at a level crossing is forbidden.", true, "Never overtake at or near a level crossing."),
+    tf("Chi sorpassa deve preavvisare con l'indicatore di direzione prima di spostarsi.", "A driver overtaking must signal with the indicator before moving out.", true, "Signal first, then move."),
+    tf("Si può sostare sul marciapiede se non si ostacolano i pedoni.", "You may park on the pavement if you do not obstruct pedestrians.", false, "Parking on the pavement is forbidden unless signs allow it."),
+    tf("La sosta negli spazi riservati ai disabili è consentita a chiunque per brevi periodi.", "Anyone may park in disabled spaces for short periods.", false, "Those spaces are for authorised disabled drivers only."),
+    tf("È vietato sostare in corrispondenza delle fermate degli autobus.", "Parking at bus stops is forbidden.", true, "Bus stops must be kept clear."),
+    tf("È vietato sorpassare un veicolo fermo per dare la precedenza ai pedoni.", "Overtaking a vehicle that has stopped to give way to pedestrians is forbidden.", true, "Someone may be crossing in front of that vehicle.")
+  ]);
+  addSet(108, "C", [
+    tf("La patente di categoria AM si può conseguire a 14 anni.", "The AM licence can be obtained at 14.", true, "AM (mopeds) is from age 14."),
+    tf("La patente B consente di guidare autoveicoli con massa fino a 3.500 kg e non più di otto passeggeri.", "A B licence allows cars up to 3,500 kg with no more than eight passengers.", true, "That is the scope of category B."),
+    tf("Con la patente B si può guidare un autobus.", "With a B licence you may drive a bus.", false, "Buses need category D."),
+    tf("In caso di controllo il conducente deve esibire la patente di guida.", "When stopped for a check the driver must show the driving licence.", true, "Carry it and show it on request."),
+    tf("L'uso della cintura non è obbligatorio per i passeggeri dei sedili posteriori nei tragitti brevi.", "Seat belts are not compulsory for rear passengers on short trips.", false, "Belts are compulsory for everyone, however short the trip."),
+    tf("L'appoggiatesta riduce il rischio di lesioni al collo in caso di urto da dietro.", "The head restraint reduces the risk of neck injury in a rear-end collision.", true, "That is its purpose.")
+  ]);
+  addSet(109, "C", [
+    tf("In caso di incendio del veicolo bisogna allontanarsi e chiamare i soccorsi.", "If the vehicle catches fire you must move away and call for help.", true, "Get everyone clear first and call emergency services."),
+    tf("Il giubbotto retroriflettente va indossato prima di scendere per un'emergenza fuori dai centri abitati.", "The reflective vest must be put on before getting out for an emergency outside built-up areas.", true, "Put it on before leaving the vehicle."),
+    tf("Chi presta soccorso a un ferito deve sempre dargli da bere.", "Someone helping an injured person should always give them a drink.", false, "Do not give drinks to the injured."),
+    tf("Un pneumatico sgonfio può compromettere la tenuta di strada.", "An under-inflated tyre can reduce road holding.", true, "Low pressure hurts grip and stability."),
+    tf("Il catalizzatore riduce le emissioni inquinanti allo scarico.", "The catalytic converter reduces polluting exhaust emissions.", true, "It cleans the exhaust gases."),
+    tf("Lasciare il motore acceso a veicolo fermo per lungo tempo riduce l'inquinamento.", "Leaving the engine running while stationary for a long time reduces pollution.", false, "It wastes fuel and increases pollution.")
+  ]);
+
+  /* ---------- new topics ---------- */
+  chapters.push(
+    topic({
+      id: 113, unit: "p-u1", label: "", difficulty: 2, requires: 103, icon: "ℹ️",
+      title: "Information & Direction Signs", arabicTitle: "I segnali di indicazione",
+      desc: "Blue, green, white and brown signs that tell you where things are — and what the colours mean.",
+      content: [
+        { type: "p", text: "Information signs (<em>segnali di indicazione</em>) tell you where things are and what kind of road you are on. They are <strong>rectangular or square</strong>, and their colour tells you a lot." },
+        { type: "h", text: "The Colours Tell You the Road" },
+        { type: "examples", items: [
+          ex("🟩", "Sfondo verde: autostrada", "SFON-do VER-deh: ow-to-STRAH-da", "Green background: motorway"),
+          ex("🟦", "Sfondo blu: strada extraurbana", "SFON-do BLOO: STRAH-da ek-stra-oor-BAH-na", "Blue background: a road outside towns"),
+          ex("⬜", "Sfondo bianco: centro abitato", "SFON-do BYAN-ko: CHEN-tro a-bee-TAH-to", "White background: inside a town"),
+          ex("🟫", "Sfondo marrone: turismo e cultura", "SFON-do mar-RO-neh: too-REEZ-mo eh kool-TOO-ra", "Brown background: tourist and cultural sites")
+        ]},
+        { type: "h", text: "Seven Signs to Know" },
+        { type: "signs", items: [
+          { sign: "parcheggio", ar: "Parcheggio", translit: "par-KED-jo", meaning: "Parking area" },
+          { sign: "senso-unico", ar: "Senso unico", translit: "SEN-so OO-ni-ko", meaning: "One-way street" },
+          { sign: "ospedale", ar: "Ospedale", translit: "os-pe-DAH-leh", meaning: "Hospital" },
+          { sign: "pedonale-info", ar: "Attraversamento pedonale", translit: "at-tra-ver-sa-MEN-to pe-do-NAH-leh", meaning: "Pedestrian crossing (at this point)" },
+          { sign: "galleria", ar: "Galleria", translit: "gal-le-REE-a", meaning: "Tunnel" },
+          { sign: "distributore", ar: "Distributore di carburante", translit: "dee-stree-boo-TOR-eh dee kar-boo-RAN-teh", meaning: "Fuel station" },
+          { sign: "autostrada", ar: "Autostrada", translit: "ow-to-STRAH-da", meaning: "Motorway" }
+        ]},
+        { type: "note", html: "Don't confuse the <strong>blue square</strong> crossing sign (a crossing is <em>right here</em>) with the <strong>red-bordered warning triangle</strong> (a crossing is <em>coming up</em>)." }
+      ],
+      vocabCategories: [
+        { name: "Places & Services", words: [
+          vw("🅿️", "il parcheggio", "eel par-KED-jo", "the car park"),
+          vw("➡️", "il senso unico", "eel SEN-so OO-ni-ko", "the one-way street"),
+          vw("🏥", "l'ospedale", "los-pe-DAH-leh", "the hospital"),
+          vw("🚇", "la galleria", "la gal-le-REE-a", "the tunnel"),
+          vw("⛽", "il distributore", "eel dee-stree-boo-TOR-eh", "the fuel station")
+        ]},
+        { name: "Colours", words: [
+          vw("🟩", "verde", "VER-deh", "green"),
+          vw("🟦", "blu", "BLOO", "blue"),
+          vw("⬜", "bianco", "BYAN-ko", "white"),
+          vw("🟫", "marrone", "mar-RO-neh", "brown")
+        ]}
+      ],
+      exercises: [
+        matching("pt113-ex1", [pair("il parcheggio", "the car park"), pair("il senso unico", "the one-way street"), pair("l'ospedale", "the hospital"), pair("la galleria", "the tunnel"), pair("il distributore", "the fuel station")]),
+        tfSet("pt113-ex2", "A", [
+          tf("Il segnale raffigurato indica un'area di parcheggio.", "The sign shown indicates a parking area.", true, "A white P on blue is parking.", "parcheggio"),
+          tf("Il segnale raffigurato indica la presenza di un ospedale.", "The sign shown indicates a hospital.", true, "A white H on blue marks a hospital.", "ospedale"),
+          tf("Il segnale raffigurato indica un passaggio a livello.", "The sign shown indicates a level crossing.", false, "A pedestrian in a white triangle on blue marks a pedestrian crossing.", "pedonale-info"),
+          tf("Il segnale raffigurato indica l'inizio di una galleria.", "The sign shown indicates the start of a tunnel.", true, "The arch symbol is a tunnel.", "galleria"),
+          tf("Il segnale raffigurato indica un'officina di riparazione.", "The sign shown indicates a repair garage.", false, "The fuel pump pictogram is a fuel station.", "distributore"),
+          tf("Il segnale raffigurato indica una strada a senso unico.", "The sign shown indicates a one-way street.", true, "A single arrow on blue: one-way.", "senso-unico")
+        ]),
+        tfSet("pt113-ex3", "B", [
+          tf("Il segnale raffigurato indica l'inizio di un'autostrada.", "The sign shown indicates the start of a motorway.", true, "Green with a road symbol: motorway.", "autostrada"),
+          tf("I segnali di direzione sulle autostrade hanno sfondo verde.", "Direction signs on motorways have a green background.", true, "Green is the motorway colour."),
+          tf("I segnali di direzione sulle strade extraurbane hanno sfondo verde.", "Direction signs on extra-urban roads have a green background.", false, "On extra-urban roads they are blue."),
+          tf("Nei centri abitati i segnali di direzione hanno in genere sfondo bianco.", "In built-up areas direction signs generally have a white background.", true, "White inside towns."),
+          tf("I segnali turistici e di territorio hanno sfondo marrone.", "Tourist and heritage signs have a brown background.", true, "Brown marks tourist and cultural sites."),
+          tf("I segnali di indicazione hanno sempre forma triangolare.", "Information signs are always triangular.", false, "They are rectangular or square; triangles are warning signs.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🅿️", "Il parcheggio è a destra.", "eel par-KED-jo eh a DEH-stra", "The car park is on the right."),
+        sp("🏥", "L'ospedale è vicino.", "los-pe-DAH-leh eh vee-CHEE-no", "The hospital is nearby.")
+      ]
+    }),
+
+    topic({
+      id: 114, unit: "p-u1", label: "", difficulty: 2, requires: 113, icon: "🚧",
+      title: "Supplementary Panels & Road-Works Signs", arabicTitle: "Pannelli integrativi e cantieri",
+      desc: "Panels that add detail to a sign, and the signs, barriers and cones used at road works.",
+      content: [
+        { type: "p", text: "Besides the main signs there are supporting signs: <strong>panels</strong> that add detail to another sign, and <strong>temporary signs and equipment</strong> for road works (<em>cantieri</em>)." },
+        { type: "h", text: "Supplementary Panels (Pannelli Integrativi)" },
+        { type: "p", text: "A rectangular panel under a sign adds detail: how far away the danger is, where a rule starts or stops, or which vehicles and times it applies to." },
+        { type: "signs", items: [
+          { sign: "pannello-distanza", ar: "Pannello di distanza", translit: "pan-NEL-lo dee dee-STAN-tsa", meaning: "Distance panel: how far ahead the hazard or rule is" }
+        ]},
+        { type: "h", text: "Road Works (Cantieri)" },
+        { type: "signs", items: [
+          { sign: "barriera", ar: "Barriera", translit: "bar-RYEH-ra", meaning: "Barrier with red and white stripes" },
+          { sign: "cono", ar: "Cono", translit: "KO-no", meaning: "Traffic cone (red and white)" }
+        ]},
+        { type: "p", text: "Temporary signs for works usually have a <strong>yellow background</strong> and <strong>take priority over permanent signs</strong> that conflict with them. At night barriers carry red lights. Obey any worker who is directing traffic." },
+        { type: "note", html: "A permanent sign may say one thing and a temporary yellow sign another — <strong>follow the temporary one</strong> while the works are there." }
+      ],
+      vocabCategories: [
+        { name: "Road Works", words: [
+          vw("🚧", "il cantiere", "eel kan-TYEH-reh", "the road-works site"),
+          vw("🚧", "la barriera", "la bar-RYEH-ra", "the barrier"),
+          vw("🔺", "il cono", "eel KO-no", "the cone"),
+          vw("👷", "l'operaio", "lo-pe-RAH-yo", "the worker")
+        ]},
+        { name: "Panels", words: [
+          vw("🔲", "il pannello", "eel pan-NEL-lo", "the panel"),
+          vw("📏", "la distanza", "la dee-STAN-tsa", "the distance"),
+          vw("⏳", "temporaneo", "tem-po-RAH-ne-o", "temporary"),
+          vw("🟡", "giallo", "JAL-lo", "yellow")
+        ]}
+      ],
+      exercises: [
+        matching("pt114-ex1", [pair("il cantiere", "the road-works site"), pair("la barriera", "the barrier"), pair("il cono", "the cone"), pair("l'operaio", "the worker"), pair("il pannello", "the panel")]),
+        tfSet("pt114-ex2", "A", [
+          tf("Il pannello integrativo raffigurato indica la distanza dal pericolo o dal punto in cui vale il segnale.", "The supplementary panel shown gives the distance to the hazard or to where the sign applies.", true, "A number of metres on a panel gives a distance.", "pannello-distanza"),
+          tf("La barriera a strisce rosse e bianche delimita un'area di lavori o un ostacolo.", "A barrier with red and white stripes marks an area of works or an obstacle.", true, "Red-and-white striped barriers mark works or obstructions.", "barriera"),
+          tf("I coni a strisce bianche e rosse segnalano lavori o un ostacolo sulla carreggiata.", "Cones with white and red bands signal works or an obstacle on the carriageway.", true, "Cones mark the edge of a hazard.", "cono"),
+          tf("Un pannello integrativo non può mai limitare il significato del segnale a cui è associato.", "A supplementary panel can never limit the meaning of the sign it goes with.", false, "Panels exist precisely to add detail or limits."),
+          tf("I segnali temporanei di cantiere hanno generalmente sfondo giallo.", "Temporary road-works signs generally have a yellow background.", true, "Yellow marks temporary works signs."),
+          tf("I segnali temporanei di cantiere non vanno rispettati se in contrasto con quelli permanenti.", "Temporary works signs need not be obeyed if they conflict with permanent ones.", false, "Temporary signs prevail over conflicting permanent ones.")
+        ]),
+        tfSet("pt114-ex3", "B", [
+          tf("In presenza di lavori il conducente deve rispettare le indicazioni degli operatori che regolano il traffico.", "At road works the driver must follow the instructions of the workers controlling traffic.", true, "Their instructions are binding."),
+          tf("I pannelli integrativi hanno forma rettangolare.", "Supplementary panels are rectangular.", true, "They are rectangles placed under the main sign."),
+          tf("Sulle barriere di cantiere si usano luci rosse per aumentare la visibilità di notte.", "Red lights on works barriers increase visibility at night.", true, "Red lamps make barriers visible in the dark."),
+          tf("Nei tratti con lavori si può superare il limite di velocità se la strada è libera.", "At road works you may exceed the speed limit if the road is clear.", false, "Limits at works must always be respected."),
+          tf("Un segnale permanente prevale sempre su un segnale temporaneo in contrasto.", "A permanent sign always prevails over a conflicting temporary one.", false, "The temporary sign prevails."),
+          tf("Il pannello «fine» posto sotto un segnale indica dove cessa la prescrizione.", "An 'end' panel under a sign shows where the rule stops.", true, "It marks the end of the rule.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🚧", "Attenzione, cantiere stradale.", "at-ten-TSYO-neh, kan-TYEH-reh stra-DAH-leh", "Caution, road works."),
+        sp("👷", "Seguire le indicazioni degli operai.", "se-GWEE-reh leh een-dee-ka-TSYO-nee DEL-yee o-pe-RAH-ee", "Follow the workers' directions.")
+      ]
+    }),
+
+    topic({
+      id: 115, unit: "p-u5", label: "", difficulty: 4, requires: 109, icon: "🛣️",
+      title: "Motorways", arabicTitle: "L'autostrada",
+      desc: "Who may use the motorway, how to join and leave it, and what you must never do on it.",
+      content: [
+        { type: "p", text: "Motorways (<em>autostrade</em>) have separate carriageways and no level junctions, so the rules are specific. Expect several exam questions on them." },
+        { type: "h", text: "Who May Use the Motorway?" },
+        { type: "examples", items: [
+          ex("🚷", "Vietato ai pedoni", "vee-eh-TAH-to ai pe-DOH-nee", "Pedestrians are forbidden."),
+          ex("🚲", "Vietato alle biciclette", "vee-eh-TAH-to AL-leh bee-chee-KLET-teh", "Bicycles are forbidden."),
+          ex("🛵", "Vietato ai ciclomotori", "vee-eh-TAH-to ai chee-klo-mo-TOR-ee", "Mopeds are forbidden.")
+        ]},
+        { type: "h", text: "Lanes & Manoeuvres" },
+        { type: "examples", items: [
+          ex("⬆️", "Corsia di accelerazione", "kor-SEE-a dee ach-che-le-ra-TSYO-neh", "Acceleration lane: use it to join, and give way to traffic already on the motorway."),
+          ex("⬇️", "Corsia di decelerazione", "kor-SEE-a dee de-che-le-ra-TSYO-neh", "Deceleration lane: slow down here when leaving."),
+          ex("🆘", "Corsia di emergenza", "kor-SEE-a dee e-mer-JEN-tsa", "Emergency lane: only for emergencies."),
+          ex("↔️", "Sorpasso a sinistra", "sor-PAS-so a see-NEE-stra", "Overtake on the left, then move back to the right.")
+        ]},
+        { type: "note", html: "<strong>Never</strong> stop, reverse or make a U-turn on a motorway. If you miss your exit, carry on to the next one." },
+        { type: "h", text: "Speed & Breakdowns" },
+        { type: "p", text: "The limit for cars is 130 km/h (110 km/h when it rains, 100 km/h for new drivers). If your vehicle breaks down, pull into the <strong>emergency lane</strong>, switch on the hazard lights, put on your reflective vest, and call for help from a safe place away from the carriageway." }
+      ],
+      vocabCategories: [
+        { name: "On the Motorway", words: [
+          vw("🛣️", "l'autostrada", "low-to-STRAH-da", "the motorway"),
+          vw("🎫", "il casello", "eel ka-SEL-lo", "the toll booth"),
+          vw("💶", "il pedaggio", "eel pe-DAJ-jo", "the toll"),
+          vw("🚪", "l'uscita", "loo-SHEE-ta", "the exit"),
+          vw("⛽", "l'area di servizio", "LAH-re-a dee ser-VEE-tsyo", "the service area")
+        ]},
+        { name: "Lanes", words: [
+          vw("⬆️", "la corsia di accelerazione", "la kor-SEE-a dee ach-che-le-ra-TSYO-neh", "acceleration lane"),
+          vw("🆘", "la corsia di emergenza", "la kor-SEE-a dee e-mer-JEN-tsa", "emergency lane"),
+          vw("↪️", "immettersi", "eem-MET-ter-see", "to join (a road)")
+        ]}
+      ],
+      exercises: [
+        matching("pt115-ex1", [pair("il casello", "the toll booth"), pair("il pedaggio", "the toll"), pair("l'uscita", "the exit"), pair("la corsia di emergenza", "emergency lane"), pair("l'area di servizio", "the service area")]),
+        tfSet("pt115-ex2", "A", [
+          tf("In autostrada è vietato il transito dei ciclomotori.", "Mopeds are not allowed on motorways.", true, "Mopeds, bicycles and pedestrians are banned."),
+          tf("In autostrada è consentita la sosta sulla corsia di emergenza per riposare.", "On a motorway you may park in the emergency lane to rest.", false, "The emergency lane is for emergencies only."),
+          tf("In autostrada il sorpasso va effettuato sulla corsia di sinistra.", "On a motorway overtaking is done in the left-hand lane.", true, "Overtake on the left, as everywhere."),
+          tf("Chi si immette in autostrada dalla corsia di accelerazione deve dare la precedenza ai veicoli già in circolazione.", "A driver joining from the acceleration lane must give way to vehicles already on the motorway.", true, "Traffic on the motorway has priority."),
+          tf("In autostrada è consentito il transito dei pedoni sulla banchina.", "Pedestrians may walk on the motorway verge.", false, "Pedestrians are never allowed."),
+          tf("In autostrada, di norma, si percorre la corsia libera più a destra.", "On a motorway you normally use the free right-most lane.", true, "Keep right unless you are overtaking.")
+        ]),
+        tfSet("pt115-ex3", "B", [
+          tf("La corsia di emergenza può essere usata solo in caso di necessità.", "The emergency lane may be used only when necessary.", true, "Use it only for a real emergency."),
+          tf("In autostrada è vietato fare retromarcia.", "Reversing is forbidden on a motorway.", true, "No reversing and no U-turns."),
+          tf("La corsia di decelerazione serve per rallentare prima di uscire dall'autostrada.", "The deceleration lane is used to slow down before leaving the motorway.", true, "Slow down in that lane, not on the main carriageway."),
+          tf("In caso di avaria ci si ferma sulla corsia di marcia più a sinistra.", "After a breakdown you stop in the left-most traffic lane.", false, "Stop in the emergency lane on the right."),
+          tf("Se si perde l'uscita si può tornare indietro in retromarcia.", "If you miss your exit you may reverse back to it.", false, "Never reverse; take the next exit."),
+          tf("Con nebbia fitta si può mantenere la velocità normale se si accendono i fari.", "In thick fog you may keep normal speed if you switch your lights on.", false, "You must slow down in fog regardless of lights.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("↔️", "In autostrada si sorpassa a sinistra.", "een ow-to-STRAH-da see sor-PAS-sa a see-NEE-stra", "On the motorway you overtake on the left."),
+        sp("🚫", "Non si può fare retromarcia.", "non see pwoh FAH-reh re-tro-MAR-cha", "You cannot reverse.")
+      ]
+    }),
+
+    topic({
+      id: 116, unit: "p-u5", label: "", difficulty: 4, requires: 115, icon: "💡",
+      title: "Lights & Visibility", arabicTitle: "Luci e visibilità",
+      desc: "Dipped and high beams, fog lights, hazard lights, indicators and the horn: what to use, and when.",
+      content: [
+        { type: "p", text: "Using the right lights at the right time is a favourite exam topic. Learn the Italian names, then the rules." },
+        { type: "h", text: "The Lights" },
+        { type: "examples", items: [
+          ex("💡", "Anabbaglianti", "an-ab-bal-YAN-tee", "Dipped headlights."),
+          ex("🔆", "Abbaglianti", "ab-bal-YAN-tee", "High beams."),
+          ex("🌫️", "Fendinebbia", "fen-dee-NEB-bya", "Fog lights (front and rear)."),
+          ex("⚠️", "Luci di emergenza", "LOO-chee dee e-mer-JEN-tsa", "Hazard lights."),
+          ex("➡️", "Indicatori di direzione", "een-dee-ka-TOR-ee dee dee-re-TSYO-neh", "Indicators."),
+          ex("📯", "Clacson", "KLAK-son", "Horn.")
+        ]},
+        { type: "h", text: "Rules of Thumb" },
+        { type: "charlist", items: [
+          "<strong>Dipped lights</strong>: always on outside built-up areas, in tunnels, and at night in towns.",
+          "<strong>High beams</strong>: only on unlit roads, with no one coming towards you and no one in front. Switch back to dipped when you meet or follow a vehicle.",
+          "<strong>Fog lights</strong>: only in fog, snow or heavy rain; the <em>rear</em> fog light only in fog or snow, and switch it off when visibility improves.",
+          "<strong>Indicators</strong>: switch on <em>before</em> you start a manoeuvre.",
+          "<strong>Horn</strong>: in built-up areas only to warn of immediate danger."
+        ]},
+        { type: "note", html: "Outside towns you may flash your headlights to show that you are about to overtake." }
+      ],
+      vocabCategories: [
+        { name: "Lights", words: [
+          vw("💡", "gli anabbaglianti", "lyee an-ab-bal-YAN-tee", "dipped lights"),
+          vw("🔆", "gli abbaglianti", "lyee ab-bal-YAN-tee", "high beams"),
+          vw("🌫️", "il fendinebbia", "eel fen-dee-NEB-bya", "the fog light"),
+          vw("⚠️", "le luci di emergenza", "leh LOO-chee dee e-mer-JEN-tsa", "hazard lights")
+        ]},
+        { name: "Signals", words: [
+          vw("➡️", "l'indicatore di direzione", "leen-dee-ka-TOR-eh dee dee-re-TSYO-neh", "the indicator"),
+          vw("📯", "il clacson", "eel KLAK-son", "the horn"),
+          vw("👁️", "la visibilità", "la vee-zee-bee-lee-TAH", "visibility")
+        ]}
+      ],
+      exercises: [
+        matching("pt116-ex1", [pair("gli abbaglianti", "high beams"), pair("il fendinebbia", "the fog light"), pair("il clacson", "the horn"), pair("la visibilità", "visibility"), pair("le luci di emergenza", "hazard lights")]),
+        tfSet("pt116-ex2", "A", [
+          tf("I fari abbaglianti possono essere usati fuori dai centri abitati se non si abbagliano gli altri conducenti.", "High beams may be used outside built-up areas if you do not dazzle other drivers.", true, "Only when there is no one to dazzle."),
+          tf("Incrociando un altro veicolo bisogna passare dagli abbaglianti agli anabbaglianti.", "When meeting another vehicle you must switch from high to dipped beams.", true, "Dip your lights so as not to dazzle."),
+          tf("I fari retronebbia possono essere usati in qualsiasi condizione per essere più visibili.", "Rear fog lights may be used in any conditions to be more visible.", false, "Only in fog or snow."),
+          tf("Nei centri abitati il clacson si usa solo per segnalare un pericolo immediato.", "In built-up areas the horn is used only to warn of immediate danger.", true, "Do not use it for anything else in towns."),
+          tf("In galleria si possono tenere i fari spenti se la galleria è illuminata.", "In a tunnel you may keep your lights off if the tunnel is lit.", false, "Dipped lights are required in tunnels."),
+          tf("Con nebbia fitta si possono usare i fari fendinebbia anteriori.", "In thick fog you may use the front fog lights.", true, "Fog lights are meant for fog, snow and heavy rain.")
+        ]),
+        tfSet("pt116-ex3", "B", [
+          tf("I fari abbaglianti devono essere spenti quando si segue da vicino un altro veicolo.", "High beams must be off when closely following another vehicle.", true, "They would dazzle the driver ahead through his mirrors."),
+          tf("Le luci di emergenza si usano per segnalare un pericolo o un veicolo fermo in emergenza.", "Hazard lights are used to signal a danger or a vehicle stopped in an emergency.", true, "That is their purpose."),
+          tf("L'indicatore di direzione va azionato solo dopo aver iniziato la manovra.", "The indicator should be switched on only after starting the manoeuvre.", false, "Signal before you move."),
+          tf("Fuori dai centri abitati il lampeggio dei fari può segnalare l'intenzione di sorpassare.", "Outside built-up areas flashing the headlights may show an intention to overtake.", true, "Flashing is allowed there to warn the driver ahead."),
+          tf("I fendinebbia posteriori vanno spenti quando la visibilità migliora.", "Rear fog lights must be switched off when visibility improves.", true, "Leaving them on dazzles others."),
+          tf("Con la pioggia leggera si possono tenere accesi i retronebbia.", "In light rain you may keep the rear fog lights on.", false, "Not in light rain.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("💡", "Accendo gli anabbaglianti in galleria.", "ach-CHEN-do lyee an-ab-bal-YAN-tee een gal-le-REE-a", "I switch on my dipped lights in a tunnel."),
+        sp("🌫️", "Con la nebbia uso i fendinebbia.", "kon la NEB-bya OO-zo ee fen-dee-NEB-bya", "In fog I use the fog lights.")
+      ]
+    }),
+
+    topic({
+      id: 117, unit: "p-u5", label: "", difficulty: 4, requires: 116, icon: "🚆",
+      title: "Level Crossings", arabicTitle: "I passaggi a livello",
+      desc: "How to read a railway crossing, what to do when the lights flash, and what to do if you stall.",
+      content: [
+        { type: "p", text: "A level crossing (<em>passaggio a livello</em>) is where a road crosses a railway on the same level. Trains cannot stop quickly, so the rules are strict." },
+        { type: "h", text: "Signs & Signals" },
+        { type: "signs", items: [
+          { sign: "passaggio-livello", ar: "Passaggio a livello con barriere", translit: "pas-SAJ-jo a lee-VEL-lo kon bar-RYEH-reh", meaning: "Level crossing with barriers (warning)" },
+          { sign: "croce-st-andrea", ar: "Croce di Sant'Andrea", translit: "KRO-che dee san-tan-DRE-a", meaning: "Cross placed at the crossing itself" }
+        ]},
+        { type: "p", text: "Red flashing lights, a ringing bell, or lowering barriers all mean the same thing: <strong>stop</strong>." },
+        { type: "h", text: "What You Must Do" },
+        { type: "charlist", items: [
+          "Slow down as you approach, and <strong>never overtake</strong> near a crossing.",
+          "Stop when the lights flash or the barriers move — never zigzag round them.",
+          "Cross only if the road beyond the tracks has room for your whole vehicle.",
+          "If your vehicle stalls on the tracks: <strong>everyone out</strong>, move well away from the line, then call for help."
+        ]},
+        { type: "note", html: "Never stop on the tracks, even in a queue — wait until you are sure you can clear the crossing." }
+      ],
+      vocabCategories: [
+        { name: "Railway", words: [
+          vw("🚆", "il treno", "eel TREH-no", "the train"),
+          vw("🛤️", "il binario", "eel bee-NAH-ryo", "the track"),
+          vw("🛤️", "la ferrovia", "la fer-ro-VEE-a", "the railway"),
+          vw("🚧", "la barriera", "la bar-RYEH-ra", "the barrier"),
+          vw("🚦", "il passaggio a livello", "eel pas-SAJ-jo a lee-VEL-lo", "the level crossing")
+        ]}
+      ],
+      exercises: [
+        matching("pt117-ex1", [pair("il treno", "the train"), pair("il binario", "the track"), pair("la ferrovia", "the railway"), pair("la barriera", "the barrier"), pair("il passaggio a livello", "the level crossing")]),
+        tfSet("pt117-ex2", "A", [
+          tf("Il segnale raffigurato indica un passaggio a livello con barriere.", "The sign shown indicates a level crossing with barriers.", true, "A gate in a warning triangle.", "passaggio-livello"),
+          tf("La croce di Sant'Andrea è posta in corrispondenza di un passaggio a livello.", "St Andrew's cross is placed at a level crossing.", true, "It marks the crossing itself.", "croce-st-andrea"),
+          tf("Con le luci rosse lampeggianti del passaggio a livello bisogna fermarsi.", "When the level-crossing red lights flash you must stop.", true, "Flashing red means stop."),
+          tf("Se le barriere si stanno abbassando si può attraversare in fretta.", "If the barriers are coming down you may hurry across.", false, "Stop; never try to beat the barriers."),
+          tf("È vietato il sorpasso in prossimità di un passaggio a livello.", "Overtaking near a level crossing is forbidden.", true, "No overtaking at or near crossings."),
+          tf("Se il veicolo si ferma sui binari bisogna cercare di spostarlo restando a bordo.", "If the vehicle stops on the tracks try to move it while staying on board.", false, "Get everyone out and away from the tracks.")
+        ]),
+        tfSet("pt117-ex3", "B", [
+          tf("Se il veicolo si ferma sui binari bisogna far scendere tutti e allontanarsi.", "If the vehicle stops on the tracks everyone must get out and move away.", true, "Safety first."),
+          tf("Prima di attraversare bisogna accertarsi che oltre i binari ci sia spazio sufficiente.", "Before crossing you must be sure there is enough room beyond the tracks.", true, "Do not enter if you would be left on the line."),
+          tf("Se si vedono le barriere abbassate si può procedere quando non si vede il treno.", "With lowered barriers you may go on if no train is visible.", false, "Lowered barriers always mean stop."),
+          tf("Davanti a un passaggio a livello conviene aumentare la velocità per attraversarlo prima.", "Before a level crossing it is better to speed up to cross first.", false, "Slow down and be ready to stop."),
+          tf("Il segnale acustico del passaggio a livello indica l'arrivo di un treno.", "The sound signal at a level crossing means a train is coming.", true, "Treat it as a stop signal."),
+          tf("Se il traffico è fermo si può sostare con il veicolo sui binari.", "If traffic is at a standstill you may wait with the vehicle on the tracks.", false, "Never stop on the tracks.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🚧", "Alle barriere abbassate bisogna fermarsi.", "AL-leh bar-RYEH-reh ab-bas-SAH-teh bee-ZON-ya fer-MAR-see", "At lowered barriers you must stop."),
+        sp("🔴", "Con le luci rosse lampeggianti non si passa.", "kon leh LOO-chee ROS-seh lam-ped-JAN-tee non see PAS-sa", "With flashing red lights you do not cross.")
+      ]
+    }),
+
+    topic({
+      id: 118, unit: "p-u5", label: "", difficulty: 4, requires: 117, icon: "🚶",
+      title: "Pedestrians, Cyclists & Special Zones", arabicTitle: "Pedoni, ciclisti e zone speciali",
+      desc: "Sharing the road with people on foot and on bikes, plus ZTLs, zone 30 and pedestrian areas.",
+      content: [
+        { type: "p", text: "The exam gives a lot of weight to <strong>vulnerable road users</strong> — pedestrians and cyclists — and to Italian special zones." },
+        { type: "h", text: "Pedestrians" },
+        { type: "examples", items: [
+          ex("🚶", "Sul margine sinistro della strada", "sool MAR-jee-neh see-NEE-stro DEL-la STRAH-da", "Without a pavement, pedestrians walk on the left edge, facing traffic."),
+          ex("🦯", "Pedone con il bastone bianco", "pe-DOH-neh kon eel ba-STOH-neh BYAN-ko", "A pedestrian with a white cane: slow down and give way."),
+          ex("🏫", "Vicino alle scuole", "vee-CHEE-no AL-leh SKWO-leh", "Near schools, slow down and take extra care.")
+        ]},
+        { type: "h", text: "Cyclists" },
+        { type: "examples", items: [
+          ex("🚴", "Luce bianca davanti, rossa dietro", "LOO-che BYAN-ka da-VAN-tee, ROS-sa DYEH-tro", "At night: white light in front, red at the back."),
+          ex("🚪", "Aprire la portiera con attenzione", "a-PREE-reh la por-TYEH-ra kon at-ten-TSYO-neh", "Check behind you before opening a car door."),
+          ex("↔️", "Spazio laterale adeguato", "SPAH-tsyo la-te-RAH-leh a-de-GWAH-to", "Leave enough side space when overtaking a cyclist.")
+        ]},
+        { type: "h", text: "Special Zones" },
+        { type: "examples", items: [
+          ex("🅰️", "ZTL — zona a traffico limitato", "DZO-na a TRAF-fee-ko lee-mee-TAH-to", "Limited-traffic zone: only authorised vehicles may enter."),
+          ex("3️⃣", "Zona 30", "DZO-na tren-ta", "A zone with a 30 km/h limit."),
+          ex("🚷", "Area pedonale", "AH-re-a pe-do-NAH-leh", "Pedestrian area: vehicles are generally not allowed."),
+          ex("🚌", "Corsia riservata", "kor-SEE-a ree-ser-VAH-ta", "Reserved lane (for buses and the like): keep out.")
+        ]}
+      ],
+      vocabCategories: [
+        { name: "People", words: [
+          vw("🚶", "il pedone", "eel pe-DOH-neh", "the pedestrian"),
+          vw("🚴", "la bicicletta", "la bee-chee-KLET-ta", "the bicycle"),
+          vw("🦯", "il bastone bianco", "eel ba-STOH-neh BYAN-ko", "the white cane")
+        ]},
+        { name: "Zones", words: [
+          vw("🅰️", "la zona a traffico limitato", "la DZO-na a TRAF-fee-ko lee-mee-TAH-to", "limited-traffic zone"),
+          vw("🚷", "l'area pedonale", "LAH-re-a pe-do-NAH-leh", "the pedestrian area"),
+          vw("🚌", "la corsia riservata", "la kor-SEE-a ree-ser-VAH-ta", "the reserved lane")
+        ]}
+      ],
+      exercises: [
+        matching("pt118-ex1", [pair("la bicicletta", "the bicycle"), pair("il bastone bianco", "the white cane"), pair("l'area pedonale", "the pedestrian area"), pair("la corsia riservata", "the reserved lane"), pair("la zona a traffico limitato", "limited-traffic zone")]),
+        tfSet("pt118-ex2", "A", [
+          tf("Nei tratti privi di marciapiede i pedoni devono camminare sul margine sinistro rispetto al loro senso di marcia.", "Where there is no pavement pedestrians must walk on the left edge relative to their direction.", true, "They face oncoming traffic."),
+          tf("Il conducente deve rallentare e prestare attenzione quando vede un pedone con il bastone bianco.", "A driver must slow down and take care when seeing a pedestrian with a white cane.", true, "That pedestrian may be blind."),
+          tf("I ciclisti di notte devono avere una luce anteriore bianca e una posteriore rossa.", "At night cyclists must have a white front light and a red rear light.", true, "White in front, red at the back."),
+          tf("Prima di aprire la portiera bisogna accertarsi che non sopraggiungano ciclisti o altri veicoli.", "Before opening a door you must make sure no cyclists or vehicles are approaching.", true, "Check mirrors and behind you."),
+          tf("I pedoni possono attraversare ovunque anche a pochi metri da un attraversamento pedonale.", "Pedestrians may cross anywhere, even a few metres from a pedestrian crossing.", false, "They should use a nearby crossing."),
+          tf("Nelle aree pedonali il transito dei veicoli è in genere vietato.", "In pedestrian areas vehicles are generally forbidden.", true, "Pedestrian areas are for people on foot.")
+        ]),
+        tfSet("pt118-ex3", "B", [
+          tf("La ZTL è una zona a traffico limitato in cui possono accedere solo i veicoli autorizzati.", "A ZTL is a limited-traffic zone where only authorised vehicles may enter.", true, "Entering without permission is an offence."),
+          tf("In una zona 30 il limite massimo di velocità è di 30 km/h.", "In a zone 30 the maximum speed is 30 km/h.", true, "30 km/h is the limit."),
+          tf("I ciclisti possono circolare in autostrada.", "Cyclists may ride on motorways.", false, "Bicycles are banned from motorways."),
+          tf("Il conducente può sorpassare un ciclista senza lasciare spazio se la strada è larga.", "A driver may overtake a cyclist leaving no space if the road is wide.", false, "Always leave enough lateral space."),
+          tf("Un conducente che vede bambini vicino a una scuola può non rallentare.", "A driver who sees children near a school need not slow down.", false, "Slow down and be ready to stop."),
+          tf("Le corsie riservate ai mezzi pubblici possono essere usate da tutti i veicoli.", "Lanes reserved for public transport may be used by all vehicles.", false, "Only the vehicles allowed may use them.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🚪", "Prima di aprire la portiera guardo indietro.", "PREE-ma dee a-PREE-reh la por-TYEH-ra GWAR-do een-DYEH-tro", "Before opening the door I look behind."),
+        sp("🚷", "Nelle aree pedonali non si passa con l'auto.", "NEL-leh AH-re-eh pe-do-NAH-lee non see PAS-sa kon LOW-to", "In pedestrian areas you do not drive through.")
+      ]
+    }),
+
+    topic({
+      id: 119, unit: "p-u6", label: "", difficulty: 5, requires: 123, icon: "🔧",
+      title: "Vehicle Controls & Maintenance", arabicTitle: "Controlli e manutenzione",
+      desc: "Dashboard warning lights and the parts that keep you safe: brakes, tyres, ABS, ESP and airbags.",
+      content: [
+        { type: "p", text: "You do not need to be a mechanic for the exam, but you must know what the main warning lights mean and which parts matter for safety." },
+        { type: "h", text: "Warning Lights" },
+        { type: "signs", items: [
+          { sign: "spia-olio", ar: "Spia dell'olio", translit: "SPEE-a del-LOH-lyo", meaning: "Oil pressure too low" },
+          { sign: "spia-batteria", ar: "Spia della batteria", translit: "SPEE-a DEL-la bat-te-REE-a", meaning: "Battery not charging" },
+          { sign: "spia-freni", ar: "Spia dei freni", translit: "SPEE-a day FREH-nee", meaning: "Brake fault, or handbrake on" },
+          { sign: "spia-abs", ar: "Spia ABS", translit: "SPEE-a ah-beh-ES-seh", meaning: "Anti-lock braking fault" }
+        ]},
+        { type: "h", text: "Parts That Keep You Safe" },
+        { type: "examples", items: [
+          ex("🛑", "I freni", "ee FREH-nee", "Brakes: weak brakes lengthen your stopping distance."),
+          ex("🛞", "I pneumatici", "ee pneh-oo-MAH-tee-chee", "Tyres: right size, right pressure (checked cold), enough tread."),
+          ex("🔩", "Gli ammortizzatori", "lyee am-mor-tee-dza-TOR-ee", "Shock absorbers: worn ones hurt grip and lengthen braking."),
+          ex("🛡️", "ABS ed ESP", "ah-beh-ES-seh eh eh-seh-PEH", "ABS stops wheel lock; ESP helps keep the car stable in a skid."),
+          ex("🎈", "L'airbag", "eh-ER-beg", "Works together with the seat belt — it does not replace it.")
+        ]},
+        { type: "h", text: "Fluids" },
+        { type: "p", text: "<strong>Engine oil</strong> lubricates moving parts. <strong>Coolant</strong> keeps the engine at the right temperature. <strong>Brake fluid</strong> works the brakes." }
+      ],
+      vocabCategories: [
+        { name: "Parts", words: [
+          vw("🛑", "i freni", "ee FREH-nee", "the brakes"),
+          vw("🎛️", "lo sterzo", "lo STER-tso", "the steering"),
+          vw("🔋", "la batteria", "la bat-te-REE-a", "the battery"),
+          vw("🛢️", "l'olio", "LOH-lyo", "the oil"),
+          vw("🚨", "la spia", "la SPEE-a", "the warning light")
+        ]},
+        { name: "Safety Kit", words: [
+          vw("🛞", "i pneumatici", "ee pneh-oo-MAH-tee-chee", "the tyres"),
+          vw("🔩", "gli ammortizzatori", "lyee am-mor-tee-dza-TOR-ee", "the shock absorbers"),
+          vw("🎈", "l'airbag", "eh-ER-beg", "the airbag"),
+          vw("💺", "l'appoggiatesta", "lap-pod-ja-TEH-sta", "the head restraint")
+        ]}
+      ],
+      exercises: [
+        matching("pt119-ex1", [pair("i freni", "the brakes"), pair("lo sterzo", "the steering"), pair("la batteria", "the battery"), pair("l'olio", "the oil"), pair("la spia", "the warning light")]),
+        tfSet("pt119-ex2", "A", [
+          tf("La spia raffigurata, se si accende, segnala una pressione dell'olio motore insufficiente.", "The light shown, when on, warns of insufficient engine-oil pressure.", true, "The oil-can symbol means low oil pressure.", "spia-olio"),
+          tf("La spia raffigurata segnala un problema al sistema di ricarica della batteria.", "The light shown warns of a problem with the battery charging system.", true, "The battery symbol points to charging.", "spia-batteria"),
+          tf("La spia raffigurata può segnalare il freno a mano inserito o un problema all'impianto frenante.", "The light shown can mean the handbrake is on or there is a braking-system fault.", true, "The circled exclamation mark is the brake warning.", "spia-freni"),
+          tf("La spia raffigurata indica che il livello del carburante è basso.", "The light shown means the fuel level is low.", false, "It is the oil-pressure warning, not the fuel gauge.", "spia-olio"),
+          tf("Gli ammortizzatori consumati peggiorano la tenuta di strada e allungano gli spazi di frenata.", "Worn shock absorbers worsen road holding and lengthen braking distances.", true, "Worn dampers reduce tyre contact."),
+          tf("Con i freni poco efficienti si può circolare riducendo di poco la velocità.", "With poor brakes you may drive on, only slightly reducing speed.", false, "Poor brakes are a serious danger; have them fixed.")
+        ]),
+        tfSet("pt119-ex3", "B", [
+          tf("Il liquido di raffreddamento serve a mantenere il motore alla giusta temperatura.", "Coolant keeps the engine at the right temperature.", true, "It prevents overheating."),
+          tf("L'olio motore ha la funzione di lubrificare le parti in movimento.", "Engine oil lubricates the moving parts.", true, "It reduces friction and wear."),
+          tf("I pneumatici vanno controllati preferibilmente a caldo dopo un lungo viaggio.", "Tyres should preferably be checked hot after a long journey.", false, "Check pressure when the tyres are cold."),
+          tf("Il sistema ESP aiuta a mantenere la stabilità del veicolo in curva e in caso di sbandata.", "ESP helps keep the vehicle stable in bends and in a skid.", true, "That is what electronic stability control does."),
+          tf("L'airbag sostituisce le cinture di sicurezza.", "The airbag replaces the seat belts.", false, "It only works properly together with the belts."),
+          tf("Si possono montare pneumatici di misura diversa da quella omologata senza problemi.", "Tyres of a different size from the approved one can be fitted without any problem.", false, "Only the approved sizes may be used.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🛢️", "La spia dell'olio è accesa.", "la SPEE-a del-LOH-lyo eh ach-CHEH-sa", "The oil light is on."),
+        sp("🛞", "Controllo la pressione dei pneumatici.", "kon-TROL-lo la pres-SYO-neh day pneh-oo-MAH-tee-chee", "I check the tyre pressure.")
+      ]
+    }),
+
+    topic({
+      id: 120, unit: "p-u6", label: "", difficulty: 5, requires: 119, icon: "📦",
+      title: "Load, Passengers & Licence Categories", arabicTitle: "Carico, passeggeri e categorie",
+      desc: "Carrying a load safely, how many people you may carry, and which licence allows what.",
+      content: [
+        { type: "p", text: "A badly loaded vehicle is hard to steer and slow to stop. The exam also asks which licence allows which vehicle." },
+        { type: "h", text: "Carrying a Load" },
+        { type: "charlist", items: [
+          "The load must be <strong>secured</strong> so it cannot move or fall.",
+          "It must not make the vehicle <strong>unstable</strong> or affect braking and steering.",
+          "It must not hide the <strong>driver's view</strong>, the <strong>lights</strong> or the <strong>number plate</strong>.",
+          "A load that sticks out must be <strong>signalled</strong> properly."
+        ]},
+        { type: "h", text: "Passengers" },
+        { type: "p", text: "You may carry only as many people as the registration document (<em>carta di circolazione</em>) allows. Children shorter than 1.50 m need an approved restraint." },
+        { type: "h", text: "Licence Categories" },
+        { type: "examples", items: [
+          ex("🛵", "AM — dai 14 anni", "AH-EM-meh — day kwat-TOR-dee-chee AN-nee", "AM: mopeds, from age 14."),
+          ex("🏍️", "A1 — dai 16 anni", "AH oo-no — day see-DEE-chee AN-nee", "A1: light motorcycles, from age 16."),
+          ex("🚗", "B — dai 18 anni", "BEE — day dee-CHOT-to AN-nee", "B: cars up to 3,500 kg and eight passengers plus the driver, from age 18."),
+          ex("🚌", "D — autobus", "DEE — OW-to-boos", "D: buses.")
+        ]}
+      ],
+      vocabCategories: [
+        { name: "Loads & People", words: [
+          vw("📦", "il carico", "eel KAH-ree-ko", "the load"),
+          vw("🧍", "il passeggero", "eel pas-sed-JEH-ro", "the passenger"),
+          vw("🚌", "l'autobus", "LOW-to-boos", "the bus"),
+          vw("🚛", "il rimorchio", "eel ree-MOR-kyo", "the trailer")
+        ]},
+        { name: "Licence", words: [
+          vw("🪪", "la categoria", "la ka-te-go-REE-a", "the category"),
+          vw("⚖️", "la massa", "la MAS-sa", "the weight (mass)"),
+          vw("🎂", "l'età", "le-TAH", "the age")
+        ]}
+      ],
+      exercises: [
+        matching("pt120-ex1", [pair("il carico", "the load"), pair("il passeggero", "the passenger"), pair("la categoria", "the category"), pair("il rimorchio", "the trailer"), pair("l'autobus", "the bus")]),
+        tfSet("pt120-ex2", "A", [
+          tf("Il carico trasportato deve essere sistemato in modo da non compromettere la stabilità del veicolo.", "The load must be arranged so as not to compromise the vehicle's stability.", true, "A load must never upset stability."),
+          tf("Il carico non deve impedire la visibilità al conducente.", "The load must not obstruct the driver's view.", true, "Keep your view clear."),
+          tf("Il numero di persone trasportabili è indicato nella carta di circolazione.", "The number of people that may be carried is shown in the registration document.", true, "That is where the limit is written."),
+          tf("Il conducente può trasportare più passeggeri di quelli indicati se il tragitto è breve.", "The driver may carry more passengers than allowed if the trip is short.", false, "The limit applies on every trip."),
+          tf("La patente di categoria A1 si può conseguire a 16 anni.", "The A1 licence can be obtained at 16.", true, "A1 starts at 16."),
+          tf("La patente di categoria B si può conseguire a 17 anni.", "The B licence can be obtained at 17.", false, "B starts at 18.")
+        ]),
+        tfSet("pt120-ex3", "B", [
+          tf("Con la patente B si possono guidare autoveicoli con massa massima non superiore a 3.500 kg e non più di otto posti oltre al conducente.", "With a B licence you may drive vehicles up to 3,500 kg with no more than eight seats besides the driver's.", true, "That is the B-category limit."),
+          tf("La patente di categoria D abilita alla guida di autobus.", "A category D licence allows you to drive buses.", true, "D is the bus category."),
+          tf("Un carico sporgente deve essere segnalato in modo adeguato.", "A projecting load must be properly signalled.", true, "Make it visible to others."),
+          tf("Il carico può nascondere le luci e la targa se è ben assicurato.", "The load may hide the lights and number plate if it is well secured.", false, "Lights and plate must stay visible."),
+          tf("I bambini possono viaggiare in braccio al passeggero anteriore senza sistema di ritenuta.", "Children may travel on the front passenger's lap without a restraint.", false, "An approved restraint is required."),
+          tf("Un carico distribuito male può alterare la stabilità e la frenata del veicolo.", "A badly distributed load can alter stability and braking.", true, "Weight distribution matters.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("📦", "Il carico deve essere ben fissato.", "eel KAH-ree-ko DEH-veh ES-se-reh ben fees-SAH-to", "The load must be well secured."),
+        sp("🪪", "La patente B si prende a diciotto anni.", "la pa-TEN-teh BEE see PREN-deh a dee-CHOT-to AN-nee", "You can get a B licence at eighteen.")
+      ]
+    }),
+
+    topic({
+      id: 121, unit: "p-u6", label: "", difficulty: 5, requires: 120, icon: "🧠",
+      title: "Fitness to Drive & Behaviour", arabicTitle: "Condizioni psicofisiche e comportamento",
+      desc: "Tiredness, alcohol, medicines, distraction and the habits of a safe, courteous driver.",
+      content: [
+        { type: "p", text: "The best car and the best knowledge of the rules are useless if the driver is not fit to drive. These questions are mostly common sense — but learn the Italian wording." },
+        { type: "h", text: "Fit to Drive?" },
+        { type: "examples", items: [
+          ex("😴", "La stanchezza riduce l'attenzione.", "la stan-KET-tsa ree-DOO-che lat-ten-TSYO-neh", "Tiredness reduces attention."),
+          ex("🍷", "L'alcol rallenta i riflessi.", "LAL-kol ral-LEN-ta ee ree-FLES-see", "Alcohol slows reflexes."),
+          ex("💊", "Alcuni farmaci riducono la prontezza.", "al-KOO-nee FAR-ma-chee ree-DOO-ko-no la pron-TET-tsa", "Some medicines reduce alertness."),
+          ex("📱", "Il telefono distrae.", "eel te-LEH-fo-no dee-STRAH-eh", "The phone distracts.")
+        ]},
+        { type: "note", html: "<strong>Coffee does not cure alcohol.</strong> Only time lowers the alcohol level in the blood." },
+        { type: "h", text: "Good Habits" },
+        { type: "charlist", items: [
+          "Take a <strong>break about every two hours</strong> on a long trip; stop and rest if you feel sleepy.",
+          "Plan your route before you set off, so you are not distracted on the road.",
+          "Stay calm: aggressive driving makes accidents more likely.",
+          "Be considerate towards other road users, especially the more vulnerable ones."
+        ]}
+      ],
+      vocabCategories: [
+        { name: "Condition", words: [
+          vw("😴", "la stanchezza", "la stan-KET-tsa", "tiredness"),
+          vw("👀", "l'attenzione", "lat-ten-TSYO-neh", "attention"),
+          vw("⚡", "i riflessi", "ee ree-FLES-see", "reflexes"),
+          vw("💊", "il farmaco", "eel FAR-ma-ko", "the medicine"),
+          vw("⏸️", "la pausa", "la POW-za", "the break")
+        ]},
+        { name: "Behaviour", words: [
+          vw("😠", "aggressivo", "ag-gres-SEE-vo", "aggressive"),
+          vw("🙂", "cortese", "kor-TEH-zeh", "courteous"),
+          vw("😵", "distratto", "dee-STRAT-to", "distracted")
+        ]}
+      ],
+      exercises: [
+        matching("pt121-ex1", [pair("la stanchezza", "tiredness"), pair("l'attenzione", "attention"), pair("i riflessi", "reflexes"), pair("il farmaco", "the medicine"), pair("la pausa", "the break")]),
+        tfSet("pt121-ex2", "A", [
+          tf("La stanchezza riduce l'attenzione e aumenta i tempi di reazione.", "Tiredness reduces attention and lengthens reaction times.", true, "A tired driver reacts more slowly."),
+          tf("Il caffè elimina rapidamente gli effetti dell'alcol.", "Coffee quickly removes the effects of alcohol.", false, "Only time lowers the alcohol level."),
+          tf("L'alcol può dare una falsa sensazione di sicurezza.", "Alcohol can give a false sense of security.", true, "It makes people overconfident."),
+          tf("Alcuni farmaci possono ridurre la capacità di guida.", "Some medicines can reduce the ability to drive.", true, "Check the leaflet."),
+          tf("In caso di sonnolenza è consigliabile fermarsi e riposare.", "If you feel sleepy it is advisable to stop and rest.", true, "Rest is the only real cure."),
+          tf("Per combattere la stanchezza basta aprire il finestrino e continuare a guidare.", "To fight tiredness it is enough to open the window and keep driving.", false, "Fresh air does not replace rest.")
+        ]),
+        tfSet("pt121-ex3", "B", [
+          tf("L'alcol restringe il campo visivo del conducente.", "Alcohol narrows the driver's field of vision.", true, "Tunnel vision is a known effect."),
+          tf("Durante un lungo viaggio conviene fare pause regolari.", "On a long trip it is wise to take regular breaks.", true, "Roughly every two hours."),
+          tf("In un lungo viaggio la guida è più sicura se si evitano le pause per arrivare prima.", "On a long trip driving is safer if you avoid breaks to arrive sooner.", false, "Skipping breaks increases fatigue."),
+          tf("Una guida aggressiva aumenta il rischio di incidente.", "Aggressive driving increases the risk of an accident.", true, "Calm driving is safer."),
+          tf("Guardare lo smartphone per pochi secondi mentre si guida non riduce l'attenzione.", "Looking at a smartphone for a few seconds while driving does not reduce attention.", false, "Even seconds of distraction are dangerous."),
+          tf("Il conducente deve comportarsi con prudenza e rispetto verso gli altri utenti.", "The driver must behave with care and respect towards other road users.", true, "That is a basic duty.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("😴", "Se sono stanco mi fermo a riposare.", "seh SO-no STAN-ko mee FER-mo a ree-po-ZAH-reh", "If I'm tired I stop to rest."),
+        sp("📵", "Non uso il telefono mentre guido.", "non OO-zo eel te-LEH-fo-no MEN-treh GWEE-do", "I don't use the phone while I drive.")
+      ]
+    }),
+
+    topic({
+      id: 122, unit: "p-u6", label: "", difficulty: 5, requires: 121, icon: "⚖️",
+      title: "Insurance & Responsibility", arabicTitle: "Assicurazione e responsabilità",
+      desc: "Compulsory insurance, the three kinds of responsibility, and what you owe after an accident.",
+      content: [
+        { type: "p", text: "Driving carries legal duties. The exam checks that you know what insurance is compulsory and what kinds of responsibility a driver can face." },
+        { type: "h", text: "Compulsory Insurance (RCA)" },
+        { type: "p", text: "<strong>RCA</strong> (<em>responsabilità civile auto</em>) is compulsory for any vehicle on the road. It covers the damage you cause to <strong>other people</strong> — not the damage to your own vehicle or the injuries of the driver who caused the accident." },
+        { type: "h", text: "Three Kinds of Responsibility" },
+        { type: "examples", items: [
+          ex("💶", "Responsabilità civile", "res-pon-sa-bee-lee-TAH chee-VEE-leh", "Civil: you must compensate the damage you cause."),
+          ex("📝", "Responsabilità amministrativa", "res-pon-sa-bee-lee-TAH am-mee-nee-stra-TEE-va", "Administrative: fines, points lost, licence suspended or revoked."),
+          ex("🔨", "Responsabilità penale", "res-pon-sa-bee-lee-TAH pe-NAH-leh", "Criminal: for offences that are crimes. It is personal.")
+        ]},
+        { type: "h", text: "After an Accident" },
+        { type: "p", text: "Always stop. If nobody is hurt, drivers can fill in the <strong>CAI</strong> form (<em>constatazione amichevole</em>) together. Someone who lends a vehicle to a person without a licence can be held responsible too." }
+      ],
+      vocabCategories: [
+        { name: "Law", words: [
+          vw("🛡️", "l'assicurazione", "las-see-koo-ra-TSYO-neh", "insurance"),
+          vw("💥", "il danno", "eel DAN-no", "the damage"),
+          vw("💶", "il risarcimento", "eel ree-sar-chee-MEN-to", "the compensation"),
+          vw("🧾", "la multa", "la MOOL-ta", "the fine"),
+          vw("🔨", "il reato", "eel re-AH-to", "the crime"),
+          vw("⏸️", "la sospensione", "la so-spen-SYO-neh", "the suspension")
+        ]}
+      ],
+      exercises: [
+        matching("pt122-ex1", [pair("il danno", "the damage"), pair("la multa", "the fine"), pair("il reato", "the crime"), pair("il risarcimento", "the compensation"), pair("la sospensione", "the suspension")]),
+        tfSet("pt122-ex2", "A", [
+          tf("L'assicurazione per la responsabilità civile auto (RCA) è obbligatoria per circolare.", "Third-party motor insurance (RCA) is compulsory to drive.", true, "No RCA, no road."),
+          tf("L'RCA copre i danni causati a terzi dal conducente responsabile.", "RCA covers damage caused to third parties by the responsible driver.", true, "That is exactly its purpose."),
+          tf("L'RCA risarcisce sempre anche i danni subiti dal veicolo del conducente responsabile.", "RCA always also pays for damage to the responsible driver's own vehicle.", false, "It covers other people, not your own vehicle."),
+          tf("Un veicolo senza assicurazione può circolare solo di giorno.", "An uninsured vehicle may be driven only in daytime.", false, "It may not be driven at all."),
+          tf("La responsabilità civile consiste nell'obbligo di risarcire il danno causato.", "Civil responsibility is the obligation to compensate the damage caused.", true, "Civil = compensation."),
+          tf("La responsabilità penale è personale.", "Criminal responsibility is personal.", true, "Only the person who committed the offence answers for it.")
+        ]),
+        tfSet("pt122-ex3", "B", [
+          tf("Le sanzioni amministrative comprendono le multe e la sospensione della patente.", "Administrative penalties include fines and licence suspension.", true, "Both are administrative."),
+          tf("Il modulo CAI serve a descrivere un incidente senza feriti.", "The CAI form is used to describe an accident without injuries.", true, "It is the agreed accident report."),
+          tf("Dopo un incidente con soli danni il conducente non ha l'obbligo di fermarsi.", "After an accident with damage only, the driver has no duty to stop.", false, "You must stop."),
+          tf("La guida con patente sospesa è consentita se si è accompagnati.", "Driving with a suspended licence is allowed if accompanied.", false, "Not even if accompanied."),
+          tf("Chi causa un danno guidando sotto l'effetto dell'alcol può rispondere anche penalmente.", "Someone who causes damage while drunk may also face criminal responsibility.", true, "Drink-driving can be a crime."),
+          tf("Chi presta il proprio veicolo a una persona senza patente non ha alcuna responsabilità.", "Someone who lends their vehicle to an unlicensed person has no responsibility.", false, "The owner can be held responsible too.")
+        ])
+      ],
+      speakingPhrases: [
+        sp("🛡️", "L'assicurazione è obbligatoria.", "las-see-koo-ra-TSYO-neh eh ob-blee-ga-TOR-ya", "Insurance is compulsory."),
+        sp("🛑", "Dopo un incidente bisogna fermarsi.", "DO-po oon een-chee-DEN-teh bee-ZON-ya fer-MAR-see", "After an accident you must stop.")
+      ]
+    }),
+
+    /* ---------- two more review sets ---------- */
+    {
+      track: "patente", id: 123, unit: "p-u5", label: "", type: "checkpoint", difficulty: 4, requires: 118, icon: "🔁",
+      title: "Review: Special Roads & Road Users", arabicTitle: "Ripasso: strade speciali e utenti", locked: false,
+      desc: "Seven mixed statements on motorways, lights, level crossings, pedestrians and cyclists.",
+      content: [{ type: "p", text: "This review completes Unit 5. As in the real exam, the statements mix topics." }],
+      vocabCategories: [],
+      exercises: [
+        tfSet("pt123-ex1", "Mix", [
+          tf("In autostrada il conducente non può fermarsi sulla corsia di marcia per riposare.", "On a motorway the driver may not stop in the traffic lane to rest.", true, "Stopping in a lane is forbidden."),
+          tf("Davanti a un passaggio a livello con le luci rosse accese si può passare se il treno non si vede.", "At a level crossing with red lights on you may cross if no train is visible.", false, "Red lights mean stop, whether or not you see the train."),
+          tf("Nei centri abitati si può suonare il clacson per salutare un amico.", "In built-up areas you may sound the horn to greet a friend.", false, "Only for immediate danger."),
+          tf("Il conducente deve lasciare un adeguato spazio laterale quando sorpassa un ciclista.", "A driver must leave enough lateral space when overtaking a cyclist.", true, "Cyclists are vulnerable."),
+          tf("Nelle zone a traffico limitato possono circolare tutti i veicoli senza autorizzazione.", "In limited-traffic zones all vehicles may drive without permission.", false, "Only authorised vehicles."),
+          tf("I fendinebbia posteriori possono essere usati solo in caso di nebbia o neve.", "Rear fog lights may be used only in fog or snow.", true, "Not in other conditions."),
+          tf("Il segnale raffigurato avverte della presenza di una rotatoria.", "The sign shown warns of a roundabout ahead.", false, "A gate-like symbol is a level crossing.", "passaggio-livello")
+        ])
+      ],
+      speakingPhrases: []
+    },
+    {
+      track: "patente", id: 124, unit: "p-u6", label: "", type: "checkpoint", difficulty: 5, requires: 122, icon: "🔁",
+      title: "Review: Vehicle, Driver & Law", arabicTitle: "Ripasso: veicolo, conducente e legge", locked: false,
+      desc: "Name the dashboard lights, then seven mixed statements on vehicle, driver and law.",
+      content: [{ type: "p", text: "This review completes Unit 6. First the dashboard warning lights, then mixed True/False statements." }],
+      vocabCategories: [],
+      exercises: [
+        { id: "pt124-ex1", type: "mcq", title: "Name That Warning Light", instructions: "Choose the correct meaning for each light.", items: [
+          mc("spia-olio", ["Livello carburante basso — low fuel", "Pressione olio insufficiente — low oil pressure", "Motore troppo freddo — engine too cold"], 1),
+          mc("spia-batteria", ["Problema di ricarica della batteria — battery charging problem", "Porta aperta — door open", "Cinture non allacciate — belts unfastened"], 0),
+          mc("spia-freni", ["Fari accesi — lights on", "Airbag disattivato — airbag off", "Anomalia ai freni o freno a mano inserito — brake fault or handbrake on"], 2),
+          mc("spia-abs", ["Pneumatici gonfi — tyres inflated", "Anomalia del sistema antibloccaggio — ABS fault", "Cruise control attivo — cruise control on"], 1)
+        ]},
+        tfSet("pt124-ex2", "Mix", [
+          tf("Il conducente può guidare dopo avere assunto farmaci che causano sonnolenza.", "The driver may drive after taking medicines that cause drowsiness.", false, "Drowsiness makes driving dangerous."),
+          tf("L'RCA obbligatoria copre i danni che il conducente responsabile causa agli altri.", "Compulsory RCA covers damage the responsible driver causes to others.", true, "That is its purpose."),
+          tf("I bambini sotto 1,50 m possono viaggiare senza sistema di ritenuta se il tragitto è breve.", "Children under 1.50 m may travel without a restraint if the trip is short.", false, "A restraint is always required."),
+          tf("Il carico di un veicolo deve essere assicurato in modo da non muoversi durante la marcia.", "A vehicle's load must be secured so that it does not move while driving.", true, "Secure loads stay put."),
+          tf("Se la spia dei freni è accesa senza il freno a mano inserito conviene far controllare l'impianto frenante.", "If the brake light is on with the handbrake off, have the braking system checked.", true, "It may signal a real brake fault."),
+          tf("La patente a punti prevede che il conducente perda punti per alcune infrazioni.", "The points licence means a driver loses points for some offences.", true, "Points are deducted for offences."),
+          tf("Pneumatici sgonfi riducono i consumi di carburante.", "Under-inflated tyres reduce fuel consumption.", false, "They increase consumption and wear.")
+        ])
+      ],
+      speakingPhrases: []
+    }
+  );
+
+  /* ---------- extra sign-recognition questions in the two earlier reviews ---------- */
+  byId(110).desc = "Name the signs from Topics 2–6 — warning, prohibition, mandatory and information.";
+  byId(110).exercises.push({ id: "pt110-ex2", type: "mcq", title: "Name That Sign — Round 2", instructions: "Choose the correct meaning for each sign.", items: [
+    mc("limite-30", ["Velocità minima 30 — minimum 30 km/h", "Limite massimo di 30 km/h — maximum 30 km/h", "Zona residenziale — residential zone"], 1),
+    mc("divieto-inversione", ["Divieto di svolta a destra — no right turn", "Obbligo di svolta — turn compulsory", "Divieto di inversione di marcia — no U-turn"], 2),
+    mc("obbligo-sinistra", ["Divieto di svolta a sinistra — no left turn", "Direzione obbligatoria a sinistra — turn left only", "Senso unico — one-way street"], 1),
+    mc("parcheggio", ["Parcheggio — parking area", "Divieto di sosta — no parking", "Pista ciclabile — cycle path"], 0),
+    mc("ospedale", ["Parcheggio — parking", "Distributore — fuel station", "Ospedale — hospital"], 2),
+    mc("galleria", ["Sottopasso pedonale — pedestrian underpass", "Galleria — tunnel", "Ponte — bridge"], 1),
+    mc("passaggio-livello", ["Strettoia — road narrows", "Lavori — road works", "Passaggio a livello con barriere — level crossing with barriers"], 2),
+    mc("rotatoria-avviso", ["Doppia curva — double bend", "Rotatoria (avviso) — roundabout ahead (warning)", "Obbligo di rotatoria — roundabout (mandatory)"], 1)
+  ]});
+  byId(111).desc = "Recognise the priority signs, road markings and traffic lights from Unit 2.";
+  byId(111).exercises.push({ id: "pt111-ex2", type: "mcq", title: "Name That Marking — Round 2", instructions: "Choose the correct meaning for each picture.", items: [
+    mc("strisce-blu", ["Stalli di sosta a pagamento — paid parking bays", "Corsia riservata ai bus — bus lane", "Divieto di sosta — no parking"], 0),
+    mc("freccia-strada", ["Freccia di direzione — direction arrow on the lane", "Divieto di sorpasso — no overtaking", "Zona pedonale — pedestrian zone"], 0),
+    mc("attraversamento-ciclabile", ["Strisce pedonali — pedestrian crossing", "Attraversamento ciclabile — cycle crossing", "Linea di arresto — stop line"], 1),
+    mc("semaforo-freccia-verde", ["Freccia verde — go in the direction of the arrow", "Semaforo giallo — amber", "Semaforo spento — light off"], 0)
+  ]});
+
+  /* ---------- fix the chain and the order, and number the topics ---------- */
+  byId(110).requires = 114;
+  byId(113).requires = 103;
+  const ORDER = [100, 101, 102, 103, 113, 114, 110, 104, 105, 111, 106, 107, 112, 108, 109, 115, 116, 117, 118, 123, 119, 120, 121, 122, 124];
+  const patente = ORDER.map(byId);
+  const rest = chapters.filter(c => c.track !== "patente");
+  chapters.length = 0;
+  rest.concat(patente).forEach(c => chapters.push(c));
+  let topicNo = 0, reviewNo = 0;
+  patente.forEach(c => { c.label = c.type === "checkpoint" ? `Review ${++reviewNo}` : `Topic ${++topicNo}`; });
+  byId(100).content.forEach(b => { if (b.type === "note" && /see Topic 7/.test(b.html)) b.html = b.html.replace("see Topic 7", "see Topic 9"); });
 })();

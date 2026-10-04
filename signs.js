@@ -149,6 +149,71 @@
     'linea-arresto': { html: road(`<rect x="54" y="42" width="38" height="10" fill="#fff"/><rect x="47.5" y="0" width="5" height="38" fill="#fff"/><rect x="47.5" y="56" width="5" height="44" fill="#fff"/>`), alt: 'Stop line' }
   };
 
+  /* ---------------- second batch of figures ---------------- */
+  const person = (cx, top, sw) =>
+    `<circle cx="${cx}" cy="${top}" r="4.6" stroke="none"/>` +
+    `<path d="M${cx},${top + 7} V${top + 20} M${cx},${top + 10} L${cx - 7},${top + 16} M${cx},${top + 10} L${cx + 7},${top + 15} M${cx},${top + 20} L${cx - 6},${top + 31} M${cx},${top + 20} L${cx + 6},${top + 31}" fill="none" stroke-width="${sw}"/>`;
+  function roundaboutArrowsAt(cx, cy, r, span, sw, head) {
+    const out = [];
+    for (let k = 0; k < 3; k++) {
+      const a0 = (-90 + k * 120) * Math.PI / 180, a1 = a0 - span * Math.PI / 180;
+      const sx = cx + r * Math.cos(a0), sy = cy + r * Math.sin(a0), ex = cx + r * Math.cos(a1), ey = cy + r * Math.sin(a1);
+      out.push(`<path d="M${sx.toFixed(1)},${sy.toFixed(1)} A${r},${r} 0 0 0 ${ex.toFixed(1)},${ey.toFixed(1)}" fill="none" stroke-width="${sw}"/>`);
+      const dx = Math.sin(a1), dy = -Math.cos(a1), rx = Math.cos(a1), ry = Math.sin(a1);
+      const tip = [ex + dx * head * 1.3, ey + dy * head * 1.3], b1 = [ex + rx * head, ey + ry * head], b2 = [ex - rx * head, ey - ry * head];
+      out.push(`<polygon points="${tip.map(v => v.toFixed(1)).join(',')} ${b1.map(v => v.toFixed(1)).join(',')} ${b2.map(v => v.toFixed(1)).join(',')}" stroke="none"/>`);
+    }
+    return out.join('');
+  }
+  const slash = `<path d="M24,24 L76,76" stroke="${RED}" stroke-width="7" stroke-linecap="butt"/>`;
+  const square = (fill, inner) => svg(`<rect x="5" y="5" width="90" height="90" rx="9" fill="${fill}" stroke="#fff" stroke-width="3"/><rect x="5" y="5" width="90" height="90" rx="9" fill="none" stroke="#c9d3dc" stroke-width="1"/>${inner}`);
+  const roadStripe = (x, y, w, h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff"/>`;
+  const dashIcon = inner => svg(`<rect x="4" y="4" width="92" height="92" rx="14" fill="#23272b"/>${inner}`);
+  const bayLines = [0, 1, 2].map(k => `<rect x="${12 + k * 25}" y="22" width="25" height="56" fill="none" stroke="#2f80ed" stroke-width="4"/>`).join('');
+  const bikeSquares = [38, 62].map(y => Array.from({ length: 6 }, (_, k) => `<rect x="${12 + k * 14}" y="${y - 5}" width="9" height="9" fill="#fff"/>`).join('')).join('');
+
+  Object.assign(FIGURES, {
+    // warning
+    'passaggio-livello': { html: triangle(`<rect x="31" y="45" width="4" height="30" stroke="none"/><rect x="65" y="45" width="4" height="30" stroke="none"/><rect x="31" y="49" width="38" height="4" stroke="none"/><rect x="31" y="59" width="38" height="4" stroke="none"/>`), alt: 'Warning sign: level crossing with barriers' },
+    'croce-st-andrea': { html: svg(`<path d="M14,14 L86,86 M86,14 L14,86" stroke="${RED}" stroke-width="22"/><path d="M14,14 L86,86 M86,14 L14,86" stroke="#fff" stroke-width="12"/>`), alt: "St Andrew's cross at a level crossing" },
+    'rotatoria-avviso': { html: triangle(roundaboutArrowsAt(50, 60, 13, 70, 5, 6)), alt: 'Warning sign: roundabout ahead' },
+    'doppio-senso': { html: triangle(`<path d="M41,74 V52 M59,40 V62" fill="none" stroke-width="5"/><polygon points="34,52 41,40 48,52" stroke="none"/><polygon points="52,62 59,74 66,62" stroke="none"/>`), alt: 'Warning sign: two-way traffic' },
+    'salita': { html: triangle(`<polygon points="30,74 70,74 70,52" stroke="none"/>${label('10%', 13, 48, BLACK)}`), alt: 'Warning sign: steep ascent' },
+    'discesa': { html: triangle(`<polygon points="30,52 30,74 70,74" stroke="none"/>${label('10%', 13, 48, BLACK)}`), alt: 'Warning sign: steep descent' },
+    // prohibition
+    'limite-30': { html: prohibition(label('30', 38, 64, BLACK)), alt: 'Maximum speed 30 km/h' },
+    'divieto-inversione': { html: prohibition(`<g fill="${BLACK}" stroke="${BLACK}" stroke-linecap="round" stroke-linejoin="round"><path d="M37,72 V46 Q37,32 50,32 Q63,32 63,46 V58" fill="none" stroke-width="7"/><polygon points="54,56 63,70 72,56" stroke="none"/></g>${slash}`), alt: 'No U-turn' },
+    'divieto-svolta-sx': { html: prohibition(`<g fill="${BLACK}" stroke="${BLACK}" stroke-linecap="round" stroke-linejoin="round"><path d="M62,74 V52 Q62,42 52,42 H38" fill="none" stroke-width="7"/><polygon points="40,32 24,42 40,52" stroke="none"/></g>${slash}`), alt: 'No left turn' },
+    'divieto-pedoni': { html: prohibition(`<g fill="${BLACK}" stroke="${BLACK}" stroke-linecap="round">${person(50, 28, 4.2)}</g>`), alt: 'No pedestrians' },
+    'divieto-bici': { html: prohibition(`<g transform="translate(15 14) scale(.7)" fill="none" stroke="${BLACK}" stroke-linecap="round" stroke-linejoin="round"><circle cx="34" cy="64" r="11" stroke-width="5"/><circle cx="66" cy="64" r="11" stroke-width="5"/><path d="M34,64 L44,43 H59 L50,64 Z M59,43 L66,64 M44,43 L42,37 H48 M59,43 L57,37 H63" stroke-width="4.5"/></g>`), alt: 'No bicycles' },
+    'fine-divieti': { html: svg(`<circle cx="50" cy="50" r="44" fill="#fff" stroke="#7a7f85" stroke-width="6"/><path d="M26,72 L72,26 M36,80 L80,36 M20,60 L60,20" stroke="#40454a" stroke-width="5" stroke-linecap="round"/>`), alt: 'End of all prohibitions' },
+    // mandatory
+    'obbligo-sinistra': { html: mandatory(mirror(arrowRight)), alt: 'Mandatory direction: turn left' },
+    'percorso-pedonale': { html: mandatory(`<g fill="#fff" stroke="#fff" stroke-linecap="round">${person(50, 26, 4.4)}</g>`), alt: 'Pedestrian path' },
+    // information
+    'parcheggio': { html: square(BLUE, label('P', 64, 74, '#fff')), alt: 'Parking area' },
+    'senso-unico': { html: square(BLUE, `<g fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M50,80 V38" fill="none" stroke-width="10"/><polygon points="32,42 50,16 68,42" stroke="none"/></g>`), alt: 'One-way street' },
+    'ospedale': { html: square(BLUE, label('H', 62, 72, '#fff')), alt: 'Hospital' },
+    'pedonale-info': { html: square(BLUE, `<polygon points="50,16 82,76 18,76" fill="#fff"/><g fill="${BLACK}" stroke="${BLACK}" stroke-linecap="round">${person(50, 38, 3.2)}</g>`), alt: 'Pedestrian crossing (information sign)' },
+    'galleria': { html: square(BLUE, `<path d="M24,80 V54 Q24,26 50,26 Q76,26 76,54 V80" fill="none" stroke="#fff" stroke-width="9"/><path d="M50,80 V66 M50,58 V50" stroke="#fff" stroke-width="5"/>`), alt: 'Tunnel' },
+    'distributore': { html: square(BLUE, `<g fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="24" width="26" height="52" rx="3" stroke="none"/><rect x="35" y="30" width="16" height="12" fill="${BLUE}" stroke="none"/><path d="M56,40 H66 V62 Q66,70 73,68" fill="none" stroke-width="5"/></g>`), alt: 'Fuel station' },
+    'autostrada': { html: svg(`<rect x="5" y="5" width="90" height="90" rx="9" fill="#0a7d3b" stroke="#fff" stroke-width="3"/><polygon points="30,82 70,82 56,26 44,26" fill="#fff"/><path d="M50,80 V70 M50,62 V52 M50,44 V34" stroke="#0a7d3b" stroke-width="3"/>`), alt: 'Motorway' },
+    // complementary / temporary
+    'pannello-distanza': { html: svg(`<rect x="6" y="28" width="88" height="44" rx="4" fill="#fff" stroke="${BLACK}" stroke-width="4"/>${label('200 m', 25, 59, BLACK)}`), alt: 'Supplementary panel: 200 metres' },
+    'barriera': { html: svg(`<rect x="8" y="36" width="84" height="28" fill="#fff" stroke="${BLACK}" stroke-width="3"/><polygon points="12,64 28,36 42,36 26,64" fill="${RED}"/><polygon points="40,64 56,36 70,36 54,64" fill="${RED}"/><polygon points="68,64 84,36 92,36 92,50 80,64" fill="${RED}"/><rect x="14" y="64" width="6" height="26" fill="${BLACK}"/><rect x="80" y="64" width="6" height="26" fill="${BLACK}"/>`), alt: 'Red and white barrier' },
+    'cono': { html: svg(`<polygon points="50,10 72,84 28,84" fill="${RED}"/><polygon points="41.1,40 58.9,40 63.7,56 36.3,56" fill="#fff"/><rect x="20" y="84" width="60" height="9" rx="2" fill="${BLACK}"/>`), alt: 'Traffic cone' },
+    // markings and lights
+    'freccia-strada': { html: road(`<polygon points="50,16 68,44 57,44 57,82 43,82 43,44 32,44" fill="#fff"/>`), alt: 'Direction arrow on the road' },
+    'strisce-blu': { html: svg(`<rect width="100" height="100" fill="#4d5258"/>${bayLines}`), alt: 'Blue parking bays' },
+    'attraversamento-ciclabile': { html: road(bikeSquares), alt: 'Cycle crossing' },
+    'semaforo-freccia-verde': { html: svg(`<rect x="31" y="5" width="38" height="90" rx="10" fill="#1f1f1f"/><circle cx="50" cy="26" r="11" fill="#4a1f1f"/><circle cx="50" cy="50" r="11" fill="#4d4415"/><circle cx="50" cy="74" r="11" fill="#0f2a16"/><polygon points="41,72 53,72 53,66 62,74 53,82 53,76 41,76" fill="#2fb34a"/>`), alt: 'Traffic light: green arrow' },
+    // dashboard warning lights
+    'spia-olio': { html: dashIcon(`<path d="M24,50 H58 L70,40 H82 L70,56 V66 H32 Q24,66 24,58 Z" fill="#e53935"/><circle cx="48" cy="74" r="0" fill="#e53935"/><path d="M82,60 Q86,68 82,72 Q78,68 82,60 Z" fill="#e53935"/><rect x="34" y="40" width="14" height="6" rx="2" fill="#e53935"/>`), alt: 'Oil pressure warning light' },
+    'spia-batteria': { html: dashIcon(`<rect x="20" y="36" width="60" height="38" rx="4" fill="none" stroke="#e53935" stroke-width="6"/><rect x="28" y="28" width="12" height="8" fill="#e53935"/><rect x="60" y="28" width="12" height="8" fill="#e53935"/><path d="M32,56 H44 M38,50 V62 M58,56 H70" stroke="#e53935" stroke-width="5" stroke-linecap="round"/>`), alt: 'Battery warning light' },
+    'spia-freni': { html: dashIcon(`<circle cx="50" cy="50" r="22" fill="none" stroke="#e53935" stroke-width="6"/>${label('!', 34, 62, '#e53935')}<path d="M20,34 Q8,50 20,66 M80,34 Q92,50 80,66" fill="none" stroke="#e53935" stroke-width="5" stroke-linecap="round"/>`), alt: 'Brake system warning light' },
+    'spia-abs': { html: dashIcon(`<circle cx="50" cy="50" r="30" fill="none" stroke="#f5a300" stroke-width="6"/>${label('ABS', 22, 59, '#f5a300')}`), alt: 'ABS warning light' }
+  });
+
   window.SIGN_KEYS = Object.keys(FIGURES);
   window.renderSign = function (key) {
     const f = FIGURES[key];
