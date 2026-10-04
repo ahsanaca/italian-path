@@ -537,7 +537,8 @@ textarea { font-family:inherit; font-size:16px; line-height:1.5; }
 .step-back:hover { color:var(--text); background:var(--surface-3); }
 .step-track { flex:1; height:10px; background:var(--surface-3); border-radius:10px; overflow:hidden; }
 .step-track > div { height:100%; background:linear-gradient(90deg,var(--hero-1),var(--success)); border-radius:10px; transition:width .3s ease; }
-.step-count { font-size:13px; color:var(--text-muted); min-width:44px; text-align:end; font-variant-numeric:tabular-nums; }
+.step-count { font-size:13px; color:var(--text-muted); text-align:end; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.step-count b { color:var(--text); font-weight:700; }
 .complete-card { text-align:center; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:36px 20px; margin-top:16px; }
 .complete-card .cc-big { font-size:56px; line-height:1.2; }
 .complete-card h1 { font-size:26px; margin:6px 0; }

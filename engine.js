@@ -151,6 +151,13 @@ const DEFAULT_STRINGS = {
   examTryAgain: "Try Another Exam",
   examNotEnough: "Not enough questions yet for a full exam.",
   currentCourse: "Current",
+  stepLesson: "Lesson",
+  stepLessons: "lessons",
+  stepWords: "Words",
+  stepMatch: "Match",
+  stepPractice: "Practice",
+  stepPracticeCount: "practice",
+  stepSpeaking: "Speaking",
   trackStarted: "{started} of {n} lessons started",
   examHistory: "Your recent attempts",
   examPassedShort: "Passed",
@@ -1410,6 +1417,27 @@ function goToPrevStep() {
   else showDashboard();
 }
 
+// What kind of screen is this? Shown next to the step counter so a learner
+// always knows whether they are reading, learning words or practising.
+function stepKindLabel(step) {
+  if (step.type === 'content') return t('stepLesson');
+  if (step.type === 'vocab') return t('stepWords');
+  if (step.type === 'speaking') return t('stepSpeaking');
+  if (step.type === 'exercise') return step.ex.type === 'matching' ? t('stepMatch') : t('stepPractice');
+  return '';
+}
+// A one-line map of the chapter, shown on its first screen.
+function chapterRoadmap(steps) {
+  const n = type => steps.filter(s => s.type === type).length;
+  const practice = steps.filter(s => s.type === 'exercise').length;
+  const pills = [];
+  if (n('content')) pills.push(`📖 ${n('content')} ${n('content') === 1 ? t('stepLesson').toLowerCase() : t('stepLessons')}`);
+  if (n('vocab')) pills.push(`🔤 ${t('stepWords')}`);
+  if (practice) pills.push(`✏️ ${practice} ${t('stepPracticeCount')}`);
+  if (n('speaking')) pills.push(`🎤 ${t('stepSpeaking')}`);
+  return pills.map(p => `<span class="pill">${p}</span>`).join('');
+}
+
 function renderChapterStep(scroll) {
   const ch = currentChapter;
   const step = chapterSteps[stepIndex];
@@ -1422,7 +1450,7 @@ function renderChapterStep(scroll) {
     <div class="step-bar">
       <button class="step-back" onclick="goToPrevStep()" aria-label="${isFirst ? 'Close lesson' : 'Previous step'}">${isFirst ? '✕' : '←'}</button>
       <div class="step-track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div style="width:${pct}%"></div></div>
-      <span class="step-count">${stepIndex + 1} / ${total}</span>
+      <span class="step-count"><b>${stepKindLabel(step)}</b> · ${stepIndex + 1} / ${total}</span>
     </div>
     ${isFirst ? `
     <header class="chapter-hero ${ch.type === 'checkpoint' ? 'checkpoint' : ''}" id="chapterHero">
@@ -1432,6 +1460,7 @@ function renderChapterStep(scroll) {
         <h1>${ch.title}</h1>
         <div class="ch-arabic-big native-text">${ch.arabicTitle}</div>
         <p class="ch-desc">${ch.desc}</p>
+        <div class="ch-stats" aria-label="What is in this chapter">${chapterRoadmap(chapterSteps)}</div>
       </div>
     </header>` : ''}
     <div class="tab-panel active" id="stepContent"></div>`;
@@ -1709,7 +1738,7 @@ function currentExamCfg() {
   return trackDef.exam || null;
 }
 function buildExamQuestions(cfg) {
-  const pools = chaptersInTrack().filter(c => !c.locked && c.type !== 'checkpoint').map(ch => {
+  const pools = chaptersInTrack().filter(c => !c.locked && c.type !== 'checkpoint' && !c.noExam).map(ch => {
     const items = [];
     (ch.exercises || []).forEach(ex => {
       if (ex.type === 'truefalse') ex.items.forEach(it => items.push({ ...it, sourceId: ch.id, sourceLabel: ch.label, sourceTitle: ch.title }));

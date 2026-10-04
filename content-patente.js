@@ -49,16 +49,9 @@
     topic({
       id: 100, unit: "p-u1", label: "Topic 1", difficulty: 1, requires: null, icon: "🛣️",
       title: "The Road & Basic Definitions", arabicTitle: "La strada e le definizioni",
-      desc: "How the theory exam works, which side you drive on, and the words for the parts of a road.",
+      desc: "Which side you drive on, the parts of a road, and the types of road.",
       content: [
-        { type: "p", text: "The Italian theory exam (<em>esame di teoria</em>) is taken in Italian: you read a short statement and answer <strong>Vero</strong> (true) or <strong>Falso</strong> (false). This track teaches each rule in English, introduces the Italian words you will meet in the questions, then drills you with statements worded the way the real test words them." },
-        { type: "h", text: "How the Real Exam Works" },
-        { type: "examples", items: [
-          ex("📝", "30 affermazioni", "tren-ta af-fer-ma-TSYO-nee", "30 statements"),
-          ex("⏱️", "20 minuti", "VEN-tee mee-NOO-tee", "20 minutes"),
-          ex("❌", "massimo 3 errori", "MAS-see-mo tray er-ROH-ree", "at most 3 errors")
-        ]},
-        { type: "note", html: "<strong>Check the latest rules.</strong> These figures are the Patente B format at the time this course was written. Exam details and traffic law change from time to time — always confirm with the Motorizzazione or a driving school. This app is an independent study aid, not an official product." },
+        { type: "p", text: "Every road question builds on the basics: which side you drive on, the words for the parts of a road, and the types of road. Start here." },
         { type: "h", text: "Drive on the Right" },
         { type: "examples", items: [
           ex("🛣️", "In Italia si guida a destra.", "een ee-TAH-lya see GWEE-da a DEH-stra", "In Italy you drive on the right."),
@@ -814,7 +807,12 @@
   );
 
   const byId = id => chapters.find(c => c.id === id);
-  const addSet = (id, letter, items) => byId(id).exercises.push(tfSet(`pt${id}-ex4`, letter, items));
+  const addSet = (id, letter, items) => {
+    const set = tfSet(`pt${id}-ex4`, letter, items);
+    set.title = "Extra Practice — Vero o Falso?";
+    set.instructions = "Optional extra practice — tap Continue to skip it. " + TF_HELP;
+    byId(id).exercises.push(set);
+  };
 
   /* ---------- a third practice set for each earlier topic ---------- */
   addSet(100, "C", [
@@ -1572,14 +1570,55 @@
   ]});
 
   /* ---------- fix the chain and the order, and number the topics ---------- */
+
+  /* ---------- a short welcome before Topic 1 ---------- */
+  units.splice(units.findIndex(u => u.id === "p-u1"), 0,
+    { id: "p-u0", track: "patente", title: "Welcome", desc: "A two-minute tour: what the exam is like and how each topic works." });
+  chapters.push(topic({
+    id: 99, unit: "p-u0", label: "Start here", difficulty: 1, requires: null, icon: "👋", noExam: true,
+    title: "How This Course Works", arabicTitle: "Benvenuto!",
+    desc: "A two-minute tour: what the exam is like, how each topic works, and a first try at the real Vero/Falso format.",
+    content: [
+      { type: "p", text: "Welcome! This course prepares you for the <strong>Italian driving theory exam</strong> (<em>esame di teoria</em>) for a car licence, <strong>Patente B</strong>. You don't need to know any Italian to start." },
+      { type: "h", text: "What the Exam Is Like" },
+      { type: "charlist", items: [
+        "📝 <strong>30 statements</strong> — each one is <strong>Vero</strong> (True) or <strong>Falso</strong> (False).",
+        "⏱️ <strong>20 minutes</strong> on the clock.",
+        "❌ You can get <strong>at most 3 wrong</strong> and still pass.",
+        "🇮🇹 The statements are <strong>in Italian</strong>. That is why every rule here comes with the key Italian words — and every statement has an English translation underneath."
+      ]},
+      { type: "note", html: "<strong>Check the latest rules.</strong> These figures are the Patente B format at the time this course was written. Exam details and traffic law change from time to time — always confirm with the Motorizzazione or a driving school. This app is an independent study aid, not an official product." },
+      { type: "h", text: "How Each Topic Works" },
+      { type: "charlist", items: [
+        "📖 <strong>Lesson screens</strong> — the rule in plain English, with the Italian words you will meet in the questions. Tap 🔊 to hear any word.",
+        "🔤 <strong>Words</strong> — flip-cards for the vocabulary.",
+        "✏️ <strong>Practice</strong> — Vero/Falso statements just like the exam, with an explanation after every answer.",
+        "🎤 <strong>Speaking</strong> — say the key phrases out loud (optional)."
+      ]},
+      { type: "p", text: "The top of every screen tells you what kind of screen it is (<em>Lesson, Words, Practice…</em>) and how far through the topic you are." },
+      { type: "p", text: "<strong>Your path:</strong> <strong>20 topics</strong> in 6 units, with a short <strong>review</strong> after each unit. When you are scoring well, take the <strong>Mock Exam</strong> from the Home screen: 30 statements, 20 minutes, just like the real thing." }
+    ],
+    vocabCategories: [],
+    exercises: [
+      tfSet("pt99-ex1", "Try It", [
+        tf("In Italia si guida a sinistra.", "In Italy you drive on the left.", false, "Italy drives on the RIGHT. This is how every practice screen works: read the statement, choose Vero or Falso, then check to see why."),
+        tf("Il segnale raffigurato obbliga a fermarsi.", "The sign shown obliges you to stop.", true, "A red octagon is the STOP sign — you must stop. Many exam statements come with a picture like this.", "stop"),
+        tf("Con la luce rossa del semaforo si può passare.", "On a red traffic light you may go.", false, "Red means stop. Tap the speaker to hear Italian read aloud; the translation is under each statement.", "semaforo-rosso")
+      ])
+    ],
+    speakingPhrases: []
+  }));
+  byId(99).exercises[0].title = "Try It — Three Practice Statements";
+  byId(99).exercises[0].instructions = "This is exactly how the exam works. Tap Vero or Falso for each statement, then tap Check my answers to see the explanation. Tap the speaker to hear the Italian.";
+  byId(100).requires = 99;
   byId(110).requires = 114;
   byId(113).requires = 103;
-  const ORDER = [100, 101, 102, 103, 113, 114, 110, 104, 105, 111, 106, 107, 112, 108, 109, 115, 116, 117, 118, 123, 119, 120, 121, 122, 124];
+  const ORDER = [99, 100, 101, 102, 103, 113, 114, 110, 104, 105, 111, 106, 107, 112, 108, 109, 115, 116, 117, 118, 123, 119, 120, 121, 122, 124];
   const patente = ORDER.map(byId);
   const rest = chapters.filter(c => c.track !== "patente");
   chapters.length = 0;
   rest.concat(patente).forEach(c => chapters.push(c));
   let topicNo = 0, reviewNo = 0;
-  patente.forEach(c => { c.label = c.type === "checkpoint" ? `Review ${++reviewNo}` : `Topic ${++topicNo}`; });
+  patente.forEach(c => { if (c.id === 99) return; c.label = c.type === "checkpoint" ? `Review ${++reviewNo}` : `Topic ${++topicNo}`; });
   byId(100).content.forEach(b => { if (b.type === "note" && /see Topic 7/.test(b.html)) b.html = b.html.replace("see Topic 7", "see Topic 9"); });
 })();
