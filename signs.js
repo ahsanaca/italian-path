@@ -144,7 +144,7 @@
     'linea-continua': { html: road(`<rect x="47.5" y="0" width="5" height="100" fill="#fff"/>`), alt: 'Continuous centre line' },
     'linea-tratteggiata': { html: road(dashes(47.5)), alt: 'Broken centre line' },
     'linea-doppia': { html: road(`<rect x="43" y="0" width="5" height="100" fill="#fff"/><rect x="52" y="0" width="5" height="100" fill="#fff"/>`), alt: 'Double continuous line' },
-    'linea-mista': { html: road(`<rect x="43" y="0" width="5" height="100" fill="#fff"/>${dashes(52)}`), alt: 'Continuous line next to a broken line' },
+    'linea-mista': { html: road(`<rect x="43" y="0" width="5" height="100" fill="#fff"/>${dashes(52)}`), alt: 'Continuous + broken line: cross only from the broken-line side' },
     'strisce-pedonali': { html: road(zebra), alt: 'Pedestrian crossing (zebra)' },
     'linea-arresto': { html: road(`<rect x="54" y="42" width="38" height="10" fill="#fff"/><rect x="47.5" y="0" width="5" height="38" fill="#fff"/><rect x="47.5" y="56" width="5" height="44" fill="#fff"/>`), alt: 'Stop line' }
   };
@@ -214,9 +214,201 @@
     'spia-abs': { html: dashIcon(`<circle cx="50" cy="50" r="30" fill="none" stroke="#f5a300" stroke-width="6"/>${label('ABS', 22, 59, '#f5a300')}`), alt: 'ABS warning light' }
   });
 
+  /* ---------------- road SCENES ----------------
+     Simple top-down diagrams (a junction, an overtaking, a crossing…) for
+     "which vehicle must give way?" questions. Cars are drawn pointing in
+     their direction of travel, with a letter on the roof; drawn from
+     scratch, schematic, not to scale. Italy drives on the right. */
+  const SC_ROAD = '#575d63';
+  const CAR_BLUE = '#1f6fd0', CAR_RED = '#d6342c';
+  const scene = body => `<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect width="200" height="140" fill="#cfe3bf"/>${body}</svg>`;
+  const scRect = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}"/>`;
+  const scLine = (x1, y1, x2, y2, o) => {
+    o = o || {};
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${o.c || '#fff'}" stroke-width="${o.w || 1.8}"${o.dash ? ` stroke-dasharray="${o.dash}"` : ''}/>`;
+  };
+  const scBuilding = (x, y, w, h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#b9b2a6" stroke="#9a9388" stroke-width="1"/>`;
+  const scCar = (x, y, rot, fill, letter) =>
+    `<g transform="translate(${x} ${y}) rotate(${rot})">` +
+    `<rect x="-8" y="-15" width="16" height="30" rx="5" fill="${fill}" stroke="#111" stroke-width="1.3"/>` +
+    `<rect x="-6" y="-11" width="12" height="7" rx="2" fill="#cfe9ff" stroke="#111" stroke-width=".7"/>` +
+    `<rect x="-6" y="8.5" width="12" height="3.5" rx="1.2" fill="#000" opacity=".28"/>` +
+    (letter ? `<g transform="rotate(${-rot})"><circle cx="0" cy="2" r="6.2" fill="#fff" stroke="#111" stroke-width=".8"/><text x="0" y="5.4" text-anchor="middle" font-size="9" font-weight="800" font-family="Arial,Helvetica,sans-serif" fill="#111">${letter}</text></g>` : '') +
+    `</g>`;
+  // dashed path with an arrowhead: where a vehicle is going
+  const scArrow = (d, tipX, tipY, ang, color) => {
+    const c = color || '#f5a300';
+    return `<path d="${d}" fill="none" stroke="${c}" stroke-width="2.6" stroke-dasharray="5 3.5" stroke-linecap="round"/>` +
+      `<polygon points="-5,3 0,-6 5,3" fill="${c}" transform="translate(${tipX} ${tipY}) rotate(${ang})"/>`;
+  };
+  const scSign = (inner, x, y, size) => `<g transform="translate(${x - size / 2} ${y - size / 2}) scale(${size / 100})">${inner}</g>`;
+  const octPts = (() => {
+    const p = [];
+    for (let k = 0; k < 8; k++) { const a = (22.5 + k * 45) * Math.PI / 180; p.push((50 + 47 * Math.cos(a)).toFixed(1) + ',' + (50 + 47 * Math.sin(a)).toFixed(1)); }
+    return p.join(' ');
+  })();
+  const stopInner = `<polygon points="${octPts}" fill="${RED}" stroke="#fff" stroke-width="3.5"/>` + label('STOP', 25, 59, '#fff');
+  const giveWayInner = `<polygon points="5,13 95,13 50,91" fill="#fff" stroke="${RED}" stroke-width="9" stroke-linejoin="round"/>`;
+  const priorityInner = `<polygon points="50,3 97,50 50,97 3,50" fill="#fff" stroke="${BLACK}" stroke-width="2.5" stroke-linejoin="round"/>` +
+    `<polygon points="50,13 87,50 50,87 13,50" fill="${YELLOW}" stroke="${BLACK}" stroke-width="2.4" stroke-linejoin="round"/>`;
+  // a pedestrian seen from above (head + shoulders)
+  const scPerson = (x, y) =>
+    `<g transform="translate(${x} ${y}) scale(1.55)"><ellipse cx="0" cy="1.5" rx="6.2" ry="3.2" fill="#2b6cb0" stroke="#111" stroke-width=".6"/><circle cx="0" cy="0" r="3.6" fill="#f2a04a" stroke="#111" stroke-width=".6"/></g>`;
+  // a crossroads, 60-wide roads, with a building in each corner
+  const scCross = () =>
+    scBuilding(8, 6, 52, 28) + scBuilding(140, 6, 52, 28) + scBuilding(8, 106, 52, 28) + scBuilding(140, 106, 52, 28) +
+    scRect(70, 0, 60, 140, SC_ROAD) + scRect(0, 40, 200, 60, SC_ROAD) +
+    scLine(100, 0, 100, 40, { dash: '7 6' }) + scLine(100, 100, 100, 140, { dash: '7 6' }) +
+    scLine(0, 70, 70, 70, { dash: '7 6' }) + scLine(130, 70, 200, 70, { dash: '7 6' });
+  // a straight two-lane road, 76 wide (right lane centre x=119, left lane centre x=81)
+  const scStraight = centre =>
+    scBuilding(6, 8, 44, 38) + scBuilding(150, 92, 44, 38) +
+    scRect(62, 0, 76, 140, SC_ROAD) + scLine(65, 0, 65, 140, { w: 1.3 }) + scLine(135, 0, 135, 140, { w: 1.3 }) + centre;
+  const dashedCentre = scLine(100, 0, 100, 140, { dash: '8 6' });
+  const zebraV = (y0) => Array.from({ length: 8 }, (_, k) => scRect(66 + k * 9.2, y0, 5.2, 24, '#fff')).join('');
+  const barrierArm = (x, y, w) => scRect(x, y, w, 4.6, '#fff') +
+    Array.from({ length: Math.floor(w / 9) }, (_, k) => scRect(x + k * 9 + 4.5, y, 4.5, 4.6, RED)).join('');
+  const zigzag = (() => {
+    const pts = [];
+    for (let k = 0, y = 28; y <= 104; k++, y += 6) pts.push(`${k % 2 ? 130 : 138},${y}`);
+    return `<polyline points="${pts.join(' ')}" fill="none" stroke="${YELLOW}" stroke-width="2.4" stroke-linejoin="round"/>`;
+  })();
+
+  Object.assign(FIGURES, {
+    'scena-incrocio-destra': { scene: true, html: scene(scCross() + scCar(160, 55, 270, CAR_RED, 'B') + scCar(115, 120, 0, CAR_BLUE, 'A')),
+      alt: 'Junction with no signs. Blue car A arrives from the south; red car B arrives from the east, on A\'s right.' },
+    'scena-incrocio-sinistra': { scene: true, html: scene(scCross() + scCar(40, 85, 90, CAR_RED, 'B') + scCar(115, 120, 0, CAR_BLUE, 'A')),
+      alt: 'Junction with no signs. Blue car A arrives from the south; red car B arrives from the west, on A\'s left.' },
+    'scena-incrocio-stop': { scene: true, html: scene(scCross() + scRect(100, 102, 30, 3, '#fff') + scSign(stopInner, 140, 113, 18) + scCar(40, 85, 90, CAR_RED, 'B') + scCar(115, 124, 0, CAR_BLUE, 'A')),
+      alt: 'Junction. Blue car A, arriving from the south, has a STOP sign and a stop line. Red car B arrives from the west.' },
+    'scena-incrocio-dare-precedenza': { scene: true, html: scene(scCross() + scSign(giveWayInner, 140, 113, 18) + scCar(160, 55, 270, CAR_RED, 'B') + scCar(115, 124, 0, CAR_BLUE, 'A')),
+      alt: 'Junction. Blue car A, arriving from the south, has a give-way sign. Red car B arrives from the east.' },
+    'scena-incrocio-diritto': { scene: true, html: scene(scCross() + scSign(priorityInner, 140, 113, 18) + scCar(160, 55, 270, CAR_RED, 'B') + scCar(115, 124, 0, CAR_BLUE, 'A')),
+      alt: 'Junction. Blue car A, arriving from the south, is on a road with a priority-road sign. Red car B arrives from the east, on A\'s right.' },
+    'scena-sorpasso-linea': { scene: true, html: scene(scStraight(scLine(100, 0, 100, 140, { w: 2.8 })) + scCar(119, 84, 0, CAR_RED, 'B') + scCar(81, 70, 0, CAR_BLUE, 'A')),
+      alt: 'Two-lane road with a continuous centre line. Blue car A is overtaking red car B by crossing the continuous line.' },
+    'scena-sorpasso-curva': { scene: true, html: scene(
+        `<rect x="124" y="62" width="72" height="70" rx="4" fill="#b9b2a6" stroke="#9a9388" stroke-width="1"/>` +
+        `<path d="M85,150 V74 Q85,28 130,28 H210" fill="none" stroke="${SC_ROAD}" stroke-width="56"/>` +
+        `<path d="M85,150 V74 Q85,28 130,28 H210" fill="none" stroke="#fff" stroke-width="1.8" stroke-dasharray="8 6"/>` +
+        scCar(99, 112, 0, CAR_RED, 'B') + scCar(71, 100, 0, CAR_BLUE, 'A')),
+      alt: 'Road bending to the right, with a building on the inside of the bend blocking the view. Blue car A is overtaking red car B just before the bend.' },
+    'scena-rotatoria': { scene: true, html: scene(
+        scRect(78, 0, 44, 140, SC_ROAD) + scRect(0, 48, 200, 44, SC_ROAD) +
+        `<circle cx="100" cy="70" r="40" fill="none" stroke="${SC_ROAD}" stroke-width="36"/>` +
+        `<circle cx="100" cy="70" r="21" fill="#9bcf8a" stroke="#fff" stroke-width="1.5"/><circle cx="100" cy="70" r="11" fill="#7fbf6e"/>` +
+        scSign(giveWayInner, 132, 113, 16) + scCar(65.4, 90, 150, CAR_BLUE, 'A') + scCar(111, 121, 0, CAR_RED, 'B')),
+      alt: 'Roundabout. Blue car A is already circulating, counter-clockwise, about to pass the south entry. Red car B is waiting to enter from the south, at a give-way sign.' },
+    'scena-pedoni': { scene: true, html: scene(scStraight(dashedCentre) + zebraV(50) + scPerson(112, 62) + scCar(119, 94, 0, CAR_RED, 'B') + scCar(119, 127, 0, CAR_BLUE, 'A')),
+      alt: 'Road with a pedestrian crossing. A pedestrian is crossing. Red car B has stopped before the crossing; blue car A is behind it in the same lane.' },
+    'scena-sosta-incrocio': { scene: true, html: scene(scCross() + scCar(122, 119, 0, CAR_BLUE, 'A') +
+        scLine(136, 100, 136, 134, { c: '#222', w: 1.2 }) + scLine(132, 100, 140, 100, { c: '#222', w: 1.2 }) + scLine(132, 134, 140, 134, { c: '#222', w: 1.2 }) +
+        `<text x="157" y="121" text-anchor="middle" font-size="11" font-weight="800" font-family="Arial,Helvetica,sans-serif" fill="#222">5 m</text>`),
+      alt: 'Blue car A is parked at the right-hand edge of the road, less than 5 metres from the junction.' },
+    'scena-distanza': { scene: true, html: scene(scStraight(dashedCentre) +
+        scCar(119, 44, 0, CAR_RED, 'B') + scRect(112, 57, 5, 2.6, '#ff3b30') + scRect(122, 57, 5, 2.6, '#ff3b30') +
+        scCar(119, 80, 0, CAR_BLUE, 'A') + scLine(112, 104, 112, 118, { c: '#fff', w: 1.4 }) + scLine(119, 106, 119, 124, { c: '#fff', w: 1.4 }) + scLine(126, 104, 126, 118, { c: '#fff', w: 1.4 })),
+      alt: 'Road with two cars in the same lane, travelling in the same direction. Blue car A follows red car B very closely; B\'s brake lights are on.' },
+    'scena-passaggio-livello': { scene: true, html: scene(scStraight(dashedCentre) +
+        scRect(0, 62, 200, 16, '#a39d94') + Array.from({ length: 25 }, (_, k) => scRect(k * 8 + 1, 63, 3.5, 14, '#6b4f33')).join('') +
+        scLine(0, 66, 200, 66, { c: '#3c3f44', w: 1.8 }) + scLine(0, 74, 200, 74, { c: '#3c3f44', w: 1.8 }) +
+        barrierArm(100, 99, 38) + barrierArm(62, 37, 38) +
+        `<circle cx="146" cy="96" r="3.2" fill="#ff3b30"/><circle cx="54" cy="44" r="3.2" fill="#ff3b30"/>` +
+        scCar(119, 126, 0, CAR_BLUE, 'A')),
+      alt: 'Level crossing with the barriers down and red lights flashing. Blue car A is waiting before the barrier.' },
+    'scena-svolta-sinistra': { scene: true, html: scene(scCross() +
+        scArrow('M115,98 V82 Q115,55 88,55 H66', 62, 55, 270) + scArrow('M85,40 V90', 85, 94, 180, '#ffb4ab') +
+        scCar(85, 20, 180, CAR_RED, 'B') + scCar(115, 114, 0, CAR_BLUE, 'A')),
+      alt: 'Junction with no signs. Blue car A, coming from the south, is turning left. Red car B comes from the north, in the opposite direction, and is going straight on.' },
+    'scena-fermata-bus': { scene: true, html: scene(scStraight(dashedCentre) + zigzag +
+        `<rect x="152" y="31" width="18" height="12" rx="2" fill="${BLUE}"/><text x="161" y="40" text-anchor="middle" font-size="8" font-weight="800" font-family="Arial,Helvetica,sans-serif" fill="#fff">BUS</text>` +
+        scRect(160.2, 43, 1.8, 16, '#555') + scRect(150, 62, 14, 26, '#cbd3da') + scCar(130, 66, 0, CAR_BLUE, 'A')),
+      alt: 'Roadside bus stop marked by a bus sign and a yellow zig-zag line. Blue car A is parked at the kerb inside the bus-stop area.' },
+    'scena-svolta-destra': { scene: true, html: scene(scCross() +
+        Array.from({ length: 6 }, (_, k) => scRect(140, 42 + k * 9.6, 16, 5, '#fff')).join('') + scPerson(148, 78) +
+        scArrow('M115,98 V92 Q115,85 128,85 H166', 170, 85, 90) + scCar(115, 114, 0, CAR_BLUE, 'A')),
+      alt: 'Junction with no signs. Blue car A, coming from the south, is turning right into the east road, where a pedestrian is already crossing on a pedestrian crossing.' }
+  });
+  window.SCENE_KEYS = Object.keys(FIGURES).filter(k => FIGURES[k].scene);
+
+  /* ---------------- names and meanings (for the Sign Trainer) ----------------
+     [Italian name, English meaning, category] — scenes are not listed here. */
+  window.SIGN_CATS = [
+    ['warning', 'Warning'], ['prohibition', 'Prohibition'], ['mandatory', 'Mandatory'], ['priority', 'Priority'],
+    ['info', 'Information'], ['panel', 'Panels & works'], ['marking', 'Road markings'], ['light', 'Traffic lights'], ['dash', 'Dashboard']
+  ];
+  window.SIGN_INFO = {
+    'curva-dx': ['Curva pericolosa a destra', 'Dangerous bend to the right', 'warning'],
+    'curva-sx': ['Curva pericolosa a sinistra', 'Dangerous bend to the left', 'warning'],
+    'doppia-curva': ['Doppia curva, la prima a sinistra', 'Double bend, the first to the left', 'warning'],
+    'pedoni': ['Attraversamento pedonale', 'Pedestrian crossing ahead', 'warning'],
+    'bambini': ['Bambini', 'Children (school or play area)', 'warning'],
+    'lavori': ['Lavori', 'Road works', 'warning'],
+    'semaforo-avviso': ['Semaforo', 'Traffic lights ahead', 'warning'],
+    'sdrucciolevole': ['Strada sdrucciolevole', 'Slippery road', 'warning'],
+    'strettoia': ['Strettoia', 'Road narrows', 'warning'],
+    'dosso': ['Dosso', 'Hump in the road', 'warning'],
+    'passaggio-livello': ['Passaggio a livello con barriere', 'Level crossing with barriers', 'warning'],
+    'croce-st-andrea': ['Croce di Sant\'Andrea', 'St Andrew\'s cross, at a level crossing', 'warning'],
+    'rotatoria-avviso': ['Rotatoria', 'Roundabout ahead', 'warning'],
+    'doppio-senso': ['Doppio senso di circolazione', 'Two-way traffic ahead', 'warning'],
+    'salita': ['Salita ripida', 'Steep ascent', 'warning'],
+    'discesa': ['Discesa pericolosa', 'Steep descent', 'warning'],
+    'divieto-accesso': ['Divieto di accesso', 'No entry', 'prohibition'],
+    'divieto-transito': ['Divieto di transito', 'No vehicles in either direction', 'prohibition'],
+    'limite-50': ['Limite massimo di velocità 50', 'Maximum speed 50 km/h', 'prohibition'],
+    'limite-30': ['Limite massimo di velocità 30', 'Maximum speed 30 km/h', 'prohibition'],
+    'divieto-sorpasso': ['Divieto di sorpasso', 'No overtaking', 'prohibition'],
+    'divieto-sosta': ['Divieto di sosta', 'No parking (a quick stop is allowed)', 'prohibition'],
+    'divieto-fermata': ['Divieto di fermata', 'No stopping (and so no parking)', 'prohibition'],
+    'divieto-inversione': ['Divieto di inversione', 'No U-turn', 'prohibition'],
+    'divieto-svolta-sx': ['Divieto di svolta a sinistra', 'No left turn', 'prohibition'],
+    'divieto-pedoni': ['Transito vietato ai pedoni', 'No pedestrians', 'prohibition'],
+    'divieto-bici': ['Transito vietato alle biciclette', 'No bicycles', 'prohibition'],
+    'fine-divieti': ['Fine di tutti i divieti', 'End of all prohibitions', 'prohibition'],
+    'obbligo-dritto': ['Direzione obbligatoria dritto', 'Straight ahead only', 'mandatory'],
+    'obbligo-destra': ['Direzione obbligatoria a destra', 'Turn right only', 'mandatory'],
+    'obbligo-sinistra': ['Direzione obbligatoria a sinistra', 'Turn left only', 'mandatory'],
+    'rotatoria': ['Rotatoria', 'Roundabout: circulate counter-clockwise', 'mandatory'],
+    'pista-ciclabile': ['Pista ciclabile', 'Cycle path', 'mandatory'],
+    'velocita-minima-30': ['Velocità minima 30', 'Minimum speed 30 km/h', 'mandatory'],
+    'percorso-pedonale': ['Percorso pedonale', 'Pedestrian path', 'mandatory'],
+    'stop': ['Stop', 'Stop: come to a full stop and give way', 'priority'],
+    'dare-precedenza': ['Dare precedenza', 'Give way', 'priority'],
+    'diritto-precedenza': ['Diritto di precedenza', 'Priority road', 'priority'],
+    'fine-diritto-precedenza': ['Fine del diritto di precedenza', 'End of priority road', 'priority'],
+    'parcheggio': ['Parcheggio', 'Parking area', 'info'],
+    'senso-unico': ['Senso unico', 'One-way street', 'info'],
+    'ospedale': ['Ospedale', 'Hospital', 'info'],
+    'pedonale-info': ['Attraversamento pedonale', 'Pedestrian crossing (information sign)', 'info'],
+    'galleria': ['Galleria', 'Tunnel', 'info'],
+    'distributore': ['Distributore di carburante', 'Fuel station', 'info'],
+    'autostrada': ['Autostrada', 'Motorway', 'info'],
+    'pannello-distanza': ['Pannello integrativo di distanza', 'Supplementary panel: distance to the hazard', 'panel'],
+    'barriera': ['Barriera', 'Red and white barrier', 'panel'],
+    'cono': ['Cono', 'Traffic cone', 'panel'],
+    'linea-continua': ['Linea continua', 'Continuous line: do not cross or overtake', 'marking'],
+    'linea-tratteggiata': ['Linea discontinua', 'Broken line: may be crossed when it is safe', 'marking'],
+    'linea-doppia': ['Doppia linea continua', 'Double continuous line', 'marking'],
+    'linea-mista': ['Linea mista', 'Continuous line next to a broken line', 'marking'],
+    'strisce-pedonali': ['Strisce pedonali', 'Pedestrian (zebra) crossing', 'marking'],
+    'linea-arresto': ['Linea di arresto', 'Stop line', 'marking'],
+    'freccia-strada': ['Freccia di direzione', 'Direction arrow on the road', 'marking'],
+    'strisce-blu': ['Strisce blu', 'Paid parking bays', 'marking'],
+    'attraversamento-ciclabile': ['Attraversamento ciclabile', 'Cycle crossing', 'marking'],
+    'semaforo-rosso': ['Semaforo rosso', 'Red light: stop', 'light'],
+    'semaforo-giallo': ['Semaforo giallo', 'Amber light: stop, unless you are too close to stop safely', 'light'],
+    'semaforo-verde': ['Semaforo verde', 'Green light: go on', 'light'],
+    'semaforo-freccia-verde': ['Freccia verde', 'Green arrow: go the way it points', 'light'],
+    'spia-olio': ['Spia della pressione dell\'olio', 'Low oil pressure warning light', 'dash'],
+    'spia-batteria': ['Spia della batteria', 'Battery charging warning light', 'dash'],
+    'spia-freni': ['Spia dei freni', 'Brake fault or handbrake on', 'dash'],
+    'spia-abs': ['Spia ABS', 'ABS fault warning light', 'dash']
+  };
+
   window.SIGN_KEYS = Object.keys(FIGURES);
   window.renderSign = function (key) {
     const f = FIGURES[key];
-    return f ? `<span class="sign-fig" role="img" aria-label="${f.alt}">${f.html}</span>` : '';
+    return f ? `<span class="sign-fig${f.scene ? ' scene-fig' : ''}" role="img" aria-label="${f.alt}">${f.html}</span>` : '';
   };
 })();

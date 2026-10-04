@@ -21,7 +21,8 @@
     desc: "Prepare for the Italian driving theory exam: road signs, rules and safety explained in English, with the Italian wording used in the real Vero/Falso test — and timed mock exams to finish.",
     journeyTitle: "Your Patente B Journey",
     tapToStart: "Learn a topic, then drill it with exam-style True/False statements. Take the Mock Exam when you feel ready.",
-    exam: { questions: 30, minutes: 20, maxErrors: 3 }
+    exam: { questions: 30, minutes: 20, maxErrors: 3 },
+    signTrainer: true
   });
 
   units.push(
@@ -1549,6 +1550,122 @@
     }
   );
 
+  /* ---------- road scenes: reading the exam's picture questions ---------- */
+  const gm = (sign, order, giver) => {
+    const label = { A: "Il veicolo A — vehicle A", B: "Il veicolo B — vehicle B", X: "Entrambi possono passare — both may go on" };
+    return { sign, promptText: "Which vehicle must give way?", options: order.map(k => label[k]), correct: order.indexOf(giver) };
+  };
+  chapters.push(topic({
+    id: 125, unit: "p-u5", label: "", difficulty: 5, requires: 118, icon: "🗺️",
+    title: "Road Scenes: Who Goes First?", arabicTitle: "Le scene: chi passa per primo?",
+    desc: "Junctions, overtaking, roundabouts and crossings — learn to read the diagram questions of the real exam.",
+    content: [
+      { type: "p", text: "Many exam questions show a small <strong>diagram</strong>, drawn from above, and ask about one vehicle: who goes first, may A overtake, is B parked legally? You already know the rules from the earlier topics. This topic teaches you to <em>read the picture</em>." },
+      { type: "h", text: "Read the Picture in Four Steps" },
+      { type: "charlist", items: [
+        "🔎 <strong>Find the vehicles.</strong> The letters on the roofs (A, B) name them. The windscreen is at the front, so you can see which way each car is going.",
+        "🪧 <strong>Signs, lights and lines first.</strong> A STOP sign, a give-way sign, a priority-road sign or a continuous line beats the general rules.",
+        "➡️ <strong>No signs? Use the right-hand rule.</strong> Give way to traffic arriving from your <strong>right</strong>. A driver turning left also gives way to oncoming traffic.",
+        "🚶 <strong>Then check for people and rails.</strong> Pedestrians on a crossing, and trams or trains, come before cars."
+      ]},
+      { type: "note", html: "In the diagrams Italy drives on the <strong>right</strong>. The cars are drawn from above and not to scale; the dashed arrow shows where a vehicle is going." },
+      { type: "h", text: "Junction Scenes" },
+      { type: "scenes", items: [
+        { sign: "scena-incrocio-destra", title: "No signs: traffic from the right", text: "Two cars and no signs at all. Which car is on the other's right?" },
+        { sign: "scena-incrocio-sinistra", title: "No signs: traffic from the left", text: "The same junction, but B now arrives from A's left." },
+        { sign: "scena-incrocio-stop", title: "A STOP sign", text: "The sign belongs to the road it stands on. Look for the stop line too." },
+        { sign: "scena-incrocio-dare-precedenza", title: "A give-way sign", text: "Slow down, look, and stop only if you must." },
+        { sign: "scena-incrocio-diritto", title: "A priority-road sign", text: "A sign beats the right-hand rule. Whose road is the priority road?" },
+        { sign: "scena-svolta-sinistra", title: "Turning left", text: "A left turn crosses the path of oncoming traffic." },
+        { sign: "scena-svolta-destra", title: "Turning right", text: "Someone is already crossing the road you are turning into." }
+      ]},
+      { type: "h", text: "Roundabouts, Overtaking, Crossings & Parking" },
+      { type: "scenes", items: [
+        { sign: "scena-rotatoria", title: "Entering a roundabout", text: "Who is already on the roundabout?" },
+        { sign: "scena-sorpasso-linea", title: "Overtaking over a continuous line", text: "Look at the line in the middle of the road." },
+        { sign: "scena-sorpasso-curva", title: "Overtaking before a bend", text: "How far ahead can the overtaking driver see?" },
+        { sign: "scena-pedoni", title: "Stopped for a pedestrian", text: "Why has B stopped? Can A go past?" },
+        { sign: "scena-passaggio-livello", title: "A level crossing", text: "Barriers down and red lights flashing." },
+        { sign: "scena-sosta-incrocio", title: "Parking near a junction", text: "How close is A to the junction, compared with the 5 m bracket?" },
+        { sign: "scena-fermata-bus", title: "A bus stop", text: "A yellow zig-zag line and a BUS sign mark the stop." },
+        { sign: "scena-distanza", title: "Safe distance", text: "B's brake lights are on. How much space does A have?" }
+      ]}
+    ],
+    vocabCategories: [
+      { name: "Manoeuvres", words: [
+        vw("↪️", "svoltare a destra", "zvol-TAH-reh a DEH-stra", "to turn right"),
+        vw("↩️", "svoltare a sinistra", "zvol-TAH-reh a see-NEE-stra", "to turn left"),
+        vw("⬆️", "proseguire dritto", "pro-se-GWEE-reh DREET-to", "to go straight on"),
+        vw("🔄", "immettersi", "eem-MET-ter-see", "to join / enter (a road)"),
+        vw("✋", "fermarsi", "fer-MAR-see", "to stop")
+      ]},
+      { name: "Priority", words: [
+        vw("🙏", "dare la precedenza", "DAH-reh la pre-che-DEN-tsa", "to give way"),
+        vw("➡️", "proviene da destra", "pro-VYEH-neh da DEH-stra", "comes from the right"),
+        vw("↔️", "la direzione opposta", "la dee-re-TSYO-neh op-PO-sta", "the opposite direction"),
+        vw("🚫", "in assenza di segnali", "een as-SEN-tsa dee sen-YAH-lee", "with no signs"),
+        vw("🚗", "il veicolo", "eel ve-EE-ko-lo", "the vehicle")
+      ]}
+    ],
+    exercises: [
+      matching("pt125-ex1", [pair("svoltare a sinistra", "to turn left"), pair("dare la precedenza", "to give way"), pair("proviene da destra", "comes from the right"), pair("in assenza di segnali", "with no signs"), pair("la direzione opposta", "the opposite direction")]),
+      { id: "pt125-ex2", type: "mcq", title: "Who Gives Way?", instructions: "Look at each diagram and choose the vehicle that must give way.", items: [
+        gm("scena-incrocio-destra", ["A", "B", "X"], "A"),
+        gm("scena-incrocio-sinistra", ["X", "A", "B"], "B"),
+        gm("scena-incrocio-stop", ["B", "A", "X"], "A"),
+        gm("scena-incrocio-diritto", ["A", "B", "X"], "B"),
+        gm("scena-svolta-sinistra", ["X", "B", "A"], "A"),
+        gm("scena-rotatoria", ["B", "A", "X"], "B")
+      ]},
+      tfSet("pt125-ex3", "A", [
+        tf("Nell'incrocio raffigurato, in assenza di segnali, il veicolo A deve dare la precedenza al veicolo B.", "At the junction shown, with no signs, vehicle A must give way to vehicle B.", true, "B comes from A's right. With no signs, you give way to traffic arriving from your right.", "scena-incrocio-destra"),
+        tf("Nell'incrocio raffigurato, in assenza di segnali, il veicolo B deve dare la precedenza al veicolo A.", "At the junction shown, with no signs, vehicle B must give way to vehicle A.", false, "A arrives from B's left, so B has priority. It is A that gives way.", "scena-incrocio-destra"),
+        tf("Nell'incrocio raffigurato, in assenza di segnali, il veicolo A ha la precedenza sul veicolo B.", "At the junction shown, with no signs, vehicle A has priority over vehicle B.", true, "B comes from A's left, not from the right, so A goes first.", "scena-incrocio-sinistra"),
+        tf("Nell'incrocio raffigurato, in assenza di segnali, il veicolo A deve fermarsi per lasciar passare il veicolo B.", "At the junction shown, with no signs, vehicle A must stop to let vehicle B pass.", false, "B is on A's left. A has priority and does not have to give way.", "scena-incrocio-sinistra"),
+        tf("Il veicolo A, davanti al segnale di STOP, deve fermarsi e dare la precedenza al veicolo B.", "Vehicle A, at the STOP sign, must stop and give way to vehicle B.", true, "At a STOP sign you stop at the line and give way to traffic on the other road.", "scena-incrocio-stop"),
+        tf("Il veicolo A può proseguire senza fermarsi se il veicolo B è lontano.", "Vehicle A may go on without stopping if vehicle B is far away.", false, "A STOP sign always needs a full stop, however far away other traffic is.", "scena-incrocio-stop"),
+        tf("Il veicolo A, davanti al segnale «Dare precedenza», deve rallentare e, se necessario, fermarsi per far passare il veicolo B.", "Vehicle A, at the 'Give way' sign, must slow down and, if necessary, stop to let vehicle B pass.", true, "A give-way sign means slow down, look, and stop if there is traffic you must let through.", "scena-incrocio-dare-precedenza"),
+        tf("Il veicolo B deve dare la precedenza al veicolo A.", "Vehicle B must give way to vehicle A.", false, "The give-way sign stands on A's road, so A gives way to B.", "scena-incrocio-dare-precedenza")
+      ]),
+      tfSet("pt125-ex4", "B", [
+        tf("Il veicolo A ha la precedenza sul veicolo B, anche se B proviene da destra, grazie al segnale di diritto di precedenza.", "Vehicle A has priority over vehicle B, even though B comes from the right, thanks to the priority-road sign.", true, "A sign prevails over the general right-hand rule.", "scena-incrocio-diritto"),
+        tf("Il veicolo A deve dare la precedenza al veicolo B, perché B proviene da destra, nonostante il segnale.", "Vehicle A must give way to vehicle B, because B comes from the right, despite the sign.", false, "The priority-road sign beats priority to the right: A goes first.", "scena-incrocio-diritto"),
+        tf("Il veicolo A, che svolta a sinistra, deve dare la precedenza al veicolo B che proviene dalla direzione opposta.", "Vehicle A, turning left, must give way to vehicle B coming from the opposite direction.", true, "A left turn crosses the oncoming lane, so the turning driver gives way.", "scena-svolta-sinistra"),
+        tf("Il veicolo B, che prosegue dritto, deve dare la precedenza al veicolo A che svolta a sinistra.", "Vehicle B, going straight on, must give way to vehicle A, turning left.", false, "It is the driver turning left who gives way to oncoming traffic.", "scena-svolta-sinistra"),
+        tf("Il veicolo A, che svolta a destra, deve dare la precedenza al pedone che sta attraversando sulle strisce.", "Vehicle A, turning right, must give way to the pedestrian crossing on the zebra.", true, "A pedestrian already crossing the road you are turning into always comes first.", "scena-svolta-destra"),
+        tf("Il pedone che sta attraversando deve attendere che il veicolo A, che svolta a destra, sia passato.", "The pedestrian who is crossing must wait until vehicle A, turning right, has passed.", false, "The driver gives way to the pedestrian, not the other way round.", "scena-svolta-destra"),
+        tf("Il veicolo B, che sta per immettersi nella rotatoria, deve dare la precedenza ai veicoli che già vi circolano.", "Vehicle B, about to enter the roundabout, must give way to vehicles already circulating.", true, "Traffic already on the roundabout has priority over vehicles entering it.", "scena-rotatoria"),
+        tf("Il veicolo A, che circola già nella rotatoria, deve fermarsi per far entrare il veicolo B.", "Vehicle A, already on the roundabout, must stop to let vehicle B enter.", false, "It is B, entering, who gives way to A.", "scena-rotatoria")
+      ]),
+      tfSet("pt125-ex5", "C", [
+        tf("Il sorpasso effettuato dal veicolo A è vietato perché la linea di mezzeria è continua.", "The overtaking by vehicle A is forbidden because the centre line is continuous.", true, "A continuous line may not be crossed, so overtaking over it is forbidden.", "scena-sorpasso-linea"),
+        tf("Il veicolo A può oltrepassare la linea continua se il veicolo B procede lentamente.", "Vehicle A may cross the continuous line if vehicle B is travelling slowly.", false, "The slowness of the vehicle ahead does not cancel the continuous line.", "scena-sorpasso-linea"),
+        tf("Il sorpasso effettuato dal veicolo A è pericoloso e vietato perché la curva limita la visibilità.", "The overtaking by vehicle A is dangerous and forbidden because the bend limits visibility.", true, "You cannot see oncoming traffic round the bend, so you must not overtake.", "scena-sorpasso-curva"),
+        tf("Si può sorpassare in prossimità di una curva senza visibilità, se si procede a velocità moderata.", "You may overtake just before a bend with no visibility if you drive at a moderate speed.", false, "Speed does not make it safe: you still cannot see what is coming.", "scena-sorpasso-curva"),
+        tf("Il veicolo A deve fermarsi dietro il veicolo B, fermo per lasciar attraversare il pedone, senza sorpassarlo.", "Vehicle A must stop behind vehicle B, which has stopped to let the pedestrian cross, without overtaking it.", true, "Overtaking a vehicle stopped for a pedestrian is forbidden: someone may be crossing in front of it.", "scena-pedoni"),
+        tf("Il veicolo A può sorpassare il veicolo B per non rimanere fermo davanti alle strisce pedonali.", "Vehicle A may overtake vehicle B so as not to wait at the pedestrian crossing.", false, "Never overtake at or near a pedestrian crossing, and never past a vehicle that has stopped for a pedestrian.", "scena-pedoni"),
+        tf("Il veicolo A, con le barriere abbassate, deve fermarsi e attendere che si rialzino.", "Vehicle A, with the barriers down, must stop and wait for them to go up again.", true, "Lowered barriers and flashing red lights mean stop and wait.", "scena-passaggio-livello"),
+        tf("Il veicolo A può superare le barriere abbassate se non vede arrivare il treno.", "Vehicle A may go past the lowered barriers if it cannot see a train coming.", false, "Never cross with the barriers down or the red lights on, whether or not you see a train.", "scena-passaggio-livello")
+      ]),
+      Object.assign(tfSet("pt125-ex6", "D", [
+        tf("La sosta del veicolo A è vietata perché si trova a meno di 5 metri dall'incrocio.", "Parking vehicle A is forbidden because it is less than 5 metres from the junction.", true, "Parking is forbidden within 5 metres of a junction.", "scena-sosta-incrocio"),
+        tf("La sosta del veicolo A è regolare perché il veicolo è sul margine destro della carreggiata.", "Parking vehicle A is allowed because it is at the right-hand edge of the carriageway.", false, "Being at the right-hand edge does not help: parking within 5 metres of a junction is forbidden.", "scena-sosta-incrocio"),
+        tf("La sosta del veicolo A è vietata perché si trova in corrispondenza di una fermata dell'autobus.", "Parking vehicle A is forbidden because it is at a bus stop.", true, "Bus stops must be kept clear.", "scena-fermata-bus"),
+        tf("Il veicolo A può sostare alla fermata dell'autobus se non ostacola la circolazione degli altri veicoli.", "Vehicle A may park at the bus stop if it does not obstruct other vehicles.", false, "Parking at a bus stop is forbidden even if the road stays clear.", "scena-fermata-bus"),
+        tf("Il veicolo A mantiene una distanza di sicurezza insufficiente rispetto al veicolo B.", "Vehicle A is keeping an insufficient safe distance from vehicle B.", true, "The gap is far too small: if B brakes suddenly, A cannot stop in time.", "scena-distanza"),
+        tf("Se il veicolo B frena all'improvviso, il veicolo A riuscirà sicuramente a evitare l'urto.", "If vehicle B brakes suddenly, vehicle A will surely be able to avoid a collision.", false, "With so little space, a rear-end collision is likely.", "scena-distanza")
+      ]), { title: "Extra Practice — Vero o Falso?", instructions: "Optional extra practice — tap Continue to skip it. " + TF_HELP })
+    ],
+    speakingPhrases: [
+      sp("➡️", "Chi viene da destra ha la precedenza.", "kee VYEH-neh da DEH-stra a la pre-che-DEN-tsa", "Whoever comes from the right has priority."),
+      sp("✋", "Al segnale di STOP devo fermarmi.", "al sen-YAH-leh dee stop DEH-vo fer-MAR-mee", "At a STOP sign I must stop."),
+      sp("↩️", "Chi svolta a sinistra dà la precedenza.", "kee ZVOL-ta a see-NEE-stra DA la pre-che-DEN-tsa", "Whoever turns left gives way.")
+    ]
+  }));
+  byId(123).requires = 125;
+  byId(123).desc = "Seven mixed statements on motorways, lights, level crossings, pedestrians and cyclists.";
+  units.find(u => u.id === "p-u5").desc = "Motorways, lights and visibility, level crossings, pedestrians and special zones — then putting it all together in road-scene diagrams.";
+
   /* ---------- extra sign-recognition questions in the two earlier reviews ---------- */
   byId(110).desc = "Name the signs from Topics 2–6 — warning, prohibition, mandatory and information.";
   byId(110).exercises.push({ id: "pt110-ex2", type: "mcq", title: "Name That Sign — Round 2", instructions: "Choose the correct meaning for each sign.", items: [
@@ -1596,7 +1713,7 @@
         "🎤 <strong>Speaking</strong> — say the key phrases out loud (optional)."
       ]},
       { type: "p", text: "The top of every screen tells you what kind of screen it is (<em>Lesson, Words, Practice…</em>) and how far through the topic you are." },
-      { type: "p", text: "<strong>Your path:</strong> <strong>20 topics</strong> in 6 units, with a short <strong>review</strong> after each unit. When you are scoring well, take the <strong>Mock Exam</strong> from the Home screen: 30 statements, 20 minutes, just like the real thing." }
+      { type: "p", text: "<strong>Your path:</strong> <strong>21 topics</strong> in 6 units, with a short <strong>review</strong> after each unit. When you are scoring well, take the <strong>Mock Exam</strong> from the Home screen: 30 statements, 20 minutes, just like the real thing. The Home screen also has a <strong>Sign Trainer</strong>, a <strong>Mistakes notebook</strong> and an <strong>Exam readiness</strong> meter." }
     ],
     vocabCategories: [],
     exercises: [
@@ -1613,7 +1730,7 @@
   byId(100).requires = 99;
   byId(110).requires = 114;
   byId(113).requires = 103;
-  const ORDER = [99, 100, 101, 102, 103, 113, 114, 110, 104, 105, 111, 106, 107, 112, 108, 109, 115, 116, 117, 118, 123, 119, 120, 121, 122, 124];
+  const ORDER = [99, 100, 101, 102, 103, 113, 114, 110, 104, 105, 111, 106, 107, 112, 108, 109, 115, 116, 117, 118, 125, 123, 119, 120, 121, 122, 124];
   const patente = ORDER.map(byId);
   const rest = chapters.filter(c => c.track !== "patente");
   chapters.length = 0;
